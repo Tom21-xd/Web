@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="~/css/Inicio.css">
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <div class="cont">
+        <div class="info">
+            <h1>¡Bienvenido(a) @TempData["Nombre"]!</h1>
+            <p>Aqui podras gestionar y hacer seguimiento a las reservas que realices </p>
+        </div>
+        <div class="grilla">
+            <div class="Hreservas">
+                <div class="hori">
+                    <div>
+                        <img src="/css/Reserva.png" alt="Icono de un calendario">
+                    </div>
+                    <div class="text">
+                        <h2>Realizar una reserva</h2>
+                        <p>solicita una reserva de nuestros servicios</p>
+                    </div>
+                </div>
+                <button class="btn">
+                    Inicia aqui
+                </button>
+            </div>
+            <div class="Vreservas">
+                <div class="hori">
+                    <div>
+                        <img src="/css/Reserva.png" alt="Icono de un calendario">
+                    </div>
+                    <div class="text">
+                        <h2>Mis reservas</h2>
+                        <p>Revisa el historial de reservas hechas en nuestra pagina con sus detalles</p>
+                    </div>
+                </div>
+                <button class="btn">
+                    Consulta Aqui
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

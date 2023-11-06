@@ -1,0 +1,52 @@
+﻿@ViewBag.con
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/Login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="superior">
+        <img src="~/css/Icon Grupo.png" alt="Icono de un grupo">
+        <div class="contenido">
+            <h1>¡Bienvenido!</h1>
+            <form action="@Url.Action("Login","Acceso")" method="post" >
+                <div class="input-box">
+                    <input type="text" placeholder="Usuario" required name="usuario_correo" id="usuario_correo">
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Constraseña" required name="Contrasenia" id="contrasenia">
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="recordar-con">
+                    <label><input type="checkbox">Recordarme</label>
+                </div>
+                <div class="btn">
+                    <button type="submit">Ingresar</button>
+                </div>
+            </form>
+        </div>
+        <div class="regis">
+            <a href="@Url.Action("Olvcontrasenia","Acceso")">¿olvidaste tu Constraseña?</a>
+            <button type="submit" id="boton">Registrarse ahora</button>
+        </div>
+    </div>
+    @if (ViewData["mensaje"] != null){
+        <script>
+            alert("Verifique sus datos\nError al encontrar su usuario")
+        </script>
+    }
+    <script>
+        document.getElementById("boton").addEventListener("click", function () {
+            window.location.href = "@Url.Action("Registro","Acceso")";
+        });
+    </script>
+
+</body>
+</html>

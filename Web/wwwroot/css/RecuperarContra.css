@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,500;1,300;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins",sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background: rgb(192, 192, 192);
+    min-height: 100vh;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.titulos{
+    height: 100px;
+    width: 550px;
+    margin-bottom: 150px;
+    text-align: center;
+}
+
+.titulos h1{
+    margin: 0px 0px 40px 0px;
+}
+
+.datos{
+    background-color: white;
+    width: 550px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+	border: 5px solid #000;
+}
+
+.datos .inputbox1{
+    position: relative;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.datos .inputbox1 select{
+    height: 35px;
+    width: 250px;
+    font-size: 15px;
+}
+
+.datos .inputbox2{
+    position: relative;
+    margin: 40px 50px;
+}
+
+.datos .inputbox2 span{
+    text-align: left;
+    font-size: 13px;
+    width: 100%;
+}
+
+.datos .inputbox2 input{
+    height: 32px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.datos .botones {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+}
+
+.datos .botones button{
+    height: 30px;
+    width: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+}

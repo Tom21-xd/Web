@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,500;1,300;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins",sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background: rgb(192, 192, 192);
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.contenedor{
+    width: 70%;
+    height: 100%;
+}
+
+.contenedor .titulos{
+    text-align: center;
+    margin: 100px 0px 100px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.contenedor .titulos h1{
+    font-size: 50px;
+    margin-bottom: 75px;
+}
+
+.contenedor .titulos p{
+    font-size: 20px;
+}
+
+.contenedor .datos{
+    background-color: white;
+    border: 5px solid #000;
+}
+
+.contenedor .inputbox{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.contenedor .inputbox .inputfield{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px 50px;
+}
+
+.contenedor .inputbox .inputfield span{
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+.contenedor .inputbox .inputfield input{
+    height: 50px;
+    font-size: 15px;
+    font-size: 20px;
+}
+
+.contenedor .inputbox .inputfield select{
+    height: 50px;
+    font-size: 15px;
+    font-size: 20px;
+}
+
+.contenedor .ter{
+    text-align: left;
+    margin: 25px 0px;
+    padding-left: 50px;
+    font-size: 17px;
+    height: 25px;
+}
+
+input[type="checkbox"] {
+    zoom: 1.5;
+}
+
+.contenedor .botones{
+    margin: 50px 0px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.contenedor .botones .btn{
+    width: 250px;
+    height: 55px;
+    position: relative;
+}
+
+.contenedor .botones .btn button{
+    width: 100%;
+    height: 100%;
+    font-size: 20px;   
+}
+
+.contenedor .botones .btn i{
+    position: absolute;
+    font-size: 50px;
+    top: 2px;
+    left: 5px;
+}
+
+@media (max-width: 911px) {
+    .contenedor .inputbox{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        margin-top: 0px;
+    }
+
+    .contenedor .inputbox .inputfield{
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        margin-top: 50px;
+    }
+}

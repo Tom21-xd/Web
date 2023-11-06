@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/css/CrearCuenta.css">
+    <title>Crear cuenta</title>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="titulos">
+            <h1>Crea tu cuenta</h1>
+            <p>ingresa la siguiente información para realizar el proceso de creacion de su cuenta</p>
+        </div>
+        <form action="@Url.Action("Registrarse","Acceso")" method="post">
+            <div class="datos">
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Numero de identificacion</span>
+                        <input type="text" placeholder="Nro documento" required name="id">
+                    </div>
+                    <div class="inputfield">
+                        <span>Tipo de identificacion</span>
+                        <select name="tipodoc" required >
+                            <option value="Seleccionar">Seleccionar</option>
+                            @foreach(String t in @ViewBag.lt){
+                                <option>@t</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Fecha de nacimiento</span>
+                        <input type="date" placeholder="." required name="fechanaci">
+                    </div>
+                    <div class="inputfield">
+                        <span>Genero</span>
+                        <select name="genero" required>
+                            <option value="Seleccionar">Seleccionar</option>
+                            @foreach (String g in @ViewBag.lg){
+                                <option>@g</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Primer nombre</span>
+                        <input type="text" placeholder="Primer nombre" required name="nombre1">
+                    </div>
+                    <div class="inputfield">
+                        <span>Segundo nombre</span>
+                        <input type="text" placeholder="Segundo nombre" name="nombre2">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Primer apellido</span>
+                        <input type="text" placeholder="Primer apellido" required name="apellido1">
+                    </div>
+                    <div class="inputfield">
+                        <span>Segundo apellido</span>
+                        <input type="text" placeholder="Segundo apellido" name="apellido2">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Celular</span>
+                        <input type="text" placeholder="Nro Celular" required name="celular">
+                    </div>
+                    <div class="inputfield">
+                        <span>2do celular</span>
+                        <input type="text" placeholder="2do celular" required name="2docelular">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Correo</span>
+                        <input type="text" placeholder="Correo" required name="correo" id="correo">
+                    </div>
+                    <div class="inputfield">
+                        <span>Confirmar correo</span>
+                        <input type="text" placeholder="Confirmar Correo" required name="confircorreo" id="confircorreo">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <div class="inputfield">
+                        <span>Contraseña</span>
+                        <input type="password" placeholder="Contraseña" required name="contra" id="contra">
+                    </div>
+                    <div class="inputfield">
+                        <span>Confirmar Contraseña</span>
+                        <input type="password" placeholder="Confirmar Contraseña" required name="confircontra" id="confircontra">
+                    </div>
+                </div>
+                <div class="ter">
+                    <label><input type="checkbox" required>Acepto las politicas de tratamiento de datos</label>
+                </div>
+            </div>
+            <div class="botones">
+                <div class="btn">
+                    <button type="submit" form="null" id="volverButton">volver</button>
+                    <i class='bx bx-home'></i>
+                </div>
+                <div class="btn">
+                    <button type="submit">Crear cuenta</button>
+                    <i class='bx bxs-id-card'></i>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("volverButton").addEventListener("click", function () {
+            window.location.href = "@Url.Action("Login","Acceso")";
+        });
+    </script>
+    <script src="~/js/Registro.js"></script>
+
+</body>
+</html>

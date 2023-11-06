@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar contraseña</title>
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/RecuperarContra.css">
+</head>
+<body>
+    <div class="titulos">
+        <h1>¿Olvidaste tu contraseña?</h1>
+        <p>Ingresa la siguiente informacion y se enviara un correo para que recuperes tu contraseña</p>
+    </div>
+    <div class="datos">
+        <form action="@Url.Action("RecuContra","Acceso")" method="post">
+            <div class="inputbox1">
+                <select name="select">
+                    <option value="Seleccionar">Seleccionar</option>
+                    @foreach (String tipo in Model){
+                        <option>@tipo </option>
+                    }
+                </select>
+            </div>
+            <div class="inputbox2">
+                <span>Numero de documento</span>
+                <br>
+                <input type="text" required placeholder="Numero de documento" name="cedula">
+            </div>
+            <div class="botones">
+                <button type="submit" form="null" id="volverButton">volver</button>
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("volverButton").addEventListener("click", function () {
+            window.location.href = "@Url.Action("Login","Acceso")";
+        });
+    </script>
+</body>
+</html>

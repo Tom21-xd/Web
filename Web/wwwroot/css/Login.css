@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,500;1,300;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins",sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-content: center;
+}
+
+.superior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.superior img {
+    height: 180px;
+    width: 180px;
+ }
+
+.contenido {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: 400PX;
+    background: white;
+    border: 5px solid #000;
+    justify-content: center;
+    padding: 0px 100px;
+}
+
+.contenido h1 {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.contenido .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    padding-left: 40px;
+    border-radius: 20px;
+}
+
+.input-box i {
+    position: absolute;
+    right: 455px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.contenido .recordar-con {
+    font-size: 16px;
+}
+
+.recordar-con input {
+    margin-right: 10px;
+}
+
+.contenido .btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+}
+
+.btn button {
+    font-size: 15px;
+    width: 25%;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.regis {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    padding-top: 15px;
+}
+
+.regis a {
+    text-decoration: none;
+    color: #000;
+}
+
+.regis a:hover {
+    text-decoration: underline;
+}
+
+.regis .bot {
+    width:160px;
+}
+
+.regis button {
+    font-size: 15px;
+    width: 30%;
+    cursor: pointer;
+    border-radius: 15px;
+
+}
+   

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/css/layout.css">
+    <title>Inicio</title>
+</head>
+<body>
+    <div class="perfil">
+        <nav class="perfil-nav">
+            <ul></ul>
+            <ul class="perfil-ul">
+                <li class="perfil-li">
+                    <i class='bx bxs-user'></i>
+                    <span>@TempData["Nombre"]</span>
+                    <i class='bx bx-chevron-down arrow'></i>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+        <div class="contenedor">
+            <nav class="menu">
+                <header>
+                    <i class='bx bxs-chevron-right'></i>
+                </header>
+                <ul class="lista">
+                    <li>
+                        <a href="#">
+                            <i class='bx bxs-home'></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bxs-user'></i>
+                            <span>Mi perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-bell'></i>
+                            <span>Notificacion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-calendar'></i>
+                            <span>Realizar reserva</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-calendar'></i>
+                            <span>Mis reservas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bxs-help-circle'></i>
+                            <span>Centro de ayuda</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="cuerpo">
+            @RenderBody()
+        </div>
+    
+</body>
+</html>
