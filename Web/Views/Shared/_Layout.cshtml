@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor aux
+
+@{
+    String nom = aux.HttpContext.Session.GetString("usuario");
+
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,11 +22,11 @@
             <ul class="perfil-ul">
                 <li class="perfil-li">
                     <i class='bx bxs-user'></i>
-                    <span>@TempData["Nombre"]</span>
+                    <span>@nom</span>
                     <i class='bx bx-chevron-down arrow'></i>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#">Cerrar sesión</a>
+                            <a href="" id="a">Cerrar sesión</a>
                         </li>
                     </ul>
                 </li>
@@ -74,6 +81,14 @@
         <div class="cuerpo">
             @RenderBody()
         </div>
-    
+    <script>
+        document.getElementById("a").addEventListener("click", function () {
+            
+            alert("Has cerrado sesion ;D")
+
+            @Url.Action("login","Acceso");
+
+        });
+    </script>
 </body>
 </html>

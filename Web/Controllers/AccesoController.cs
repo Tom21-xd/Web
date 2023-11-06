@@ -1,14 +1,11 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
 using NuGet.Protocol.Plugins;
-using Org.BouncyCastle.Crypto.Tls;
 using System.Configuration;
-using System.Net;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
 using Web.Data;
+using Web.Helpers;
 using Web.Models;
 
 namespace Web.Controllers{
@@ -59,7 +56,7 @@ namespace Web.Controllers{
         public ActionResult Login(String usuario_correo,String Contrasenia){
             UsuarioModel ousuario=cn.validar(usuario_correo,Contrasenia);
             if (ousuario.Nombre != null){
-                TempData["Nombre"] = ousuario.Nombre;
+                HttpContext.Session.SetString("usuario",ousuario.Nombre);
                 return RedirectToAction("Inicio", "Home");
             }else{
                 ViewData["Mensaje"] = "Hubo un problema";
@@ -69,7 +66,10 @@ namespace Web.Controllers{
 
         [HttpPost]
         public ActionResult RecuContra(int cedula){
-
+            ServicioEmail aux = new ServicioEmail();
+            String nuevac = generarclave();
+            String correo = cn.RecuContra(cedula, nuevac);
+            aux.SendEmailGmail(correo, "Recuperacion De Contraseña", "Su nueva Contraseña es :" + nuevac);
             return View("Login");
         }
 

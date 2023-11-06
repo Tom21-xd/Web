@@ -1,6 +1,10 @@
-﻿@{
+﻿@inject IHttpContextAccessor aux
+
+@{
     ViewData["Title"] = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    String nom = aux.HttpContext.Session.GetString("usuario");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +19,7 @@
 <body>
     <div class="cont">
         <div class="info">
-            <h1>¡Bienvenido(a) @TempData["Nombre"]!</h1>
+            <h1>¡Bienvenido(a) @nom!</h1>
             <p>Aqui podras gestionar y hacer seguimiento a las reservas que realices </p>
         </div>
         <div class="grilla">

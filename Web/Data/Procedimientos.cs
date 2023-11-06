@@ -93,10 +93,8 @@ namespace Web.Data{
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 MySqlDataReader dr = cmd.ExecuteReader();
                 DataTable a = new DataTable();
-                while (dr.Read())
-                {
-                    correo = dr[0].ToString();
-                }
+                a.Load(dr);
+                correo = a.Rows[0]["CORREO_USUARIO"].ToString();
             }
             catch(Exception e){
                 Console.WriteLine(e.ToString());
