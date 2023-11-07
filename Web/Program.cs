@@ -1,12 +1,22 @@
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSession();
-
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Acceso/Login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        option.AccessDeniedPath = "/Home/Inicio";
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,7 +30,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseSession();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

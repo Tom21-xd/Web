@@ -1,6 +1,6 @@
 ﻿namespace Web.Models
 {
-    public class Persona{
+    public class PersonaModel{
         public int Id { get; set; }
         public String? Nombre1 { get; set; }
         public String? Nombre2 { get; set; }

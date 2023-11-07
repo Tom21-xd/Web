@@ -7,7 +7,8 @@
         public string? Correo { get; set; }
         public string? Contrasenia { get; set;}
         public Boolean Estado { get; set;}
-        public Persona? persona { get; set; }
+        public PersonaModel?persona { get; set; }
+        public RolModel rol { get; set; }
         
     }
 }

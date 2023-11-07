@@ -27,7 +27,41 @@ namespace Web.Data{
             }
             return l;
         }
-        
+
+        public List<PermisoModel> obtenerPermisos(int rol)
+        {
+            List<PermisoModel> a = new List<PermisoModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("Permisos", connection);
+                cmd.Parameters.AddWithValue("idr", rol);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                DataTable aux = new DataTable();
+                aux.Load(dr);
+                foreach (DataRow permiso in aux.AsEnumerable())
+                {
+                    a.Add(new PermisoModel()
+                    {
+                        Id = Convert.ToInt32(permiso["ID_PERMISO"].ToString()),
+                        Nombre = permiso["NOMBRE_PERMISO"].ToString(),
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
         public UsuarioModel validar(String usuario_correo, String Contrasenia){
             UsuarioModel aux =new UsuarioModel();
             Conectar();
@@ -37,19 +71,40 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("contrasenia", Contrasenia);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 MySqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read()){
+                while (dr.Read()) {
                     aux.Id = Convert.ToInt32(dr[0] + "");
                     aux.Nombre = dr[1] + "";
                     aux.Correo = dr[2] + "";
                     aux.Contrasenia = dr[3] + "";
-                    aux.Estado = ((dr[4]+""=="1")?true:false);
+                    aux.Estado = ((dr[4] + "" == "1") ? true : false);
+                    aux.rol = new RolModel()
+                    {
+                        Id = Convert.ToInt32(dr[5]),
+                        Nombre = dr[6] + "",
+                        estado = ((dr[7] + "" == "1") ? true : false),
+                        permisos=null
+                       
+                    };
+                    aux.rol.permisos = this.obtenerPermisos(aux.rol.Id);
+                    aux.persona = new PersonaModel()
+                    {
+                        Id = Convert.ToInt32(dr[8] + ""),
+                        Nombre1 = dr[9] + "",
+                        Nombre2 = dr[10] + "",
+                        Apellido1 = dr[11] + "",
+                        Apellido2 = dr[12] + "",
+                        FechaNacimiento = dr[13] + "",
+                        Telefono = dr[14] + "",
+                        tipodoc = dr[15] + "",
+                        genero = dr[16] + "",
+                    };
                 }
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 Console.WriteLine(e.ToString());
             }
             finally { Desconectar(); }
             return aux;
-            
         }
         
         public void Registrar(UsuarioModel usuario)
@@ -104,6 +159,5 @@ namespace Web.Data{
             }
             return correo;
         }
-
     }
 }

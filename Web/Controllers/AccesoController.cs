@@ -1,5 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
 using NuGet.Protocol.Plugins;
@@ -7,13 +6,14 @@ using System.Configuration;
 using Web.Data;
 using Web.Helpers;
 using Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace Web.Controllers{
     public class AccesoController : Controller{
 
         Procedimientos cn = new Procedimientos();
-
-        
 
         public IActionResult Login(){
             return View();
@@ -32,7 +32,7 @@ namespace Web.Controllers{
 
         [HttpPost]
         public ActionResult Registrarse(){
-            Persona persona = new Persona();
+            PersonaModel persona = new PersonaModel();
             persona.Id= Convert.ToInt32(Request.Form["id"]+"");
             persona.Nombre1 = Request.Form["nombre1"];
             persona.Nombre2 = Request.Form["nombre2"];
@@ -53,10 +53,24 @@ namespace Web.Controllers{
         }
 
         [HttpPost]
-        public ActionResult Login(String usuario_correo,String Contrasenia){
+        public async Task<IActionResult> Login(String usuario_correo,String Contrasenia){
             UsuarioModel ousuario=cn.validar(usuario_correo,Contrasenia);
             if (ousuario.Nombre != null){
-                HttpContext.Session.SetString("usuario",ousuario.Nombre);
+                 
+                 var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, ousuario.Nombre),
+                    new Claim("Correo", ousuario.Correo),
+                };
+
+                foreach (PermisoModel rol in ousuario.rol.permisos)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
+                }
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                
                 return RedirectToAction("Inicio", "Home");
             }else{
                 ViewData["Mensaje"] = "Hubo un problema";
@@ -81,6 +95,12 @@ namespace Web.Controllers{
                 cadena += conjuntoCaracteres[aleatorio.Next(conjuntoCaracteres.Length)];
             }
             return cadena;
+        }
+
+        public async Task<IActionResult> salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Acceso");
         }
     }
 }

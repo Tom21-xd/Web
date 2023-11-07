@@ -1,5 +1,5 @@
 ﻿namespace Web.Models{
-    public class Genero{
+    public class GeneroModel{
 
         public int id { get; set; }
         public String? Nombre { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Web.Models
 {
-    public class Tipo_Documento{
+    public class Tipo_DocumentoModel{
 
         public int Id { get; set; }
         public String? Nombre { get; set; }
