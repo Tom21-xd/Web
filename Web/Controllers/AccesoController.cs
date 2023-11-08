@@ -61,16 +61,21 @@ namespace Web.Controllers{
                 {
                     new Claim(ClaimTypes.Name, ousuario.Nombre),
                     new Claim("Correo", ousuario.Correo),
+                    
                 };
-
-                foreach (PermisoModel rol in ousuario.rol.permisos)
+                
+                 foreach (PermisoModel rol in ousuario.rol.permisos)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
                 }
+                
+
+                claims.Add(new Claim("Rol", ousuario.rol.Nombre));
+                
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                
+               
                 return RedirectToAction("Inicio", "Home");
             }else{
                 ViewData["Mensaje"] = "Hubo un problema";

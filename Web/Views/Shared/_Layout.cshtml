@@ -1,4 +1,15 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@{
+    // Accede a la identidad del usuario
+    var claimsPrincipal =User;
+
+    // Accede al correo electrónico del usuario
+    var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
+    var vista = ViewContext.RouteData.Values["action"].ToString();
+    var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+
+
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,30 +26,34 @@
     <header class="perfil">
         <nav class="perfil-nav">
             <ul class="gestion">
-                <li>
-                    <a href="#">Roles</a>
-                </li>
-                <li>
-                    <a href="#">Servicios</a>
-                </li>
-                <li>
-                    <a href="#">Reservas</a>
-                </li>
-                <li>
-                    <a href="#">Espacio</a>
-                </li>
-                <li>
-                    <a href="#">Ubicacion</a>
-                </li>
-                <li>
-                    <a href="#">Negocio</a>
-                </li>
-                <li>
-                    <a href="#">Agenda</a>
-                </li>
-                <li>
-                    <a href="#">Usuarios</a>
-                </li>
+                @if (vista == "Index")
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Rol")">Roles</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Servicios")">Servicios</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Reservas")">Reservas</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Espacio")">Espacio</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Negocio")">Negocio</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Agenda")">Agenda</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Usuario")">Usuarios</a>
+                    </li>
+                }
+                
             </ul>
             <ul class="perfil-ul">
                 <li class="perfil-li">
@@ -47,7 +62,7 @@
                     <i class='bx bx-chevron-down arrow'></i>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#" id="a">Cerrar sesión</a>
+                            <a href="@Url.Action("salir","Acceso")" id="a">Cerrar sesión</a>
                         </li>
                     </ul>
                 </li>
@@ -96,12 +111,15 @@
                         <span>Centro de ayuda</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-book'></i>
-                        <span>Gestionar</span>
-                    </a>
-                </li>
+                @if(rol=="Admin" || rol == "Empleado")
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Rol")">
+                            <i class='bx bx-book'></i>
+                            <span>Gestionar</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </nav>
     </div>
