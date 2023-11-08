@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity;
+
+@{
     ViewData["Title"] = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,22 +9,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="~/css/Inicio.css">
-    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/Home/Inicio.css">
+    <link rel="shortcut icon" href="~/Img/uniamazonia.png" type="image/x-icon">
 
 </head>
 
 <body>
-    <div class="cont">
         <div class="info">
-            <h1>¡Bienvenido(a) !</h1>
+            <h1>¡Bienvenido(a) @User.Identity.Name!</h1>
             <p>Aqui podras gestionar y hacer seguimiento a las reservas que realices </p>
         </div>
         <div class="grilla">
             <div class="Hreservas">
                 <div class="hori">
                     <div>
-                        <img src="/css/Reserva.png" alt="Icono de un calendario">
+                        <img src="~/Img/Reserva.png" alt="Icono de un calendario">
                     </div>
                     <div class="text">
                         <h2>Realizar una reserva</h2>
@@ -36,7 +37,7 @@
             <div class="Vreservas">
                 <div class="hori">
                     <div>
-                        <img src="/css/Reserva.png" alt="Icono de un calendario">
+                        <img src="/Img/Reserva.png" alt="Icono de un calendario">
                     </div>
                     <div class="text">
                         <h2>Mis reservas</h2>
@@ -49,7 +50,6 @@
             </div>
         </div>
 
-    </div>
 </body>
 
 </html>

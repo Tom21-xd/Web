@@ -1,79 +1,113 @@
 ﻿
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link rel="shortcut icon" href="~/Img/uniamazonia.png" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="~/css/layout.css">
+    <link rel="stylesheet" href="/css/layout.css">
     <title>Inicio</title>
 </head>
+
 <body>
-    <div class="perfil">
+    <header class="perfil">
         <nav class="perfil-nav">
-            <ul></ul>
+            <ul class="gestion">
+                <li>
+                    <a href="#">Roles</a>
+                </li>
+                <li>
+                    <a href="#">Servicios</a>
+                </li>
+                <li>
+                    <a href="#">Reservas</a>
+                </li>
+                <li>
+                    <a href="#">Espacio</a>
+                </li>
+                <li>
+                    <a href="#">Ubicacion</a>
+                </li>
+                <li>
+                    <a href="#">Negocio</a>
+                </li>
+                <li>
+                    <a href="#">Agenda</a>
+                </li>
+                <li>
+                    <a href="#">Usuarios</a>
+                </li>
+            </ul>
             <ul class="perfil-ul">
                 <li class="perfil-li">
                     <i class='bx bxs-user'></i>
-                    <span></span>
+                    <span>@User.Identity.Name</span>
                     <i class='bx bx-chevron-down arrow'></i>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="@Url.Action("Salir","Acceso")" id="a">Cerrar sesión</a>
+                            <a href="#" id="a">Cerrar sesión</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </nav>
+    </header>
+    <div class="contenedor">
+        <nav class="menu">
+            <header>
+                <i class='bx bxs-chevron-right'></i>
+            </header>
+            <ul class="lista">
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-home'></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-user'></i>
+                        <span>Mi perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-bell'></i>
+                        <span>Notificacion</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-calendar'></i>
+                        <span>Realizar reserva</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-calendar'></i>
+                        <span>Mis reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-help-circle'></i>
+                        <span>Centro de ayuda</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-book'></i>
+                        <span>Gestionar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
-        <div class="contenedor">
-            <nav class="menu">
-                <header>
-                    <i class='bx bxs-chevron-right'></i>
-                </header>
-                <ul class="lista">
-                    <li>
-                        <a href="#">
-                            <i class='bx bxs-home'></i>
-                            <span>Inicio</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bxs-user'></i>
-                            <span>Mi perfil</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-bell'></i>
-                            <span>Notificacion</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-calendar'></i>
-                            <span>Realizar reserva</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-calendar'></i>
-                            <span>Mis reservas</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bxs-help-circle'></i>
-                            <span>Centro de ayuda</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="cuerpo">
-            @RenderBody()
-        </div>
+    <div class="cuerpo">
+        @RenderBody()
+    </div>
 </body>
+
 </html>

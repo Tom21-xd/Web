@@ -12,6 +12,7 @@ body {
     min-height: 100vh;
     justify-content: center;
     align-content: center;
+    background: rgb(192, 192, 192);
 }
 
 .superior {

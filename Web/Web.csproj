@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\CrearCuenta.css" />
+    <None Include="wwwroot\css\Acceso\CrearCuenta.css" />
     <None Include="wwwroot\css\layout.css" />
-    <None Include="wwwroot\css\Login.css" />
-    <None Include="wwwroot\css\RecuperarContra.css" />
+    <None Include="wwwroot\css\Acceso\Login.css" />
+    <None Include="wwwroot\css\Acceso\RecuperarContra.css" />
   </ItemGroup>
 
 </Project>

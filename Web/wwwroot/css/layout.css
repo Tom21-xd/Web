@@ -10,18 +10,43 @@
 }
 
 body {
-    display: flex;
     background-color: rgb(207, 207, 207);
 }
 
+.perfil {
+    height: 70px;
+    display: flex;
+    margin-left: 270px;
+}
+
+.perfil a {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+}
+
 .perfil-nav {
-    position: fixed;
-    left: 0;
+    justify-content: space-between;
     width: 100%;
     height: 70px;
     background-color: gray;
     display: flex;
-    justify-content: space-between;
+}
+
+.gestion {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    list-style: none;
+    height: 100%;
+    border: 2px solid #000;
+}
+
+.gestion li {
+    font-size: 20px;
+    margin: 10px;
 }
 
 .perfil-ul {
@@ -41,9 +66,9 @@ body {
     --transform: rotate(0);
 }
 
-    .perfil-li i {
-        font-size: 35px;
-    }
+.perfil-li i {
+    font-size: 35px;
+}
 
 .dropdown-menu {
     position: absolute;
@@ -60,13 +85,13 @@ body {
     clip-path: var(--clip);
 }
 
-    .dropdown-menu li {
-        list-style: none;
-    }
+.dropdown-menu li {
+    list-style: none;
+}
 
-    .dropdown-menu a {
-        text-decoration: none;
-    }
+.dropdown-menu a {
+    text-decoration: none;
+}
 
 .perfil-li:hover {
     --clip: polygon(0 0, 100% 0%, 100% 100%, 0 100%);
@@ -99,14 +124,14 @@ body {
     align-items: center;
 }
 
-    .contenedor .menu {
-        display: flex;
-        height: 100%;
-        width: 100%;
-        justify-content: center;
-        align-content: center;
-        align-items: center;
-    }
+.contenedor .menu {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
 
 .menu header {
     position: fixed;
@@ -193,4 +218,3 @@ body {
         transition: all 0.5s ease-in-out;
     }
 }
-
