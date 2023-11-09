@@ -4,5 +4,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de roles</title>
+    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/Rol/Roles.css">
+
+</head>
+<body>
+    <div class="contenido">
+        <h1>Gestion de roles</h1>
+        <div class="grid">
+            <div class="sect">
+                <h3>Usuario</h3>
+                <i class='bx bx-search-alt-2'></i>
+                <input type="search" placeholder="Usuario a buscar">
+            </div>
+
+            <div class="sect">
+                <h3>Nuevo rol</h3>
+                <form action="" class="crear">
+                    <input type="text" placeholder="Nombre del rol">
+                    <Button type="submit">Crear Rol</Button>
+                </form>
+            </div>
+            <div class="sect">
+                <h3>Roles</h3>
+                <form action="">
+                    <select >
+                        @foreach(RolModel rol in ViewBag.roles){
+                            <option>@rol.Nombre</option>
+                        }
+                    </select>
+                    <button type="submit">Eliminar Rol</button>
+                </form>
+            </div>
+            <div class="sect">
+                <h3>Permisos</h3>
+                <form action="#">
+                    <div class="formclass">
+                        <div class="formclas">
+                            @foreach(PermisoModel permiso in ViewBag.permisos){
+                                <div class="hor">
+                                    <input type="checkbox" id="@permiso.Id" value=""name="@permiso.Nombre" />
+                                    <label for="@permiso.Id">@permiso.Nombre</label>
+                                </div>
+                            }
+                        </div>
+                    
+                        <button type="submit">Actualizar Rol</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+</html>
 

@@ -8,7 +8,7 @@ using Web.Models;
 namespace Web.Data{
     public class Procedimientos:Conexion{
 
-        MySqlCommand cmd;
+        MySqlCommand? cmd;
         public List<String> Listar(String param){
             var l = new List<String>();
             Conectar();
@@ -159,5 +159,120 @@ namespace Web.Data{
             }
             return correo;
         }
+
+        public List<UsuarioModel> obtenerUsuarios()
+        {
+            List<UsuarioModel> usuarios = new List<UsuarioModel> ();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerUsuarios",connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    usuarios.Add(new UsuarioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0]+""),
+                        Nombre = dr[1]+"",
+                        Correo = dr[2]+"",
+                        Contrasenia= dr[3]+"",
+                        Estado = ((dr[4] + "" == "1") ? true : false),
+                        rol = new RolModel()
+                        {
+                            Id= Convert.ToInt32(dr[5]),
+                            Nombre= dr[6]+"",
+                            estado= ((dr[7] + "" == "1") ? true : false)
+                        },
+                        persona= new PersonaModel()
+                        {
+                            Id= Convert.ToInt32(dr[8]),
+                            Nombre1 = dr[9]+"",
+                            Nombre2 = dr[10]+"",
+                            Apellido1= dr[11]+"",
+                            Apellido2= dr[12]+"",
+                            FechaNacimiento= dr[13]+"",
+                            Telefono = dr[14]+"",
+                            Direccion= dr[15]+"",
+                            tipodoc = dr[16]+"",
+                            genero = dr[17]+""
+
+                        }
+                    }); 
+                }
+
+            }catch(Exception e)
+            {
+                Console.WriteLine("paila");
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return usuarios;
+        }
+
+        public List<RolModel> obtenerRoles()
+        {
+            List<RolModel> roles = new List<RolModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerRoles", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    roles.Add(new RolModel()
+                    {
+                        Id =Convert.ToInt32( dr[0]),
+                        Nombre= dr[1]+"",
+                        estado = ((dr[2] + "" == "1") ? true : false)
+
+                    });
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return roles;
+        }
+
+        public List<PermisoModel> obtenerPermisos()
+        {
+            List<PermisoModel> a = new List<PermisoModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerPermisos", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while(dr.Read())
+                {
+                    a.Add(new PermisoModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Nombre = dr[1]+"",
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
     }
 }

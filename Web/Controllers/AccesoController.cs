@@ -16,6 +16,10 @@ namespace Web.Controllers{
         Procedimientos cn = new Procedimientos();
 
         public IActionResult Login(){
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Inicio", "Home");
+            }
             return View();
         }
 
@@ -58,16 +62,16 @@ namespace Web.Controllers{
             if (ousuario.Nombre != null){
                  
                  var claims = new List<Claim>
-                {
+                 {
                     new Claim(ClaimTypes.Name, ousuario.Nombre),
                     new Claim("Correo", ousuario.Correo),
                     
-                };
+                 };
                 
                  foreach (PermisoModel rol in ousuario.rol.permisos)
-                {
+                 {
                     claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
-                }
+                 }
                 
 
                 claims.Add(new Claim("Rol", ousuario.rol.Nombre));
