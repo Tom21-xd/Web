@@ -2,9 +2,8 @@
 
 namespace Web.Controllers
 {
-    public class UsuarioController : Controller
+    public class PerfilController : Controller
     {
-        Procedimientos cn = new Procedimientos();
         public IActionResult Index()
         {
             return View();
