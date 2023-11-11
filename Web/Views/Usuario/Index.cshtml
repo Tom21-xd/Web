@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity;
-
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -28,25 +26,25 @@
 
 <body style="background-color: rgb(207, 207, 207); ">
     <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%">
-        <h1 class="ml-3 mb-5"style="color:#255000;">Gestionar Usuario</h1>
+        <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Usuario</h1>
         <table id="tablax" class="table-bordered align-middle border-success mt-3">
-            <thead >
-                <th style="height:35px;" class="text-center">Id</th>
-                <th class="text-center">Nombre de usuario</th>
-                <th class="text-center">Correo</th>
-                <th class="text-center">Telefonos</th>
-                <th class="text-center">Rol</th>
-                <th class="text-center">Acciones</th>
+            <thead>
+            <th style="height:35px;" class="text-center">Id</th>
+            <th class="text-center">Nombre de usuario</th>
+            <th class="text-center">Correo</th>
+            <th class="text-center">Telefonos</th>
+            <th class="text-center">Rol</th>
+            <th class="text-center">Acciones</th>
             </thead>
             <tbody>
                 @foreach (UsuarioModel usua in ViewBag.usuarios)
                 {
                     <tr>
-                        <td class="text-center" >@usua.persona.Id</td>
-                        <td class="text-center" >@usua.Nombre</td>
-                        <td class="text-center" >@usua.Correo</td>
-                        <td class="text-center" >@usua.persona.Telefono</td>
-                        <td class="text-center" >@usua.rol.Nombre</td>
+                        <td class="text-center">@usua.persona.Id</td>
+                        <td class="text-center">@usua.Nombre</td>
+                        <td class="text-center">@usua.Correo</td>
+                        <td class="text-center">@usua.persona.Telefono</td>
+                        <td class="text-center">@usua.rol.Nombre</td>
                         <td class="text-center">
                             <button type="button" id="" class="btn btn-primary mt-3 mb-3" id="edit" data-bs-toggle="modal" data-bs-target="#EditarRol" value="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -61,10 +59,49 @@
         </table>
         <div class="d-flex justify-content-between align-items-center ">
             <button class="btn btn-primary btn-generar-pdf">Descargar</button>
-            
+
         </div>
     </div>
-    
 
 
 
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_",
+                    info: "total de usuarios: _TOTAL_",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 300,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+            });
+        });
+    </script>
+</body>
+</html>
