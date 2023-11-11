@@ -82,7 +82,7 @@
         </div>
     </div>
     
-    @* @foreach (PermisoModel per1 in ViewBag.permisos)
+    @foreach (PermisoModel per1 in ViewBag.permisos)
     {
         if (cont == ViewBag.permisos.Count - 1)
         {
@@ -98,8 +98,8 @@
     @{
         aux = "";
         cont = 0;
-    } *@
-    
+    }
+
     <style>
         .lista{
             padding:0;
@@ -209,11 +209,12 @@
                             <label class="mb-4" for="">permiso a agregar :</label>
                             
                             <select class="form-select" id="se1" name="select" >
-
+                                @*
                                 @foreach (PermisoModel per in ViewBag.permisos)
                                 {
+
                                     <option>@per.Nombre</option>
-                                }
+                                }*@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark">Agregar permiso al Rol</button>
@@ -283,6 +284,7 @@
                 input2.value = data[0].textContent;
                 input3.value = data[1].textContent;
                 modal.classList.toggle("translate");
+                agregarpermisos(sele1, data, p);
             }
             if (e.target.matches(".btn-danger")) {
                 input4.value = data[0].textContent;
@@ -293,7 +295,7 @@
         });
 
         function permisos(sele, data) {
-            let aux = (data[3].textContent).split("-");
+            let aux = (data[3].textContent).split(" - ");
             sele.options.length = 0;
             for (let i = 0; i < aux.length; i++) {
                 const option = document.createElement("option");
@@ -302,6 +304,33 @@
             }
         }
 
+        function agregarpermisos(sele, data, p){
+            var aux = ((data[3].textContent).replace(/\n/g, '')).split(" - ");
+            var per = ((p.textContent).replace(/\n/g, '')).split(" - ");
+            sele.options.length = 0;
+            var c = 0
+            for (let i = 0; i < aux[0].length; i++){
+                if (aux[0][i] == ' '){
+                    if (c > 0){
+                        aux[0][i] = '';
+                    } else {
+                        c = 1;
+                    }
+                }
+            }
+            console.log(aux);
+            console.log(per);
+            for (let i = 0; i < aux.length; i++) {
+                for (let j = 0; j < per.length; j++) {
+                    if (aux[i] == per[j]){
+                        const option = document.createElement("option");
+                        option.textContent = aux[i];
+                        sele.appendChild(option);
+                    }
+                }
+            }
+           
+        }
 
         function fillData(data) {
             input.value = data[0].textContent;

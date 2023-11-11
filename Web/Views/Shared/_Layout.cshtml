@@ -4,7 +4,7 @@
     var claimsPrincipal =User;
 
     // Accede al correo electrónico del usuario
-    var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
+    //var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
     var vista = ViewContext.RouteData.Values["action"].ToString();
     var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
 }
