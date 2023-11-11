@@ -130,7 +130,7 @@ namespace Web.Data{
             }
             catch(Exception e)
             {
-                Console.WriteLine("Paila");
+                Console.WriteLine(e.Message);
             }
             finally
             {
@@ -203,7 +203,7 @@ namespace Web.Data{
 
             }catch(Exception e)
             {
-                Console.WriteLine("paila");
+                Console.WriteLine(e.Message);
             }
             finally
             {
@@ -227,14 +227,15 @@ namespace Web.Data{
                     {
                         Id =Convert.ToInt32( dr[0]),
                         Nombre= dr[1]+"",
-                        estado = ((dr[2] + "" == "1") ? true : false)
+                        estado = ((dr[2] + "" == "1") ? true : false),
+                        permisos= obtenerPermisos(Convert.ToInt32(dr[0]))
 
                     });
                 }
             }
             catch(Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
             finally
             {
@@ -273,6 +274,126 @@ namespace Web.Data{
 
             return a;
         }
+
+        public bool EliminarRol(int id)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("eliminarRol", connection);
+                cmd.Parameters.AddWithValue("idr", id);
+                cmd.CommandType=System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
+        public void CrearRol(String nombre)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearRol", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void editarRol(String nombre,int estado,int id)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("EditarRol", connection);
+                cmd.Parameters.AddWithValue("nombreN", nombre);
+                cmd.Parameters.AddWithValue("estado", estado);
+                cmd.Parameters.AddWithValue("idr", id);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public bool agregarPermiso(int idRol,String nombrePermiso)
+        {
+            bool a = true;
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("agregarPermiso", connection);
+                cmd.Parameters.AddWithValue("idrol", idRol);
+                cmd.Parameters.AddWithValue("nombreper", nombrePermiso);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                a=false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+
+        }
+
+        public bool eliminarPermiso(int idRol, String nombrePermiso)
+        {
+            bool a = true;
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("eliminarPermiso", connection);
+                cmd.Parameters.AddWithValue("fkidr", idRol);
+                cmd.Parameters.AddWithValue("nombreper", nombrePermiso);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                a = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+
+        }
+
+
 
     }
 }

@@ -2,65 +2,320 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    String aux = "";
+    int cont =0;
 
+
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de roles</title>
-    <link rel="shortcut icon" href="~/css/uniamazonia.png" type="image/x-icon">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/css/Rol/Roles.css">
-
+    <title>Gestión de Roles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-<body>
-    <div class="contenido">
-        <h1>Gestion de roles</h1>
-        <div class="grid">
-            <div class="sect">
-                <h3>Usuario</h3>
-                <i class='bx bx-search-alt-2'></i>
-                <input type="search" placeholder="Usuario a buscar">
-            </div>
+<body style="background-color: rgb(207, 207, 207); place-items:center;">
+    <div class="container mt-5" style="margin-left:270px;">
+        <h2 class="mb-4">Gestión de Roles</h2>
+        <button type="button" class="btn btn-success mb-4 " id="regis" data-bs-toggle="modal" data-bs-target="#registrarRol">
+            Añadir Nuevo Rol
+        </button>
+        <button type="button" class="btn btn-danger mb-4 " id="elim" data-bs-toggle="modal" data-bs-target="#EliminarRol">
+            Eliminar Rol
+        </button>
+        <table class="align-middle table-bordered border-dark " id="table">
+                <thead>
+                    <tr >
+                        <th class="text-center" style="border-color:black; width:50px;">ID</th>
+                        <th class="text-center" style="border-color:black;width:150px;">Nombre del Rol</th>
+                        <th class="text-center" style="border-color:black;width:80px;">Estado del Rol</th>
+                        <th class="text-center" style="border-color:black;width:290px;">Permisos</th>
+                        <th class="text-center" style="border-color:black;width:200px;">Acciones permiso</th>
+                        <th class="text-center" style="border-color:black;width:200px;">Acciones rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (RolModel rol in ViewBag.roles)
+                    {
+                        <tr >
+                            <td class="text-center" style="border-color:black;">@rol.Id</td>
+                            <td class="text-center" style="border-color:black;">@rol.Nombre</td>
+                            <td class="text-center" style="border-color:black;">@((@rol.estado) ? "Activo" : "inactivo")</td>
+                            <td class="text-center" style="border-color:black;">
+                                @foreach (PermisoModel per in rol.permisos)
+                                {
+                                    if (cont == rol.permisos.Count - 1)
+                                    {
+                                        aux += per.Nombre;
+                                    }
+                                    else
+                                    {
+                                        aux += per.Nombre + " - ";
+                                    }
+                                    cont++;
+                                }
+                                <p>@aux</p>
+                                @{
+                                    aux = "";
+                                    cont = 0;
+                                }
+                            </td>
+                            <td class="text-center" style="border-color:black;">
+                            <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"  data-bs-target="#agpermisos">
+                                    Añadir Permiso
+                                </button>
+                                <p></p>
+                            <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#elimpermisos">
+                                    Eliminar permiso
+                                </button>
+                            </td>
+                            <td class="text-center"   style="border-color:black;">
+                            <button type="button" id="@rol.Id" class="btn btn-primary mt-3 mb-3" id="edit" data-bs-toggle="modal" data-bs-target="#EditarRol" value="@rol.Id">
+                                    Editar Rol
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    @* @foreach (PermisoModel per1 in ViewBag.permisos)
+    {
+        if (cont == ViewBag.permisos.Count - 1)
+        {
+            aux += per1.Nombre;
+        }
+        else
+        {
+            aux += per1.Nombre + " - ";
+        }
+        cont++;
+    }
+    <p hidden id="dios">@aux</p>
+    @{
+        aux = "";
+        cont = 0;
+    } *@
+    
+    <style>
+        .lista{
+            padding:0;
+        }
+        .gestion{
+            margin:0 ;
+            padding:0 ;
+        }
+    </style>
 
-            <div class="sect">
-                <h3>Nuevo rol</h3>
-                <form action="" class="crear">
-                    <input type="text" placeholder="Nombre del rol">
-                    <Button type="submit">Crear Rol</Button>
-                </form>
-            </div>
-            <div class="sect">
-                <h3>Roles</h3>
-                <form action="">
-                    <select >
-                        @foreach(RolModel rol in ViewBag.roles){
-                            <option>@rol.Nombre</option>
-                        }
-                    </select>
-                    <button type="submit">Eliminar Rol</button>
-                </form>
-            </div>
-            <div class="sect">
-                <h3>Permisos</h3>
-                <form action="#">
-                    <div class="formclass">
-                        <div class="formclas">
-                            @foreach(PermisoModel permiso in ViewBag.permisos){
-                                <div class="hor">
-                                    <input type="checkbox" id="@permiso.Id" value=""name="@permiso.Nombre" />
-                                    <label for="@permiso.Id">@permiso.Nombre</label>
-                                </div>
-                            }
+
+
+    <div class="modal fade" tabindex="-1" id="registrarRol" aria-labelledby="RegistrarRolModal">
+        <div class="modal-dialog modal-dialog-centered  ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarNuevoRolModalLabel">Añadir Nuevo Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("CrearRol","Rol")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="nuevoRolNombreInput" >Nombre del Nuevo Rol:</label>
+                            <input type="text" class="form-control" id="nuevoRolNombreInput" placeholder="Ejemplo: Nuevo Rol" name="nombre">
                         </div>
-                    
-                        <button type="submit">Actualizar Rol</button>
-                    </div>
-                </form>
+                        <button type="submit" class="btn btn-success">Añadir Rol</button>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="EliminarRol" aria-labelledby="EliminarRolModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Eliminar Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("eliminarRol","Rol")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="nuevoRolNombreInput">Nombre del Rol:</label>
+                            <select class="form-select" name="id">
+                                @foreach(RolModel rol in ViewBag.roles)
+                                {
+                                    <option value="@rol.Id">@rol.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Eliminar Rol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="EditarRol" aria-labelledby="EditarRolModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Editar Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("editarRol","Rol")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="id">id del rol :</label>
+                            <input type="text" class="form-control" name="idr" id="input" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="nuevoRolNombreInput">Nombre del rol :</label>
+                            <input type="text" class="form-control"  placeholder="" name="nombre" id="input1">
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="Estad">Estado del rol :</label>
+                            <select class="form-select" id="se" name="select">
+                                <option>Activo</option>
+                                <option>inactivo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Editar Rol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="agpermisos" aria-labelledby="AgregarPermisos">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Agregar permiso al Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("agregarPermiso","Rol")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="id">id del rol :</label>
+                            <input type="text" class="form-control" name="idrol" id="input2" readonly >
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="nombre">Nombre del rol :</label>
+                            <input type="text" class="form-control" placeholder="" name="nombre" id="input3" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="">permiso a agregar :</label>
+                            
+                            <select class="form-select" id="se1" name="select" >
+
+                                @foreach (PermisoModel per in ViewBag.permisos)
+                                {
+                                    <option>@per.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Agregar permiso al Rol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <div class="modal fade" tabindex="-1" id="elimpermisos" aria-labelledby="AgregarPermisos">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Elminar permiso del Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("eliminarPermiso","Rol")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="id">id del rol :</label>
+                            <input type="text" class="form-control" name="idrol" id="input4" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="nombre">Nombre del rol :</label>
+                            <input type="text" class="form-control" placeholder="" name="nombre" id="input5" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="">permiso a eliminar :</label>
+
+                            <select class="form-select" id="se2" name="select">
+
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Eliminar permiso al Rol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+    <script>
+
+        const table = document.getElementById("table");
+        const modal = document.getElementById("EditarRol");
+        const input = document.getElementById("input");
+        const input1 = document.getElementById("input1");
+        const input2 = document.getElementById("input2");
+        const input3 = document.getElementById("input3");
+        const input4 = document.getElementById("input4");
+        const input5 = document.getElementById("input5");
+        const p = document.getElementById("dios");
+
+        const sele1 = document.getElementById("se1");
+        const sele2 = document.getElementById("se2");
+
+        window.addEventListener("click", (e) => {
+            let data = e.target.parentElement.parentElement.children;
+
+            if (e.target.matches(".btn-primary")) {
+                fillData(data);
+                modal.classList.toggle("translate");
+
+            }
+            if (e.target.matches(".btn-success")) {
+                input2.value = data[0].textContent;
+                input3.value = data[1].textContent;
+                modal.classList.toggle("translate");
+            }
+            if (e.target.matches(".btn-danger")) {
+                input4.value = data[0].textContent;
+                input5.value = data[1].textContent;
+                modal.classList.toggle("translate");
+                permisos(sele2, data);
+            }
+        });
+
+        function permisos(sele, data) {
+            let aux = (data[3].textContent).split("-");
+            sele.options.length = 0;
+            for (let i = 0; i < aux.length; i++) {
+                const option = document.createElement("option");
+                option.textContent = aux[i];
+                sele.appendChild(option);
+            }
+        }
+
+
+        function fillData(data) {
+            input.value = data[0].textContent;
+            input1.value = data[1].textContent;
+
+            const opc = sele.options;
+            if (data[2].textContent == "Activo") {
+                opc[0].selected = true;
+            } else {
+                opc[1].selected = true;
+            }
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
-

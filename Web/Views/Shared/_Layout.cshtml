@@ -7,8 +7,6 @@
     var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
     var vista = ViewContext.RouteData.Values["action"].ToString();
     var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
-
-
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +73,7 @@
             </header>
             <ul class="lista">
                 <li>
-                    <a href="#">
+                    <a href="@Url.Action("Inicio","Home")">
                         <i class='bx bxs-home'></i>
                         <span>Inicio</span>
                     </a>

@@ -6,5 +6,7 @@
         public string Nombre { get; set; }
         public bool estado { get; set; }
         public List<PermisoModel>? permisos { get; set; }
+
+
     }
 }
