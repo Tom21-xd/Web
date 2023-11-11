@@ -43,7 +43,7 @@ namespace Web.Controllers{
             persona.Apellido1 = Request.Form["apellido1"];
             persona.Apellido2 = Request.Form["apellido2"];
             persona.FechaNacimiento = Request.Form["fechanaci"];
-            persona.Telefono = Request.Form["celular"]+Request.Form["2docelular"];
+            persona.Telefono = Request.Form["celular"]+"-"+Request.Form["2docelular"];
             persona.Direccion = "";
             persona.tipodoc = Request.Form["tipodoc"];
             persona.genero = Request.Form["genero"];

@@ -8,6 +8,7 @@ namespace Web.Controllers
         Procedimientos cn = new Procedimientos();
         public IActionResult Index()
         {
+            ViewBag.usuarios=cn.obtenerUsuarios();
             return View();
         }
     }
