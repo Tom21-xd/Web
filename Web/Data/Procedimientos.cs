@@ -276,6 +276,98 @@ namespace Web.Data{
             return a;
         }
 
+        public List<PisoModel> obtenerPisos()
+        {
+            List<PisoModel> a = new List<PisoModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerPisos", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new PisoModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Nombre = dr[1] + "",
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<BloqueModel> obtenerBloques()
+        {
+            List<BloqueModel> a = new List<BloqueModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerBloques", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new BloqueModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Nombre = dr[1] + "",
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<UbicacionModel> obtenerUbicaciones()
+        {
+            List<UbicacionModel> a = new List<UbicacionModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerPermisos", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new UbicacionModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
         public bool EliminarRol(int id)
         {
             Conectar();
@@ -394,7 +486,54 @@ namespace Web.Data{
 
         }
 
+        public int contarPisos()
+        {
+            int n = 0;
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("contarPisos", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                n = 0;
+            }
+            finally
+            {
+                Desconectar();
+            }
 
+            return n;
+
+        }
+
+        public int contarBloques()
+        {
+            int n = 0;
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("contarBloques", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                n = 0;
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return n;
+
+        }
     }
 }
