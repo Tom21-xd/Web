@@ -138,6 +138,41 @@ namespace Web.Data{
                 Desconectar();
             }
         }
+
+        public bool ActualizarUsuario(UsuarioModel usuario)
+        {
+            bool aux = true;
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("editarUsuario", connection);
+                cmd.Parameters.AddWithValue("tipodoc", usuario.persona.tipodoc);
+                cmd.Parameters.AddWithValue("cedula", usuario.persona.Id);
+                cmd.Parameters.AddWithValue("nombre1", usuario.persona.Nombre1);
+                cmd.Parameters.AddWithValue("nombre2", usuario.persona.Nombre2);
+                cmd.Parameters.AddWithValue("apellido1", usuario.persona.Apellido1);
+                cmd.Parameters.AddWithValue("apellido2", usuario.persona.Apellido2);
+                cmd.Parameters.AddWithValue("fechanaci", usuario.persona.FechaNacimiento);
+                cmd.Parameters.AddWithValue("estado", ((usuario.Estado)?1:0));
+                cmd.Parameters.AddWithValue("genero", usuario.persona.genero);
+                cmd.Parameters.AddWithValue("rol", usuario.rol.Nombre);
+                cmd.Parameters.AddWithValue("nombreusuario", usuario.Nombre);
+                cmd.Parameters.AddWithValue("correo", usuario.Correo);
+                cmd.Parameters.AddWithValue("telefono", usuario.persona.Telefono);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                aux = false;
+                Console.WriteLine(e.StackTrace);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
         
         public String RecuContra(int documento, String nuevac){
             String correo = "";
