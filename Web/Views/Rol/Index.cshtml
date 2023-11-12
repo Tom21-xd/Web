@@ -115,7 +115,7 @@
     <div class="modal fade" tabindex="-1" id="registrarRol" aria-labelledby="RegistrarRolModal">
         <div class="modal-dialog modal-dialog-centered  ">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header ">
                     <h5 class="modal-title" id="agregarNuevoRolModalLabel">Añadir Nuevo Rol</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -176,7 +176,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="mb-4" for="Estad">Estado del rol :</label>
-                            <select class="form-select" id="se" name="select">
+                            <select class="form-select" id="se1" name="select">
                                 <option>Activo</option>
                                 <option>inactivo</option>
                             </select>
@@ -275,7 +275,7 @@
             let data = e.target.parentElement.parentElement.children;
 
             if (e.target.matches(".btn-primary")) {
-                fillData(data);
+                fillData(sele1,data);
                 modal.classList.toggle("translate");
 
             }
@@ -339,7 +339,7 @@
 
         }
 
-        function fillData(data) {
+        function fillData(sele,data) {
             input.value = data[0].textContent;
             input1.value = data[1].textContent;
 

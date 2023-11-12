@@ -125,6 +125,7 @@ namespace Web.Data{
 
                 cmd.Parameters.AddWithValue("correo",usuario.Correo);
                 cmd.Parameters.AddWithValue("contrasenia",usuario.Contrasenia);
+                cmd.Parameters.AddWithValue("nomusuario", usuario.Nombre);
                 cmd.CommandType=System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }

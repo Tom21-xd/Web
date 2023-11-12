@@ -48,7 +48,7 @@ namespace Web.Controllers{
             persona.tipodoc = Request.Form["tipodoc"];
             persona.genero = Request.Form["genero"];
             UsuarioModel usuario = new UsuarioModel();
-            usuario.Nombre = "";
+            usuario.Nombre = "User";
             usuario.Correo = Request.Form["correo"];
             usuario.Contrasenia = Request.Form["contra"];
             usuario.persona= persona;

@@ -24,46 +24,184 @@
 
 </head>
 
-<body style="background-color: rgb(207, 207, 207); ">
+<body style="background-color: rgb(207, 207, 207);">
     <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%">
         <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Usuario</h1>
-        <table id="tablax" class="table-bordered align-middle border-success mt-3">
-            <thead>
-            <th style="height:35px;" class="text-center">Id</th>
-            <th class="text-center">Nombre de usuario</th>
-            <th class="text-center">Correo</th>
-            <th class="text-center">Telefonos</th>
-            <th class="text-center">Rol</th>
-            <th class="text-center">Acciones</th>
-            </thead>
-            <tbody>
-                @foreach (UsuarioModel usua in ViewBag.usuarios)
-                {
-                    <tr>
-                        <td class="text-center">@usua.persona.Id</td>
-                        <td class="text-center">@usua.Nombre</td>
-                        <td class="text-center">@usua.Correo</td>
-                        <td class="text-center">@usua.persona.Telefono</td>
-                        <td class="text-center">@usua.rol.Nombre</td>
-                        <td class="text-center">
-                            <button type="button" id="" class="btn btn-primary mt-3 mb-3" id="edit" data-bs-toggle="modal" data-bs-target="#EditarRol" value="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-between align-items-center ">
-            <button class="btn btn-primary btn-generar-pdf">Descargar</button>
+        <div class="table-responsive">
+            <div style="width:1600px;">
+                <table id="tablax" class="table-bordered align-middle border-success mt-3">
+                    <thead>
+                    <th style=" width:150px;" class="text-center">Id</th>
+                    <th class="text-center" style="width:200px;">Tipo documento</th>
+                    <th class="text-center" style="width:130px;">Nombre 1</th>
+                    <th class="text-center" style="width:130px;">Nombre 2</th>
+                    <th class="text-center" style="width:130px;">Apellido 1</th>
+                    <th class="text-center" style="width:130px;">Apellido 2</th>
+                    <th class="text-center" style="width:200px;">Nombre de usuario</th>
+                    <th class="text-center" style="width:200px;">Correo</th>
+                    <th class="text-center" style="width:150px;">Fecha Nacimiento</th>
+                    <th class="text-center" style="width:130px;">Genero</th>
+                    <th class="text-center" style="width:200px;">Telefonos</th>
+                    <th class="text-center" style="width:100px;">Rol</th>
+                    <th class="text-center" style="width:100px;">Estado</th>
+                    <th class="text-center" style="width:80px;">Editar</th>
 
+                    </thead>
+                    <tbody>
+                        @foreach (UsuarioModel usua in ViewBag.usuarios)
+                        {
+                            <tr>
+                                <td class="text-center">@usua.persona.Id</td>
+                                <td class="text-center">@usua.persona.tipodoc</td>
+                                <td class="text-center">@usua.persona.Nombre1</td>
+                                <td class="text-center">@usua.persona.Nombre2 </td>
+                                <td class="text-center">@usua.persona.Apellido1</td>
+                                <td class="text-center">@usua.persona.Apellido2</td>
+                                <td class="text-center">@usua.Nombre</td>
+                                <td class="text-center">@usua.Correo</td>
+                                <td class="text-center">@(@usua.persona.FechaNacimiento.Substring(0,10))</td>
+                                <td class="text-center">@usua.persona.genero</td>
+                                <td class="text-center">@usua.persona.Telefono</td>
+                                <td class="text-center">@usua.rol.Nombre</td>
+                                <td class="text-center">@((@usua.Estado)?"Activo":"Inactivo")</td>
+                                <td class="text-center">
+                                    <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editarUsuario" value="">
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-between align-items-center ">
+            <button class="btn btn-primary btn-generar-pdf mt-5">Descargar</button>
         </div>
     </div>
 
-
+    <div class="modal fade" id="editarUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5 text-center" id="staticBackdropLabel">
+                        Editar datos usuarios
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="edit" action="@Url.Action("editar_crear","Usuario")" method="post">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="form-label ">Tipo Documento</label>
+                                    <select class="form-select" aria-label="Default select example" id="tipodoc" name="tipodoc" required>
+                                        <option selected>a</option>
+                                        @foreach (String t in @ViewBag.lt)
+                                        {
+                                            <option>@t</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Numero de Identificación</label>
+                                    <input type="number" class="form-control" id="cedula" min="0" name="cedula" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre 1</label>
+                                    <input type="text" class="form-control" id="nombre1" name="nombre1" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre 2</label>
+                                    <input type="text" class="form-control" id="nombre2" name="nombre2" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Apellido 1</label>
+                                    <input type="text" class="form-control" id="apellido1" name="apellido1" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Apellido 2</label>
+                                    <input type="text" class="form-control" id="apellido2" name="apellido2" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Fecha Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechanaci" name="fechanaci"  required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Estado</label>
+                                    <select class="form-select" aria-label="Default select example" id="estado" name="estado" required>
+                                        <option>Activo</option>
+                                        <option>Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Genero</label>
+                                    <select class="form-select" aria-label="Default select example" name="genero" id="genero" required>
+                                        @foreach (String t in @ViewBag.lg)
+                                        {
+                                            <option>@t</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Rol</label>
+                                    <select class="form-select" aria-label="Default select example" name="rol" id="rol" required>
+                                        @foreach (RolModel r in @ViewBag.r)
+                                        {
+                                            <option>@r.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Direccion</label>
+                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre de usuario</label>
+                                    <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="correo" name="correo" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5 mb-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Telefono</label>
+                                    <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Segundo telefono</label>
+                                    <input type="text" class="form-control" id="telefono1" name="telefono1" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="edit" class="btn btn-success">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -73,7 +211,51 @@
     </script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
     <script>
+
+        const input1 = document.getElementById("tipodoc");
+        const input2 = document.getElementById("cedula");
+        const input3 = document.getElementById("nombre1");
+        const input4 = document.getElementById("nombre2");
+        const input5 = document.getElementById("apellido1");
+        const input6 = document.getElementById("apellido2");
+        const input7 = document.getElementById("fechanaci");
+        const input8 = document.getElementById("estado");
+        const input9 = document.getElementById("genero");
+        const input10 = document.getElementById("rol");
+        const input11 = document.getElementById("direccion");
+        const input12 = document.getElementById("nombreusuario");
+        const input13 = document.getElementById("correo");
+        const input14 = document.getElementById("contrasenia");
+        const input15 = document.getElementById("telefono");
+        const input16 = document.getElementById("telefono1");
+
+        window.addEventListener("click", (e) => {
+            let data = e.target.parentElement.parentElement.children;
+            console.log(data);
+            if (e.target.matches(".btn-primary")) {
+                let opc = input1.options;
+                for (let i = 0; i < opc.length; i++) {
+                    if(opc[i].textContent==data[1].textContent){
+                        opc[i].selected = true;
+                    }
+                }
+                input2.value = data[0].textContent;
+                input3.value = data[2].textContent;
+                input4.value = data[3].textContent;
+                input5.value = data[4].textContent;
+                input6.value = data[5].textContent;
+                input7.value = data[8].textContent;
+
+            }
+
+        });
+    </script>
+
+    <script>
+
         $(document).ready(function () {
             $('#tablax').DataTable({
                 language: {
@@ -102,6 +284,7 @@
                 lengthMenu: [[5, 10, -1], [5, 10, "All"]],
             });
         });
+
     </script>
 </body>
 </html>

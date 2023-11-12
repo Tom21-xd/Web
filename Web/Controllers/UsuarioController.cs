@@ -9,7 +9,18 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             ViewBag.usuarios=cn.obtenerUsuarios();
+            ViewBag.lt = cn.Listar("LISTARTIPODOC");
+            ViewBag.lg = cn.Listar("LISTARGEN");
+            ViewBag.r = cn.obtenerRoles();
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult editar_crear()
+        {
+
+            return RedirectToAction("Index","Usuario");
         }
     }
 }
