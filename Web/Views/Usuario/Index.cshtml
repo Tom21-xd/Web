@@ -26,8 +26,8 @@
 </head>
 
 <body style="background-color: rgb(207, 207, 207);">
-    <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%">
-        <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Usuario</h1>
+    <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%;">
+        <h1 class="ml-3 mb-3" style="color:#255000;">Gestionar Usuario</h1>
         <div class="table-responsive">
             <div style="width:1600px;">
                 <table id="tablax" class="table-bordered align-middle border-success mt-3">
@@ -45,7 +45,7 @@
                     <th class="text-center" style="width:200px;">Telefonos</th>
                     <th class="text-center" style="width:100px;">Rol</th>
                     <th class="text-center" style="width:100px;">Estado</th>
-                    <th class="text-center" style="width:80px;">Editar</th>
+                    <th class="text-center" style="width:100px;">Editar</th>
 
                     </thead>
                     <tbody>
@@ -77,8 +77,12 @@
             </div>
 
         </div>
-        <div class="d-flex justify-content-between align-items-center ">
-            <button class="btn btn-primary btn-generar-pdf mt-5">Descargar</button>
+        <div class="d-flex justify-content-between align-items-center  mt-3">
+            <button class="btn btn-primary btn-generar-pdf">Descargar</button>
+            <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearUsuario" value="">
+                Agregar Nuevo Usuario
+            </button>
+
         </div>
     </div>
 
@@ -93,12 +97,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="edit" action="@Url.Action("editar_crear","Usuario")" method="post">
+                        <form id="edit" action="@Url.Action("editar_usuario","Usuario")" method="post">
                             <div class="row">
                                 <div class="col">
                                     <label for="" class="form-label ">Tipo Documento</label>
                                     <select class="form-select" aria-label="Default select example" id="tipodoc" name="tipodoc" required>
-                                        <option selected>a</option>
                                         @foreach (String t in @ViewBag.lt)
                                         {
                                             <option>@t</option>
@@ -165,22 +168,12 @@
                             </div>
                             <div class="row mt-5">
                                 <div class="col">
-                                    <label for="" class="form-label">Direccion</label>
-                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                </div>
-                                <div class="col">
-                                    <label for="" class="form-label">Nombre de usuario</label>
-                                    <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col">
                                     <label for="" class="form-label">Correo</label>
                                     <input type="email" class="form-control" id="correo" name="correo" required>
                                 </div>
                                 <div class="col">
-                                    <label for="" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
+                                    <label for="" class="form-label">Nombre de usuario</label>
+                                    <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
                                 </div>
                             </div>
                             <div class="row mt-5 mb-5">
@@ -193,12 +186,108 @@
                                     <input type="text" class="form-control" id="telefono1" name="telefono1" required>
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" form="edit" class="btn btn-success">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5 text-center" id="staticBackdropLabel">
+                        Crear usuario
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="crear" action="@Url.Action("crear_usuario","Usuario")" method="post" clss="needs-validation" >
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="form-label ">Tipo Documento</label>
+                                    <select class="form-select" aria-label="Default select example" id="tipodoc" name="tipodoc" required>
+                                        @foreach (String t in @ViewBag.lt)
+                                        {
+                                            <option>@t</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Numero de Identificación</label>
+                                    <input type="number" class="form-control" id="cedula" min="0" name="cedula" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre 1</label>
+                                    <input type="text" class="form-control" id="nombre1" name="nombre1" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre 2</label>
+                                    <input type="text" class="form-control" id="nombre2" name="nombre2" >
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Apellido 1</label>
+                                    <input type="text" class="form-control" id="apellido1" name="apellido1" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Apellido 2</label>
+                                    <input type="text" class="form-control" id="apellido2" name="apellido2" >
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Fecha Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechanaci" name="fechanaci" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Genero</label>
+                                    <select class="form-select" aria-label="Default select example" name="genero" id="genero" required>
+                                        @foreach (String t in @ViewBag.lg)
+                                        {
+                                            <option>@t</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="correo" name="correo" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre de usuario</label>
+                                    <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
+                                </div>
+                            </div>
+                            <div class="row mt-5 mb-5">
+                                <div class="col">
+                                    <label for="" class="form-label">Telefono</label>
+                                    <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Segundo telefono</label>
+                                    <input type="text" class="form-control" id="telefono1" name="telefono1" >
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="crear" class="btn btn-success">Confirmar</button>
+
                 </div>
             </div>
         </div>
@@ -226,33 +315,59 @@
         const input8 = document.getElementById("estado");
         const input9 = document.getElementById("genero");
         const input10 = document.getElementById("rol");
-        const input11 = document.getElementById("direccion");
-        const input12 = document.getElementById("nombreusuario");
-        const input13 = document.getElementById("correo");
-        const input14 = document.getElementById("contrasenia");
-        const input15 = document.getElementById("telefono");
-        const input16 = document.getElementById("telefono1");
+        const input11 = document.getElementById("nombreusuario");
+        const input12 = document.getElementById("correo");
+        const input13 = document.getElementById("telefono");
+        const input14 = document.getElementById("telefono1");
 
         window.addEventListener("click", (e) => {
             let data = e.target.parentElement.parentElement.children;
-            console.log(data);
             if (e.target.matches(".btn-primary")) {
-                let opc = input1.options;
-                for (let i = 0; i < opc.length; i++) {
-                    if(opc[i].textContent==data[1].textContent){
-                        opc[i].selected = true;
-                    }
-                }
+
+                seleccionar(input1, data[1].textContent);
                 input2.value = data[0].textContent;
                 input3.value = data[2].textContent;
                 input4.value = data[3].textContent;
                 input5.value = data[4].textContent;
                 input6.value = data[5].textContent;
-                input7.value = data[8].textContent;
+                
+                const dia = data[8].textContent.slice(0, 2);
+
+                const mes = data[8].textContent.slice(3, 5);
+
+                const año = data[8].textContent.slice(6, 10);
+
+                const nuevaFecha = `${año}-${mes}-${dia}`;
+
+                const fechaObjeto = new Date(nuevaFecha);
+
+                const fechaISO = fechaObjeto.toISOString();
+
+                input7.value = fechaISO.slice(0, 10);
+                seleccionar(input8, data[12].textContent);
+                seleccionar(input9, data[9].textContent);
+                seleccionar(input10, data[11].textContent);
+                input11.value = data[6].textContent;
+                input12.value = data[7].textContent;
+                let aux = data[10].textContent.split("-");
+                input13.value = aux[0];
+                if (aux.length==2) {
+                    input14.value = aux[1];
+                }
 
             }
 
         });
+
+        function seleccionar(input,data){
+            let opc = input.options;
+            for (let i = 0; i < opc.length; i++) {
+                if (opc[i].textContent == data) {
+                    opc[i].selected = true;
+                }
+            }
+        };
+
     </script>
 
     <script>
