@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -16,19 +17,45 @@ namespace Web.Controllers
             return View();
         }
 
-        /*
-        [HttpPost]
-        public ActionResult contarPisos(string numPisos)
+        public ActionResult crearPiso(String nombre)
         {
-            int n = cn.contarPisos();
+            cn.crearPiso(nombre);
             return RedirectToAction("Index", "Ubicacion");
         }
 
-        [HttpPost]
-        public ActionResult contarBloques()
+
+        public ActionResult crearBloque(String nombre)
         {
-            int n = cn.contarBloques();
+            cn.crearBloque(nombre);
             return RedirectToAction("Index", "Ubicacion");
-        }*/
+        }
+
+
+        public ActionResult crearUbicacion(int piso, int bloque)
+        {
+
+            cn.crearUbicacion(piso, bloque);
+            return RedirectToAction("Index", "Ubicacion");
+        }
+
+        public ActionResult eliminarPiso(int id)
+        {
+            bool aux = cn.eliminarPiso(id);
+            if (!aux)
+            {
+                ViewData["Mensaje"] = "Hubo un problema";
+            }
+            return RedirectToAction("Index", "Ubicacion");
+        }
+
+        public ActionResult eliminarBloque(int id)
+        {
+            bool aux = cn.eliminarBloque(id);
+            if (!aux)
+            {
+                ViewData["Mensaje"] = "Hubo un problema";
+            }
+            return RedirectToAction("Index", "Ubicacion");
+        }
     }
 }

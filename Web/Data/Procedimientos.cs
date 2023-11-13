@@ -403,27 +403,31 @@ namespace Web.Data{
             return a;
         }
 
-        public bool EliminarRol(int id)
+        public bool agregarPermiso(int idRol, String nombrePermiso)
         {
+            bool a = true;
             Conectar();
-            bool aux = true;
             try
             {
-                cmd = new MySqlCommand("eliminarRol", connection);
-                cmd.Parameters.AddWithValue("idr", id);
-                cmd.CommandType=System.Data.CommandType.StoredProcedure;
+                cmd = new MySqlCommand("agregarPermiso", connection);
+                cmd.Parameters.AddWithValue("idrol", idRol);
+                cmd.Parameters.AddWithValue("nombreper", nombrePermiso);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                aux = false;
+                a = false;
             }
             finally
             {
                 Desconectar();
             }
-            return aux;
+
+            return a;
+
         }
 
         public void CrearRol(String nombre)
@@ -433,6 +437,67 @@ namespace Web.Data{
             {
                 cmd = new MySqlCommand("crearRol", connection);
                 cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void crearPiso(String nombre)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearPiso", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void crearBloque(String nombre)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearBloque", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void crearUbicacion(int piso, int bloque)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearUbicacion", connection);
+                cmd.Parameters.AddWithValue("id_piso", piso);
+                cmd.Parameters.AddWithValue("id_bloque", bloque);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -468,30 +533,49 @@ namespace Web.Data{
             }
         }
 
-        public bool agregarPermiso(int idRol,String nombrePermiso)
+        public void editarUbicacion(int id_piso, int id_bloque, bool estado)
         {
-            bool a = true;
             Conectar();
             try
             {
-                cmd = new MySqlCommand("agregarPermiso", connection);
-                cmd.Parameters.AddWithValue("idrol", idRol);
-                cmd.Parameters.AddWithValue("nombreper", nombrePermiso);
+                cmd = new MySqlCommand("EditarRol", connection);
+                cmd.Parameters.AddWithValue("id_piso", id_piso);
+                cmd.Parameters.AddWithValue("id_bloque", id_bloque);
+                cmd.Parameters.AddWithValue("estado", estado);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
-
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                a=false;
             }
             finally
             {
                 Desconectar();
             }
+        }
 
-            return a;
-
+        public bool EliminarRol(int id)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("eliminarRol", connection);
+                cmd.Parameters.AddWithValue("idr", id);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
         }
 
         public bool eliminarPermiso(int idRol, String nombrePermiso)
@@ -521,54 +605,50 @@ namespace Web.Data{
 
         }
 
-        public int contarPisos()
+        public bool eliminarPiso(int id)
         {
-            int n = 0;
             Conectar();
+            bool aux = true;
             try
             {
-                cmd = new MySqlCommand("contarPisos", connection);
+                cmd = new MySqlCommand("eliminarPiso", connection);
+                cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                n = 0;
+                aux = false;
             }
             finally
             {
                 Desconectar();
             }
-
-            return n;
-
+            return aux;
         }
 
-        public int contarBloques()
+        public bool eliminarBloque(int id)
         {
-            int n = 0;
             Conectar();
+            bool aux = true;
             try
             {
-                cmd = new MySqlCommand("contarBloques", connection);
+                cmd = new MySqlCommand("eliminarBloque", connection);
+                cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                n = 0;
+                aux = false;
             }
             finally
             {
                 Desconectar();
             }
-
-            return n;
-
+            return aux;
         }
     }
 }
