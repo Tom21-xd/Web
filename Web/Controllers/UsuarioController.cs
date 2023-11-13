@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Policy;
 using Web.Data;
 using Web.Models;
 
@@ -6,7 +11,14 @@ namespace Web.Controllers
 {
     public class UsuarioController : Controller
     {
+        private readonly IConverter _converter;
         Procedimientos cn = new Procedimientos();
+
+        public UsuarioController (IConverter converter)
+        {
+            _converter = converter;
+        }
+
         public IActionResult Index()
         {
             ViewBag.usuarios=cn.obtenerUsuarios();
@@ -70,5 +82,67 @@ namespace Web.Controllers
             cn.Registrar(usuario);
             return RedirectToAction("Index", "Usuario");
         }
+
+        public IActionResult VistaParaPDF()
+        {
+            ViewBag.usuarios = cn.obtenerUsuarios();
+            return View();
+        }
+        public IActionResult MostrarPDFenPagina()
+        {
+            string pagina_actual = HttpContext.Request.Path;
+            string url_pagina = HttpContext.Request.GetEncodedUrl();
+            url_pagina = url_pagina.Replace(pagina_actual, "");
+            url_pagina = $"{url_pagina}/Usuario/VistaParaPDF";
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings= new GlobalSettings()
+                {
+                    PaperSize=PaperKind.A4,
+                    Orientation=Orientation.Portrait
+                },
+                Objects =
+                {
+                    new ObjectSettings()
+                    {
+                        Page=url_pagina
+                    }
+                }
+            };
+            var archivoPDF = _converter.Convert(pdf);
+   
+            return File(archivoPDF,"application/pdf" );
+        }
+
+        public IActionResult DescargarPDF()
+        {
+            string pagina_actual = HttpContext.Request.Path;
+            string url_pagina = HttpContext.Request.GetEncodedUrl();
+            url_pagina = url_pagina.Replace(pagina_actual, "");
+            url_pagina = $"{url_pagina}/Usuario/VistaParaPDF";
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = new GlobalSettings()
+                {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects =
+                {
+                    new ObjectSettings()
+                    {
+                        Page=url_pagina
+                    }
+                }
+            };
+            var archivoPDF = _converter.Convert(pdf);
+            string nombrePDF = "reporte_" + DateTime.Now.ToString("ddMMyyyyHHmmss")+".pdf";
+
+
+            return File(archivoPDF, "application/pdf", nombrePDF);
+        }
+
     }
 }

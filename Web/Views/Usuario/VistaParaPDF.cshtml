@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html >
+
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Reporte usuarios</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <style>
+            img{
+                width:250px;
+                height:250px;
+            }
+        </style>
+    </head>
+    <body class="text-center">
+            <img src="~/Img/Usuarios.png" class="mt-5" />
+            <h1 class="mt-5">Lista de usuarios</h1>
+            <div class="m-5">
+                <table class="table table-dark table-striped border-success text-center align-middle">
+                    <caption>List of users</caption>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tipo documento</th>
+                            <th>Nombre de usuario</th>
+                            <th>Nombre completo</th>
+                            <th>Correo</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Genero</th>
+                            <th>Telefonos</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(UsuarioModel usua in ViewBag.usuarios)
+                        {
+                            <tr>
+                                <td >@usua.persona.Id</td>
+                                <td >@usua.persona.tipodoc</td>
+                                <td>@usua.Nombre</td>
+                                <td>@usua.persona.Nombre1 @usua.persona.Nombre2 @usua.persona.Apellido1 @usua.persona.Apellido2</td>7
+                                <td >@usua.Correo</td>
+                                <td >@(@usua.persona.FechaNacimiento.Substring(0, 10))</td>
+                                <td >@usua.persona.genero</td>
+                                <td >@usua.persona.Telefono</td>
+                                <td >@usua.rol.Nombre</td>
+                                <td >@((@usua.Estado) ? "Activo" : "Inactivo")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    </body>
+
+</html>
