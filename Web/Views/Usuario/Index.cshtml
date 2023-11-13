@@ -78,7 +78,7 @@
 
         </div>
         <div class="d-flex justify-content-between align-items-center  mt-3">
-            <button class="btn btn-primary btn-generar-pdf">Descargar</button>
+            <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
             <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearUsuario" value="">
                 Agregar Nuevo Usuario
             </button>
@@ -285,7 +285,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
                     <button type="submit" form="crear" class="btn btn-success">Confirmar</button>
 
                 </div>
@@ -304,6 +304,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
     <script>
+        document.getElementById("boton").addEventListener("click", function () {
+            window.location.href = "@Url.Action("DescargarPDF","Usuario")";
+        });
 
         const input1 = document.getElementById("tipodoc");
         const input2 = document.getElementById("cedula");
