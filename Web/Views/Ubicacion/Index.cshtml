@@ -103,6 +103,8 @@
         var tabla = document.getElementById("tabla");
         var opf = @((int)ViewBag.bloques.Count);
         var opc = @((int)ViewBag.pisos.Count);
+        var fActuales = parseInt(tabla.rows.length - 1);
+        var cActuales = parseInt(tabla.rows[0].cells.length - 1);
 
         function habilitarBoton(){
             if (parseInt(nump.value) == opc && parseInt(numb.value) == opf) {
@@ -116,8 +118,6 @@
             btn.disable = true;
             var f = opf - parseInt(numb.value);
             var c = opc - parseInt(nump.value);
-            var fActuales = tabla.rows.length - 1;
-            var cActuales = tabla.rows[0].cells.length - 1;
 
             if (c > 0){
                 var nombres = [];
@@ -137,16 +137,16 @@
                     var aux = tabla.rows[0].cells[i];
                     if (aux.style.display == 'none'){
                         aux.style.display = 'table-cell';
+                        console.log(fActuales);
                         for (var j = 1; j <= fActuales; j++){
-                            tabla.rows[j].cells[i].style.display = 'table-cell';
-                            tabla.rows[j].cells[i].style.textAlign = 'center';
+                            var aux2 = tabla.rows[j].cells[i];
+                            aux2.style.display = 'table-cell';
+                            aux2.style.textAlign = 'center';
                         }
                         opc++;
                         nombres.push(opc);
                         c--;
-                        b = true;
                     }
-
                 }
                 
                 var estiloTh = {
@@ -162,12 +162,14 @@
 
                     tabla.rows[0].insertCell(opc).appendChild(nuevoTh);
                     for (var j = 1; j <= parseInt(numb.value); j++) {
-                        tabla.rows[j].insertCell(-1);
+                        tabla.rows[j].insertCell(j);
                         var checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
                         tabla.rows[j].cells[opc].appendChild(checkbox);
+                        tabla.rows[j].cells[opc].style.textAlign = 'center';
                     }
                     nombres.push(opc.toString());
+                    cActuales++;
                 }
                 crearPisosAjax(nombres);
             }
@@ -178,6 +180,7 @@
                     tabla.deleteRow(opf);
                     nombres.push(opf.toString());
                     opf--;
+                    fActuales--;
                 }
                 eliminarBloquesAjax(nombres);
             } else if (f < 0) {
@@ -191,13 +194,14 @@
                     tabla.rows[opf].cells[0].innerHTML = opf;
                     tabla.rows[opf].cells[0].style.textAlign = 'center';
                     for (var j = 1; j <= opc; j++) {
-                        tabla.rows[opf].insertCell(-1);
+                        tabla.rows[opf].insertCell(j);
                         var checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
                         tabla.rows[opf].cells[j].appendChild(checkbox);
                         tabla.rows[opf].cells[j].style.textAlign = 'center';
                     }
                     nombres.push(opf.toString());
+                    fActuales++;
                 }
                 crearBloquesAjax(nombres);
             }

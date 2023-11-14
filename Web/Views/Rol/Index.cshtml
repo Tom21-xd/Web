@@ -176,7 +176,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="mb-4" for="Estad">Estado del rol :</label>
-                            <select class="form-select" id="se1" name="select">
+                            <select class="form-select" id="seRol" name="select">
                                 <option>Activo</option>
                                 <option>inactivo</option>
                             </select>
@@ -209,12 +209,7 @@
                             <label class="mb-4" for="">permiso a agregar :</label>
 
                             <select class="form-select" id="se1" name="select">
-                                @*
-                                @foreach (PermisoModel per in ViewBag.permisos)
-                                {
-
-                                <option>@per.Nombre</option>
-                                }*@
+                                
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark">Agregar permiso al Rol</button>
@@ -322,6 +317,7 @@
                     c++;
                 }
             }
+
             for (let i = 0; i < per.length; i++) {
                 var b = 1;
                 for (let j = 0; j < aux.length; j++) {
@@ -336,7 +332,6 @@
                     sele.appendChild(option);
                 }
             }
-
         }
 
         function fillData(sele,data) {
