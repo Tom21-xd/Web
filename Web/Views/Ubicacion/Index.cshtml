@@ -42,7 +42,7 @@
 
             <label for="bloques">Bloques</label>
             <input id="numBloques" type="number" min="1" value="@ViewBag.bloques.Count">
-            <button id="botonGuardar" class="btn btn-primary" disabled>Guardar Cambios</button>
+            <button id="botonActualizar" class="btn btn-primary" disabled>Actualizar</button>
         </div>
 
         <div class="table-responsive mt-3">
@@ -82,7 +82,9 @@
                 </table>
             </div>
 
-
+            <div class="text-center mt-3">
+                <button id="botonGuardar" class="btn btn-success">Guardar</button>
+            </div>
 
         </div>
     </div>
@@ -99,7 +101,8 @@
     <script>
         var nump = document.getElementById("numPisos");
         var numb = document.getElementById("numBloques");
-        var btn = document.getElementById("botonGuardar");
+        var btn = document.getElementById("botonActualizar");
+        var btn2 = document.getElementById("botonGuardar");
         var tabla = document.getElementById("tabla");
         var opf = @((int)ViewBag.bloques.Count);
         var opc = @((int)ViewBag.pisos.Count);
@@ -113,6 +116,30 @@
                 btn.disabled = false;
             }
         }
+        /*
+        function guardarCambios() {
+            var pisos = [];
+            var bloques = [];
+            for (var i = 1; i <= opf; i++) {
+                for (var j = 1; j <= opc; j++) {
+                    var checkbox = tabla.rows[i].cells[j].querySelector('input[type="checkbox"]');
+                    var b = true;
+                    console.log(i + " " + j);
+                    for (var ubicacion in @ViewBag.ubicaciones) {
+                        if (ubicacion.Piso.Id == j && ubicacion.Bloque.Id == i) {
+                            b = false;
+                            ubicacion.Estado = checkbox.checked;
+                            break;
+                        }
+                    }
+                    if (b) {
+                        bloques.push(parseInt(i));
+                        pisos.push(parseInt(j));
+                    }
+                }
+            }
+            crearUbicacionesAjax(pisos, bloques);
+        }*/
 
         function actualizarTabla(){
             btn.disable = true;
@@ -133,20 +160,30 @@
                 var nombres = [];
                 c *= -1;
 
-                for (var i = 1; i <= cActuales && c > 0; i++){
-                    var aux = tabla.rows[0].cells[i];
-                    if (aux.style.display == 'none'){
+                if (opc <= cActuales && tabla.rows[0].cells[cActuales].style.display == 'none'){
+                    opc++;
+                    var n = opc;
+                    for (var i = n; i <= cActuales && c > 0; i++) {
+                        var aux = tabla.rows[0].cells[i];
                         aux.style.display = 'table-cell';
-                        console.log(fActuales);
-                        for (var j = 1; j <= fActuales; j++){
+                        for (var j = 1; j <= opf; j++) {
                             var aux2 = tabla.rows[j].cells[i];
-                            aux2.style.display = 'table-cell';
-                            aux2.style.textAlign = 'center';
+                            if (aux2) {
+                                aux2.style.display = 'table-cell';
+                                aux2.style.textAlign = 'center';
+                            } else {
+                                tabla.rows[j].insertCell(i);
+                                var checkbox = document.createElement("input");
+                                checkbox.type = "checkbox";
+                                tabla.rows[j].cells[i].appendChild(checkbox);
+                                tabla.rows[j].cells[i].style.textAlign = 'center';
+                            }
                         }
-                        opc++;
                         nombres.push(opc);
+                        opc++;
                         c--;
                     }
+                    opc--;
                 }
                 
                 var estiloTh = {
@@ -161,8 +198,8 @@
                     Object.assign(nuevoTh.style, estiloTh);
 
                     tabla.rows[0].insertCell(opc).appendChild(nuevoTh);
-                    for (var j = 1; j <= parseInt(numb.value); j++) {
-                        tabla.rows[j].insertCell(j);
+                    for (var j = 1; j <= opf; j++) {
+                        tabla.rows[j].insertCell(opc);
                         var checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
                         tabla.rows[j].cells[opc].appendChild(checkbox);
@@ -268,6 +305,22 @@
             });
         }
 
+        function crearUbicacionesAjax(pisos, bloques) {
+            $.ajax({
+                url: "@Url.Action("CrearUbicaciones", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { pisos: pisos, bloques: bloques },
+                success: function (result) {
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        //btn2.addEventListener('click', guardarCambios);
         btn.addEventListener('click', actualizarTabla);
         nump.addEventListener('input', habilitarBoton);
         numb.addEventListener('input', habilitarBoton);

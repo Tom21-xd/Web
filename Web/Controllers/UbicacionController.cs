@@ -36,10 +36,12 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Ubicacion");
         }
 
-        public ActionResult crearUbicacion(int piso, int bloque)
+        public ActionResult crearUbicaciones(int[] pisos, int[] bloques)
         {
-
-            cn.crearUbicacion(piso, bloque);
+            for (int i = 0; i < pisos.Length; i++)
+            {
+                cn.crearUbicacion(pisos[i], bloques[i]);
+            }
             return RedirectToAction("Index", "Ubicacion");
         }
 

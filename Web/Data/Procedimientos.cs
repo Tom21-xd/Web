@@ -379,7 +379,7 @@ namespace Web.Data{
             Conectar();
             try
             {
-                cmd = new MySqlCommand("obtenerPermisos", connection);
+                cmd = new MySqlCommand("obtenerUbicaciones", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
