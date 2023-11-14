@@ -20,6 +20,15 @@
         input {
             width: 100px;
         }
+
+        .lista {
+            padding: 0;
+        }
+
+        .gestion {
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 
@@ -43,7 +52,11 @@
                         <th style=" width:150px;" class="text-center">Bloque</th>
                         @foreach (PisoModel piso in ViewBag.pisos)
                         {
-                            <th style=" width:150px; text-align: center" class="text-center">Piso @piso.Id</th>
+                            <th style=" width:150px; text-align: center" class="text-center">Piso @cont</th>
+                            cont++;
+                        }
+                        @{
+                            cont = 1;
                         }
                     </thead>
 
@@ -88,85 +101,170 @@
         var numb = document.getElementById("numBloques");
         var btn = document.getElementById("botonGuardar");
         var tabla = document.getElementById("tabla");
+        var opf = @((int)ViewBag.bloques.Count);
+        var opc = @((int)ViewBag.pisos.Count);
 
         function habilitarBoton(){
-            if (parseInt(nump.value) == @((int)ViewBag.pisos.Count) && parseInt(numb.value) == @((int)ViewBag.bloques.Count)) {
+            if (parseInt(nump.value) == opc && parseInt(numb.value) == opf) {
                 btn.disabled = true;
             } else {
                 btn.disabled = false;
             }
         }
 
-        function insertarFilas(){
-            var numf = @((int)ViewBag.bloques.Count);
-            var numc = @((int)ViewBag.pisos.Count);
-            var f = numf - parseInt(numb.value);
-            var c = numc - parseInt(nump.value);
-            
-            var op = numc;
+        function actualizarTabla(){
+            btn.disable = true;
+            var f = opf - parseInt(numb.value);
+            var c = opc - parseInt(nump.value);
+            var fActuales = tabla.rows.length - 1;
+            var cActuales = tabla.rows[0].cells.length - 1;
+
             if (c > 0){
-                for (var i = 0; i < c; i++){
-                    window.location.href = "@Url.Action("eliminarPiso","Ubicacion")" + "?id=" + op;
-                    for (var j = 0; j <= parseInt(numb.value); j++){
-                        tabla.rows[j].cells[op].style.display = 'none';
+                var nombres = [];
+                for (var i = 0; i < c; i++) {
+                    for (var j = 0; j <= opf; j++) {
+                        tabla.rows[j].cells[opc].style.display = 'none';
                     }
-                    op--;
+                    nombres.push(opc.toString());
+                    opc--;
                 }
-            } else if (c < 0){
+                eliminarPisosAjax(nombres);
+            } else if (c < 0) {
+                var nombres = [];
                 c *= -1;
-                if (parseInt(nump.value) > numc){
-                    var estiloTh = {
-                        width: '150px'
-                    };
-                    for (var i = 0; i < c; i++) {
-                        window.location.href = "@Url.Action("crearPiso","Ubicacion")" + "?nombre=" + op.toString();
-                        var nuevoTh = document.createElement('th');
-                        nuevoTh.textContent = "Piso " + (op + 1);
-                        nuevoTh.classList.add('text-center');
 
-                        Object.assign(nuevoTh.style, estiloTh);
-
-                        tabla.rows[0].insertCell(op + 1).appendChild(nuevoTh);
-                        for (var j = 1; j <= parseInt(numb.value); j++) {
-                            tabla.rows[j].insertCell(-1);
-                            var checkbox = document.createElement("input");
-                            checkbox.type = "checkbox";
-                            tabla.rows[j].cells[op + 1].appendChild(checkbox);
+                for (var i = 1; i <= cActuales && c > 0; i++){
+                    var aux = tabla.rows[0].cells[i];
+                    if (aux.style.display == 'none'){
+                        aux.style.display = 'table-cell';
+                        for (var j = 1; j <= fActuales; j++){
+                            tabla.rows[j].cells[i].style.display = 'table-cell';
+                            tabla.rows[j].cells[i].style.textAlign = 'center';
                         }
-                        op++;
+                        opc++;
+                        nombres.push(opc);
+                        c--;
+                        b = true;
                     }
-                }
-            }
-            op = numf;
-            if (f > 0) {
-                for (var i = 0; i < f; i++) {
-                    window.location.href = "@Url.Action("eliminarBloque","Ubicacion")" + "?id=" + op;
-                    tabla.deleteRow(op);
-                    op--;
-                }
-            } else if (f < 0) {
-                f *= -1;
-                for (var i = 0; i < f; i++) {
-                    op++;
-                    window.location.href = "@Url.Action("crearBloque","Ubicacion")" + "?nombre=" + op.toString();
-                    tabla.insertRow();
 
-                    tabla.rows[op].insertCell(0);
-                    tabla.rows[op].cells[0].innerHTML = op;
-                    tabla.rows[op].cells[0].style.textAlign = 'center';
-                    for (var j = 1; j <= numc; j++){
-                        tabla.rows[op].insertCell(-1);
+                }
+                
+                var estiloTh = {
+                    width: '150px'
+                };
+                for (var i = 0; i < c; i++) {
+                    opc++;
+                    var nuevoTh = document.createElement('th');
+                    nuevoTh.textContent = "Piso " + (opc);
+                    nuevoTh.classList.add('text-center');
+
+                    Object.assign(nuevoTh.style, estiloTh);
+
+                    tabla.rows[0].insertCell(opc).appendChild(nuevoTh);
+                    for (var j = 1; j <= parseInt(numb.value); j++) {
+                        tabla.rows[j].insertCell(-1);
                         var checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
-                        tabla.rows[op].cells[j].appendChild(checkbox);
-                        tabla.rows[op].cells[j].style.textAlign = 'center';
+                        tabla.rows[j].cells[opc].appendChild(checkbox);
                     }
+                    nombres.push(opc.toString());
                 }
+                crearPisosAjax(nombres);
             }
 
+            if (f > 0) {
+                var nombres = [];
+                for (var i = 0; i < f; i++) {
+                    tabla.deleteRow(opf);
+                    nombres.push(opf.toString());
+                    opf--;
+                }
+                eliminarBloquesAjax(nombres);
+            } else if (f < 0) {
+                f *= -1;
+                var nombres = [];
+                for (var i = 0; i < f; i++) {
+                    opf++;
+                    tabla.insertRow();
+
+                    tabla.rows[opf].insertCell(0);
+                    tabla.rows[opf].cells[0].innerHTML = opf;
+                    tabla.rows[opf].cells[0].style.textAlign = 'center';
+                    for (var j = 1; j <= opc; j++) {
+                        tabla.rows[opf].insertCell(-1);
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        tabla.rows[opf].cells[j].appendChild(checkbox);
+                        tabla.rows[opf].cells[j].style.textAlign = 'center';
+                    }
+                    nombres.push(opf.toString());
+                }
+                crearBloquesAjax(nombres);
+            }
+            
         }
 
-        btn.addEventListener('click', insertarFilas);
+        function eliminarPisosAjax(nombres) {
+            $.ajax({
+                url: "@Url.Action("EliminarPisos", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { nombres: nombres },
+                success: function (result) {
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function crearPisosAjax(nombres) {
+            $.ajax({
+                url: "@Url.Action("CrearPisos", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { nombres: nombres },
+                success: function (result) {
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function eliminarBloquesAjax(nombres) {
+            $.ajax({
+                url: "@Url.Action("EliminarBloques", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { nombres: nombres },
+                success: function (result) {
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function crearBloquesAjax(nombres) {
+            $.ajax({
+                url: "@Url.Action("CrearBloques", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { nombres: nombres },
+                success: function (result) {
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        btn.addEventListener('click', actualizarTabla);
         nump.addEventListener('input', habilitarBoton);
         numb.addEventListener('input', habilitarBoton);
         

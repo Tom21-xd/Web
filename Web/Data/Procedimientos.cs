@@ -605,14 +605,14 @@ namespace Web.Data{
 
         }
 
-        public bool eliminarPiso(int id)
+        public bool eliminarPiso(string nombre)
         {
             Conectar();
             bool aux = true;
             try
             {
                 cmd = new MySqlCommand("eliminarPiso", connection);
-                cmd.Parameters.AddWithValue("id", id);
+                cmd.Parameters.AddWithValue("nombre", nombre);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -628,14 +628,14 @@ namespace Web.Data{
             return aux;
         }
 
-        public bool eliminarBloque(int id)
+        public bool eliminarBloque(string nombre)
         {
             Conectar();
             bool aux = true;
             try
             {
                 cmd = new MySqlCommand("eliminarBloque", connection);
-                cmd.Parameters.AddWithValue("id", id);
+                cmd.Parameters.AddWithValue("nombre", nombre);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
