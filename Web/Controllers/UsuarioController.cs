@@ -10,7 +10,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize (Roles = "gestionar usuarios")]
+    
     public class UsuarioController : Controller
     {
         private readonly IConverter _converter;
