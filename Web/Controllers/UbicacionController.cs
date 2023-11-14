@@ -16,19 +16,23 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult crearPiso(String nombre)
+        public ActionResult crearPisos(String[] nombres)
         {
-            cn.crearPiso(nombre);
+            foreach (var nombre in nombres)
+            {
+                cn.crearPiso(nombre);
+            }
             return RedirectToAction("Index", "Ubicacion");
         }
 
-
-        public ActionResult crearBloque(String nombre)
+        public ActionResult crearBloques(String[] nombres)
         {
-            cn.crearBloque(nombre);
+            foreach (var nombre in nombres)
+            {
+                cn.crearBloque(nombre);
+            }
             return RedirectToAction("Index", "Ubicacion");
         }
-
 
         public ActionResult crearUbicacion(int piso, int bloque)
         {
@@ -37,22 +41,28 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Ubicacion");
         }
 
-        public ActionResult eliminarPiso(int id)
+        public ActionResult eliminarPisos(string[] nombres)
         {
-            bool aux = cn.eliminarPiso(id);
-            if (!aux)
+            foreach (var nombre in nombres)
             {
-                ViewData["Mensaje"] = "Hubo un problema";
+                bool aux = cn.eliminarPiso(nombre);
+                if (!aux)
+                {
+                    ViewData["Mensaje"] = "Hubo un problema";
+                }
             }
             return RedirectToAction("Index", "Ubicacion");
         }
 
-        public ActionResult eliminarBloque(int id)
+        public ActionResult eliminarBloques(string[] nombres)
         {
-            bool aux = cn.eliminarBloque(id);
-            if (!aux)
+            foreach (var nombre in nombres)
             {
-                ViewData["Mensaje"] = "Hubo un problema";
+                bool aux = cn.eliminarBloque(nombre);
+                if (!aux)
+                {
+                    ViewData["Mensaje"] = "Hubo un problema";
+                }
             }
             return RedirectToAction("Index", "Ubicacion");
         }
