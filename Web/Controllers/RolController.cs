@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web.Data;
 using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "gestionar roles")]
     public class RolController : Controller
     {
         Procedimientos cn= new Procedimientos();

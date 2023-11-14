@@ -77,7 +77,10 @@
 
         </div>
         <div class="d-flex justify-content-between align-items-center  mt-3">
-            <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
+            @if (User.IsInRole("generar reportes"))
+            {
+                <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
+            }
             <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearUsuario" value="">
                 Agregar Nuevo Usuario
             </button>

@@ -7,6 +7,7 @@
     //var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
     var vista = ViewContext.RouteData.Values["action"].ToString();
     var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+    List<String> aux = new List<string>();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -26,30 +27,64 @@
             <ul class="gestion">
                 @if (vista == "Index")
                 {
-                    <li>
-                        <a href="@Url.Action("Index","Rol")">Roles</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Servicios")">Servicios</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Reservas")">Reservas</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Espacio")">Espacio</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Negocio")">Negocio</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Agenda")">Agenda</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Usuario")">Usuarios</a>
-                    </li>
+                    if (User.IsInRole("gestionar roles"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Rol")">Roles</a>
+                        </li>
+                        //aux.Add("Rol");
+                    }
+                    if (User.IsInRole("gestionar servicios"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Servicios")">Servicios</a>
+                        </li>
+                        //aux.Add("Servicios");
+
+                    }
+                    if (User.IsInRole("gestionar reservas"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Reservas")">Reservas</a>
+                        </li>
+                        //aux.Add("Reservas");
+                    }
+                    if (User.IsInRole("gestionar espacios"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Espacio")">Espacio</a>
+                        </li>
+                        //aux.Add("Espacio");
+                    }
+                    if (User.IsInRole("gestionar ubicacion"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
+                        </li>
+                        //aux.Add("Ubicacion");
+                    }
+                    if (User.IsInRole("gestionar negocio"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Negocio")">Negocio</a>
+                        </li>
+                       // aux.Add("Negocio");
+                    }
+                    if (User.IsInRole("gestionar agenda"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Agenda")">Agenda</a>
+                        </li>
+                       // aux.Add("Agenda");
+                    }
+                    if (User.IsInRole("gestionar usuarios"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Usuario")">Usuarios</a>
+                        </li>
+                       // aux.Add("Usuario");
+                    }
+                   
                 }
             </ul>
             <ul class="perfil-ul">
@@ -108,7 +143,7 @@
                         <span>Centro de ayuda</span>
                     </a>
                 </li>
-                @if(rol=="Admin" || rol == "Empleado")
+                @if (rol == "Admin" || rol == "Empleado")
                 {
                     <li>
                         <a href="@Url.Action("Index","Rol")">

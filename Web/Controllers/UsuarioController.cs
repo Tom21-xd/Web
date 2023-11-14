@@ -1,5 +1,6 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,6 +10,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize (Roles = "gestionar usuarios")]
     public class UsuarioController : Controller
     {
         private readonly IConverter _converter;

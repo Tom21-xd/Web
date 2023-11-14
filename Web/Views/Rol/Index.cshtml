@@ -240,7 +240,7 @@
                         <div class="mb-4">
                             <label class="mb-4" for="">permiso a eliminar :</label>
 
-                            <select class="form-select" id="se2" name="select">
+                            <select class="form-select" id="pereli" name="select">
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark">Eliminar permiso al Rol</button>
@@ -263,14 +263,15 @@
         const input5 = document.getElementById("input5");
         const p = document.getElementById("dios");
 
-        const sele1 = document.getElementById("se1");
-        const sele2 = document.getElementById("se2");
+        const sele = document.getElementById("estado");
+        const sele1 = document.getElementById("peragre");
+        const sele2 = document.getElementById("pereli");
 
         window.addEventListener("click", (e) => {
             let data = e.target.parentElement.parentElement.children;
 
             if (e.target.matches(".btn-primary")) {
-                fillData(sele1,data);
+                fillData(sele,data);
                 modal.classList.toggle("translate");
 
             }
@@ -327,8 +328,9 @@
                     }
                 }
                 if (b == 1){
-                    const option = document.createElement("option");
+                    const option = document.createElement('option');
                     option.textContent = per[i];
+                    console.log(option.textContent);
                     sele.appendChild(option);
                 }
             }
