@@ -13,34 +13,96 @@
     <title>Agenda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  
+    <style>
+        .lista {
+            padding: 0;
+        }
+
+        .gestion {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body style="background-color: rgb(207, 207, 207); ">
-    <div class="container" style="margin-top: 25px;padding: 5px; margin-left: 300px; width: 70%">
-        <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Usuario</h1>
-
-        <div>
-            <label for="Empleado" class="form-label">Empleado</label>
+    <div class="container" style="margin-top: 25px;padding: 5px; margin-left: 300px; width: 80%">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Agendas</h1>
+            </div>
+        </div>
+        
+        <div class="row align-items-center">
+            <div class="col ">
+                <h3 for="Empleado" class="form-label">Empleado</h3>
+                <div class="input-group mt-5">
+                    <select id="persona" class="form-select" data-show-subtext="true" data-live-search="true" onchange="mostrarNombre()">
+                        <option>Seleccione</option>
+                        @foreach(UsuarioModel usua in ViewBag.usua){
+                            if (usua.rol.Nombre == "Empleado")
+                            {
+                                <option value="@usua.persona.Nombre1 @usua.persona.Nombre2 @usua.persona.Apellido1 @usua.persona.Apellido2">@usua.persona.Id</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col align-self-end text-center">
+                <label id="nombre"></label>
+            </div>
+            <div class="col align-self-end">
+                <button class="btn btn-outline-success" type="button" id="button-addon2">Seleccionar</button>
+            </div>
         </div>
 
-        <div class="input-group mb-3" style="width: 50%">
-            <input type="text" class="form-control" list="lista" id="buscador" aria-label="Escribe algo" placeholder="Type to search...">
-            <datalist id="lista">
-            </datalist>
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="button-addon2" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Opción 1</a></li>
-                <li><a class="dropdown-item" href="#">Opción 2</a></li>
-                <li><a class="dropdown-item" href="#">Opción 3</a></li>
-            </ul>
+
+        <div class="table-responsive mt-5">
+            <div style="width:100%;">
+                <table id="tablax" class="table-bordered align-middle border-success mt-3">
+                    <thead>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Hora</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Reserva</th>
+                        <th class="text-center">Usuario</th>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td class="text-center">AAAAAAAA</td>
+                                <td class="text-center">AAAAAAAA</td>
+                                <td class="text-center">AAAAAAAA</td>
+                                <td class="text-center">AAAAAAAA</td>
+                                <td class="text-center">AAAAAAAA</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
-        <div>
-            <button class="btn btn-primary " type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda">
-                Programar Agenda
-            </button>
+
+
+      
+
+        <div class="row mt-5">
+            <div class="col">
+                <button class="btn btn-primary " type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda">
+                    Programar Agenda
+                </button>
+            </div>
+            
         </div>
     </div>
+
+    <script>
+        function mostrarNombre() {
+            var id = document.getElementById("persona").value;
+            var nombre = document.getElementById("nombre").textContent = id;
+        }
+    </script>
+    
 
     <div class="modal fade" tabindex="-1" id="programarAgenda" aria-labelledby="programarAgendaModal">
         <div class="modal-dialog modal-dialog-center">
@@ -131,9 +193,48 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_",
+                    info: "total de usuarios: _TOTAL_",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 300,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+            });
+        });
+
+    </script>
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 </html>

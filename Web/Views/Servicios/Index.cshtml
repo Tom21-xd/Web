@@ -4,5 +4,122 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<!doctype html>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestion de servicios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        .lista {
+            padding: 0;
+        }
+
+        .gestion {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+
+
+<body style="background-color: rgb(207, 207, 207);">
+
+    <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%;">
+        <h1 class="ml-3 mb-3" style="color:#255000;">Gestion de Servicio</h1>
+        <div class="row">
+            <div class="col">
+                <select class="form-select" id="">
+                    <option class="" value="">Seleccione</option>
+                </select>
+            </div>
+            <div class="col"></div>
+            <div class="col-3">
+            </div>
+        </div>
+        <div class="table-responsive">
+            <div style="width:1600px;">
+                <table id="tablax" class="table-bordered align-middle border-success mt-3">
+                    <thead>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Hora</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Reserva</th>
+                        <th class="text-center">Usuario</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Hola
+                            </td>
+                            <td>
+                                Hola
+                            </td>
+                            <td>
+                                Hola
+                            </td>
+                            <td>
+                                Hola
+                            </td>
+                            <td>
+                                Hola
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_",
+                    info: "total de usuarios: _TOTAL_",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 300,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

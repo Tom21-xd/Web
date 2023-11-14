@@ -32,21 +32,20 @@
             <div style="width:1600px;">
                 <table id="tablax" class="table-bordered align-middle border-success mt-3">
                     <thead>
-                    <th style=" width:150px;" class="text-center">Id</th>
-                    <th class="text-center" style="width:200px;">Tipo documento</th>
-                    <th class="text-center" style="width:130px;">Nombre 1</th>
-                    <th class="text-center" style="width:130px;">Nombre 2</th>
-                    <th class="text-center" style="width:130px;">Apellido 1</th>
-                    <th class="text-center" style="width:130px;">Apellido 2</th>
-                    <th class="text-center" style="width:200px;">Nombre de usuario</th>
-                    <th class="text-center" style="width:200px;">Correo</th>
-                    <th class="text-center" style="width:150px;">Fecha Nacimiento</th>
-                    <th class="text-center" style="width:130px;">Genero</th>
-                    <th class="text-center" style="width:200px;">Telefonos</th>
-                    <th class="text-center" style="width:100px;">Rol</th>
-                    <th class="text-center" style="width:100px;">Estado</th>
-                    <th class="text-center" style="width:100px;">Editar</th>
-
+                        <th style=" width:150px;" class="text-center">Id</th>
+                        <th class="text-center" style="width:200px;">Tipo documento</th>
+                        <th class="text-center" style="width:130px;">Nombre 1</th>
+                        <th class="text-center" style="width:130px;">Nombre 2</th>
+                        <th class="text-center" style="width:130px;">Apellido 1</th>
+                        <th class="text-center" style="width:130px;">Apellido 2</th>
+                        <th class="text-center" style="width:200px;">Nombre de usuario</th>
+                        <th class="text-center" style="width:200px;">Correo</th>
+                        <th class="text-center" style="width:150px;">Fecha Nacimiento</th>
+                        <th class="text-center" style="width:130px;">Genero</th>
+                        <th class="text-center" style="width:200px;">Telefonos</th>
+                        <th class="text-center" style="width:100px;">Rol</th>
+                        <th class="text-center" style="width:100px;">Estado</th>
+                        <th class="text-center" style="width:100px;">Editar</th>
                     </thead>
                     <tbody>
                         @foreach (UsuarioModel usua in ViewBag.usuarios)
@@ -120,7 +119,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-label">Nombre 2</label>
-                                    <input type="text" class="form-control" id="nombre2" name="nombre2" required>
+                                    <input type="text" class="form-control" id="nombre2" name="nombre2" >
                                 </div>
                             </div>
                             <div class="row mt-5">
@@ -130,7 +129,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-label">Apellido 2</label>
-                                    <input type="text" class="form-control" id="apellido2" name="apellido2" required>
+                                    <input type="text" class="form-control" id="apellido2" name="apellido2" >
                                 </div>
                             </div>
                             <div class="row mt-5">
@@ -183,7 +182,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-label">Segundo telefono</label>
-                                    <input type="text" class="form-control" id="telefono1" name="telefono1" required>
+                                    <input type="text" class="form-control" id="telefono1" name="telefono1" >
                                 </div>
                             </div>
 
