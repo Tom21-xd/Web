@@ -176,7 +176,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="mb-4" for="Estad">Estado del rol :</label>
-                            <select class="form-select" id="se1" name="select">
+                            <select class="form-select" id="estado" name="select">
                                 <option>Activo</option>
                                 <option>inactivo</option>
                             </select>
@@ -208,13 +208,8 @@
                         <div class="mb-4">
                             <label class="mb-4" for="">permiso a agregar :</label>
 
-                            <select class="form-select" id="se1" name="select">
-                                @*
-                                @foreach (PermisoModel per in ViewBag.permisos)
-                                {
+                            <select class="form-select" id="peragre" name="select">
 
-                                <option>@per.Nombre</option>
-                                }*@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark">Agregar permiso al Rol</button>
@@ -245,7 +240,7 @@
                         <div class="mb-4">
                             <label class="mb-4" for="">permiso a eliminar :</label>
 
-                            <select class="form-select" id="se2" name="select">
+                            <select class="form-select" id="pereli" name="select">
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark">Eliminar permiso al Rol</button>
@@ -268,14 +263,15 @@
         const input5 = document.getElementById("input5");
         const p = document.getElementById("dios");
 
-        const sele1 = document.getElementById("se1");
-        const sele2 = document.getElementById("se2");
+        const sele = document.getElementById("estado");
+        const sele1 = document.getElementById("peragre");
+        const sele2 = document.getElementById("pereli");
 
         window.addEventListener("click", (e) => {
             let data = e.target.parentElement.parentElement.children;
 
             if (e.target.matches(".btn-primary")) {
-                fillData(sele1,data);
+                fillData(sele,data);
                 modal.classList.toggle("translate");
 
             }
@@ -331,8 +327,9 @@
                     }
                 }
                 if (b == 1){
-                    const option = document.createElement("option");
+                    const option = document.createElement('option');
                     option.textContent = per[i];
+                    console.log(option.textContent);
                     sele.appendChild(option);
                 }
             }
