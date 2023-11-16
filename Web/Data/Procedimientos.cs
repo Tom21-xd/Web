@@ -584,16 +584,15 @@ namespace Web.Data{
             }
         }
 
-        public void crearEspacio(String nombre, bool estado, String descripcion, int ubicacion)
+        public void crearEspacio(String nombre, String descripcion, int ubicacion)
         {
             Conectar();
             try
             {
                 cmd = new MySqlCommand("crearEspacio", connection);
                 cmd.Parameters.AddWithValue("nombre", nombre);
-                cmd.Parameters.AddWithValue("estado", estado);
                 cmd.Parameters.AddWithValue("descripcion", descripcion);
-                cmd.Parameters.AddWithValue("ubicacion", ubicacion);
+                cmd.Parameters.AddWithValue("id_ubicacion", ubicacion);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -651,6 +650,30 @@ namespace Web.Data{
                 aux = false;
             }
             return aux;
+        }
+
+        public void editarEspacio(int id, String nombre, bool estado, String descripcion, int id_ubicacion)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("editarEspacio", connection);
+                cmd.Parameters.AddWithValue("id", id);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.Parameters.AddWithValue("estado", estado);
+                cmd.Parameters.AddWithValue("descripcion", descripcion);
+                cmd.Parameters.AddWithValue("id_ubicacion", id_ubicacion);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
         }
 
         public bool EliminarRol(int id)
@@ -734,6 +757,29 @@ namespace Web.Data{
             {
                 cmd = new MySqlCommand("eliminarBloque", connection);
                 cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
+        public bool eliminarEspacio(int id)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("eliminarEspacio", connection);
+                cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
