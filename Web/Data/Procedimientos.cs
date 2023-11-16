@@ -835,5 +835,35 @@ namespace Web.Data{
 
         }
 
+        public bool agregarparametros(ProgramacionAgendaModel pagenda,int cedula)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("crearProgramacionAgenda", connection);
+                cmd.Parameters.AddWithValue("intervalo", pagenda.Duracion);
+                cmd.Parameters.AddWithValue("fechainicio", pagenda.FechaInicio);
+                cmd.Parameters.AddWithValue("fechafin", pagenda.FechaFin);
+                cmd.Parameters.AddWithValue("dias", pagenda.Dias);
+                cmd.Parameters.AddWithValue("horainicio", pagenda.HoraInicio);
+                cmd.Parameters.AddWithValue("horafin", pagenda.HoraFin);
+                cmd.Parameters.AddWithValue("horario", "AM");
+                cmd.Parameters.AddWithValue("cedula", cedula);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
     }
 }

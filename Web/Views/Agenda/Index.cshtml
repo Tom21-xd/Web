@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿ @using Microsoft.AspNetCore.Identity;
 
 @{
     ViewData["Title"] = "Index";
@@ -38,7 +38,7 @@
             <div class="col ">
                 <h3 for="Empleado" class="form-label">Empleado</h3>
                 <div class="input-group mt-5">
-                    <select id="persona" class="form-select" data-show-subtext="true" data-live-search="true" onchange="mostrarNombre()">
+                    <select id="persona" class="form-select" data-show-subtext="true" data-live-search="true" onchange="mostrarNombre()" name="cedula" >
                         <option>Seleccione</option>
                         @foreach(UsuarioModel usua in ViewBag.usua){
                             if (usua.rol.Nombre == "Empleado")
@@ -51,9 +51,6 @@
             </div>
             <div class="col align-self-end text-center">
                 <label id="nombre"></label>
-            </div>
-            <div class="col align-self-end">
-                <button class="btn btn-outline-success" type="button" id="button-addon2">Seleccionar</button>
             </div>
         </div>
 
@@ -85,21 +82,13 @@
 
         <div class="row mt-5">
             <div class="col">
-                <button class="btn btn-primary " type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda">
+                <button class="btn btn-primary " id="programar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda" disabled onclick="agregar()">
                     Programar Agenda
                 </button>
             </div>
             
         </div>
     </div>
-
-    <script>
-        function mostrarNombre() {
-            var id = document.getElementById("persona").value;
-            var nombre = document.getElementById("nombre").textContent = id;
-        }
-    </script>
-    
 
     <div class="modal fade" tabindex="-1" id="programarAgenda" aria-labelledby="programarAgendaModal">
         <div class="modal-dialog modal-dialog-center">
@@ -110,86 +99,114 @@
                 </div>
 
                 <div class="modal-body">
-                    <div>
+                    <form action="@Url.Action("agregarParametros","Agenda")" method="post">
+                        <input class="form-control" type="text" name="cedula"  id="cedula" hidden>
+                        <div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <label class="form-label">Fecha Inicio</label>
+                                    <input class="form-control" type="date" required name="fechaInicio">
+                                </div>
+
+                                <div class="col">
+                                    <label class="form-label">Fecha Fin</label>
+                                    <input class="form-control" type="date" required name="fechaFin">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <label class="form-label">Hora Inicio</label>
+                                    <input class="form-control" type="time" required name="horaInicio">
+                                </div>
+
+                                <div class="col">
+                                    <label class="form-label">Hora Fin</label>
+                                    <input class="form-control" type="time" required name="horaFin">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <label class="form-label">Duracion</label>
+                                    <input class="form-control" type="number" required name="duracion">
+                                </div>
+
+                                <div class="col">
+                                    <label class="form-label">Trabajar festivos</label>
+                                    <select class="form-select form-select-sm" aria-label="festivo">
+                                        <option selected>Si</option>
+                                        <option>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mt-3">
-                            <div class="col">
-                                <label class="form-label">Fecha Inicio</label>
-                                <input class="form-control" type="date" required name="fechaInicio">
+                            <div class="col text-center">
+                                <label class="form-label">L</label>
+                                <input class="form-check-input" type="checkbox" value="L" id="L" name="L">
                             </div>
-
-                            <div class="col">
-                                <label class="form-label">Fecha Fin</label>
-                                <input class="form-control" type="date" required name="fechaFin">
+                            <div class="col text-center">
+                                <label class="form-label">M</label>
+                                <input class="form-check-input" type="checkbox" value="M" id="M" name="M">
                             </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label class="form-label">Hora Inicio</label>
-                                <input class="form-control" type="time" required name="horaInicio">
+                            <div class="col text-center">
+                                <label class="form-label">X</label>
+                                <input class="form-check-input" type="checkbox" value="X" id="X" name="X">
                             </div>
-
-                            <div class="col">
-                                <label class="form-label">Hora Fin</label>
-                                <input class="form-control" type="time" required name="horaFin">
+                            <div class="col text-center">
+                                <label class="form-label">J</label>
+                                <input class="form-check-input" type="checkbox" value="J" id="J" name="J">
                             </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label class="form-label">Duracion</label>
-                                <input class="form-control" type="time" required name="duracion">
+                            <div class="col text-center">
+                                <label class="form-label">V</label>
+                                <input class="form-check-input" type="checkbox" value="V" id="V" name="V">
                             </div>
-
-                            <div class="col">
-                                <label class="form-label">Trabajar festivos</label>
-                                <select class="form-select form-select-sm" aria-label="festivo">
-                                    <option selected>Si</option>
-                                    <option value="1">No</option>
-                                </select>
+                            <div class="col text-center">
+                                <label class="form-label">S</label>
+                                <input class="form-check-input" type="checkbox" value="S" id="S" name="S">
+                            </div>
+                            <div class="col text-center">
+                                <label class="form-label">D</label>
+                                <input class="form-check-input" type="checkbox" value="D" id="D" name="D">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row mt-3">
-                        <div class="col text-center">
-                            <label class="form-label">L</label>
-                            <input class="form-check-input" type="checkbox" value="" id="L">
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-success">Guardar</button>
                         </div>
-                        <div class="col text-center">
-                            <label class="form-label">M</label>
-                            <input class="form-check-input" type="checkbox" value="" id="M">
-                        </div>
-                        <div class="col text-center">
-                            <label class="form-label">M</label>
-                            <input class="form-check-input" type="checkbox" value="" id="X">
-                        </div>
-                        <div class="col text-center">
-                            <label class="form-label">J</label>
-                            <input class="form-check-input" type="checkbox" value="" id="J">
-                        </div>
-                        <div class="col text-center">
-                            <label class="form-label">V</label>
-                            <input class="form-check-input" type="checkbox" value="" id="V">
-                        </div>
-                        <div class="col text-center">
-                            <label class="form-label">S</label>
-                            <input class="form-check-input" type="checkbox" value="" id="S">
-                        </div>
-                        <div class="col text-center">
-                            <label class="form-label">D</label>
-                            <input class="form-check-input" type="checkbox" value="" id="D">
-                        </div>
-                    </div>
-
-                    <div class="mt-3">
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
+                    </form>
+                    
 
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const se = document.getElementById("persona");
+        const bo = document.getElementById("programar");
+
+        const cd = document.getElementById("cedula");
+
+        function mostrarNombre() {
+            var id = document.getElementById("persona").value;
+            var nombre = document.getElementById("nombre").textContent = id;
+            if (se.value != "Seleccione") {
+                bo.disabled = false;
+
+            } else {
+                bo.disabled = true;
+            }
+        }
+
+        function agregar(){
+            var selectedValue = se.options[se.selectedIndex].text;
+            cd.value = selectedValue;
+        }
+
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous">
     </script>
