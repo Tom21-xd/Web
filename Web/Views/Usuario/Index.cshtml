@@ -160,7 +160,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="" class="form-label">Rol</label>
-                                    <select class="form-select" aria-label="Default select example" name="rol" id="rol" required>
+                                    <select class="form-select" aria-label="Default select example" name="rol" id="rol" required onchange="emp()">
                                         @foreach (RolModel r in @ViewBag.r)
                                         {
                                             <option>@r.Nombre</option>
@@ -178,7 +178,7 @@
                                     <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
                                 </div>
                             </div>
-                            <div class="row mt-5 mb-5">
+                            <div class="row mt-5">
                                 <div class="col">
                                     <label for="" class="form-label">Telefono</label>
                                     <input type="text" class="form-control" id="telefono" name="telefono" required>
@@ -187,6 +187,16 @@
                                     <label for="" class="form-label">Segundo telefono</label>
                                     <input type="text" class="form-control" id="telefono1" name="telefono1" >
                                 </div>
+                            </div>
+                            <div class="row mt-5 mb-5" hidden id="serv">
+                                <label>Servicio designado</label>
+                                <select class="form-select" aria-label="Default select example" name="servicio" id="servicio">
+                                    <option>Sin servicio</option>
+                                    @foreach (ServicioModel servi in @ViewBag.ser)
+                                    {
+                                        <option>@servi.Nombre</option>
+                                    }
+                                </select>
                             </div>
 
                         </form>
@@ -272,7 +282,8 @@
                                     <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" required>
                                 </div>
                             </div>
-                            <div class="row mt-5 mb-5">
+                            
+                            <div class ="row mt-5">
                                 <div class="col">
                                     <label for="" class="form-label">Telefono</label>
                                     <input type="text" class="form-control" id="telefono" name="telefono" required>
@@ -324,6 +335,7 @@
         const input12 = document.getElementById("correo");
         const input13 = document.getElementById("telefono");
         const input14 = document.getElementById("telefono1");
+        const input15 = document.getElementById("serv");
 
         window.addEventListener("click", (e) => {
             let data = e.target.parentElement.parentElement.children;
@@ -352,6 +364,13 @@
                 seleccionar(input8, data[12].textContent);
                 seleccionar(input9, data[9].textContent);
                 seleccionar(input10, data[11].textContent);
+                if (input10.value == "Empleado") {
+                    input15.removeAttribute("hidden");
+
+                }else{
+                    input15.setAttribute("hidden", "true");
+                }
+                seleccionar
                 input11.value = data[6].textContent;
                 input12.value = data[7].textContent;
                 let aux = data[10].textContent.split("-");
@@ -372,6 +391,8 @@
                 }
             }
         };
+
+
 
     </script>
 

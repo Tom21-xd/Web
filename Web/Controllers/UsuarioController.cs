@@ -23,6 +23,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.ser = cn.obtenerservicios();
             ViewBag.usuarios=cn.obtenerUsuarios();
             ViewBag.lt = cn.Listar("LISTARTIPODOC");
             ViewBag.lg = cn.Listar("LISTARGEN");
@@ -54,6 +55,14 @@ namespace Web.Controllers
             };
             usuario.Estado = ((Request.Form["estado"] == "Activo") ? true : false);
             usuario.persona = persona;
+            if (usuario.rol.Nombre == "Empleado" && Request.Form["servicio"]!= "Sin servicio")
+            {
+                usuario.servicio = new ServicioModel()
+                {
+                    Nombre = Request.Form["servicio"]
+                };
+            }
+            
             bool aux=cn.ActualizarUsuario(usuario);
             if (!aux)
             {

@@ -159,6 +159,7 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("nombreusuario", usuario.Nombre);
                 cmd.Parameters.AddWithValue("correo", usuario.Correo);
                 cmd.Parameters.AddWithValue("telefono", usuario.persona.Telefono);
+                cmd.Parameters.AddWithValue("servicio", (object)usuario.servicio?.Nombre ?? DBNull.Value);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -747,5 +748,92 @@ namespace Web.Data{
             }
             return aux;
         }
+
+        public List<ServicioModel> obtenerservicios()
+        {
+            List<ServicioModel> aux= new List<ServicioModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerServicios", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    aux.Add(new ServicioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0] + ""),
+                        Estado = ((dr[1] + "" == "1") ? true : false),
+                        Nombre= dr[2]+"",
+                        valor = Convert.ToSingle(dr[3]+""),
+                        descripcion = dr[4]+""
+                    }) ;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
+        public bool editarservicio(ServicioModel servicio)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("editarServicio", connection);
+                cmd.Parameters.AddWithValue("ids", servicio.Id);
+                cmd.Parameters.AddWithValue("nombre", servicio.Nombre);
+                cmd.Parameters.AddWithValue("valor", servicio.valor);
+                cmd.Parameters.AddWithValue("descripcion",servicio.descripcion);
+                cmd.Parameters.AddWithValue("est", servicio.Estado);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+
+        }
+
+        public bool crearservicio(ServicioModel servicio)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("crearServicio", connection);
+                cmd.Parameters.AddWithValue("nombre", servicio.Nombre);
+                cmd.Parameters.AddWithValue("valor", servicio.valor);
+                cmd.Parameters.AddWithValue("descripcion", servicio.descripcion);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+
+        }
+
     }
 }

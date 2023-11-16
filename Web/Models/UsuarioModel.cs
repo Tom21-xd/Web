@@ -9,6 +9,7 @@
         public bool Estado { get; set;}
         public PersonaModel?persona { get; set; }
         public RolModel rol { get; set; }
+        public ServicioModel servicio { get; set; }
         
     }
 }

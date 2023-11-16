@@ -34,20 +34,33 @@
         <h1 class="ml-3 mb-3" style="color:#255000;">Gestion de Servicio</h1>
 
         <div class="table-responsive">
-            <div style="width:1600px;">
+            <div style="width:100%;">
                 <table id="tablax" class="table-bordered align-middle border-success mt-3">
                     <thead>
-                    <th style=" width:50px;" class="text-center">Id</th>
-                    <th class="text-center" style="width:150px;">Nombre servicio</th>
-                    <th class="text-center" style="width:100px;">Valor</th>
-                    <th class="text-center" style="width:250px;">Descripcion</th>
-                    <th class="text-center" style="width:150px;">Estado</th>
-                    <th class="text-center" style="width:150px;">Tipo servicio</th>
-                    <th class="text-center" style="width:250px;">Encargados</th>
-                    <th class="text-center" style="width:75px;">Editar</th>
+                    <th class="text-center">Id</th>
+                    <th class="text-center" >Nombre servicio</th>
+                    <th class="text-center" >Valor</th>
+                    <th class="text-center" >Descripcion</th>
+                    <th class="text-center" >Estado</th>
+                    <th class="text-center" >Editar</th>
                     </thead>
                     <tbody>
-                        
+                        @foreach(ServicioModel ser in ViewBag.servicio)
+                        {
+                            <tr>
+                                <td class="text-center">@ser.Id</td>
+                                <td class="text-center">@ser.Nombre</td>
+                                <td class="text-center">@ser.valor</td>
+                                <td class="text-center">@ser.descripcion</td>
+                                <td class="text-center">@((ser.Estado)?"Activo":"Inactivo")</td>
+                                <td class="text-center">
+                                    <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editarservicio" value="">
+                                        edit
+                                    </button>
+                                   
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -64,39 +77,89 @@
 
         </div>
 
-        <div class="modal fade" id="crearservicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
+        <div class="modal fade" id="editarservicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
             <div class="modal-dialog  modal-lg modal-dialog-scrollable">
                 <div class="modal-content bg">
                     <div class="modal-header">
                         <h5 class="modal-title fs-5 text-center" id="staticBackdropLabel">
-                            Crear Servicio
+                            Editar Servicio
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <form id="crear" action="@Url.Action("crearservicio","Usuario")" method="post" clss="needs-validation">
+                            <form id="edit" action="@Url.Action("editarservicio","Servicios")" method="post" clss="needs-validation">
                                 <div class="row">
                                     <div class="col">
+                                        <label for="" class="form-label">Id</label>
+                                        <input type="number" class="form-control" id="ids" min="0" name="ids" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="" class="form-label">Estado</label>
+                                        <select class="form-select" id="seservi" name="seservi">
+                                            <option>Activo</option>
+                                            <option>Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col">
                                         <label for="" class="form-label">Nombre</label>
-                                        <input type="number" class="form-control" id="nombreser" min="0" name="nombreser" required>
+                                        <input type="text" class="form-control" id="nombreser"  name="nombreser" required>
                                     </div>
                                     <div class="col">
                                         <label for="" class="form-label">Valor</label>
-                                        <input type="text" class="form-control" id="valor" name="valor" required>
+                                        <input type="number" class="form-control" id="valor" name="valor" required>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <label for="" class="form-label">Tipo servicio</label>
-                                    <select class="form-select" aria-label="Default select example" name="tiposervicio" id="tiposervicio" required>
-                                    </select>
                                 </div>
                                 <div class="row mt-5 mb-5">
                                     <div class="col">
                                         <label for="" class="form-label">Descripcion</label>
-                                        <input type="text" class="form-control" id="nombre2" name="nombre2">
+                                        <textarea class="form-control" id="desc" name="desc"></textarea>
                                     </div>
-                                </div>                               
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" form="edit" class="btn btn-success">Confirmar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="crearservicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-scrollable">
+                <div class="modal-content bg">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5 text-center" id="staticBackdropLabel">
+                            Creacion de servicio
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <form id="crear" action="@Url.Action("crearservicio","Servicios")" method="post" clss="needs-validation">
+                                <div class="row">
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col">
+                                        <label for="" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombreser" name="nombreser" required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="" class="form-label">Valor</label>
+                                        <input type="number" class="form-control" id="valor" name="valor" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-5 mb-5">
+                                    <div class="col">
+                                        <label for="" class="form-label">Descripcion</label>
+                                        <textarea class="form-control" id="desc" name="desc"></textarea>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -110,7 +173,6 @@
         </div>
 
 
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="  crossorigin="anonymous"></script>
@@ -118,6 +180,32 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
+
+    <script>
+        const input = document.getElementById("ids");
+        const input1 = document.getElementById("nombreser");
+        const input2 = document.getElementById("valor");
+        const input3 = document.getElementById("desc");
+        const input4 = document.getElementById("seservi");
+
+        window.addEventListener("click", (e) => {
+            let data = e.target.parentElement.parentElement.children;
+            if (e.target.matches(".btn-primary")) {
+                input.value = data[0].textContent;
+                input1.value = data[1].textContent;
+                input2.value = data[2].textContent;
+                input3.value = data[3].textContent;
+                let opc = input4.options;
+                for (let i = 0; i < opc.length; i++) {
+                    if (opc[i].textContent == data[4].textContent) {
+                        opc[i].selected = true;
+                    }
+                }
+            }
+
+        });
+
+    </script>
 
     <script>
         $(document).ready(function () {
