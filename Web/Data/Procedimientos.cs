@@ -387,6 +387,77 @@ namespace Web.Data{
                     a.Add(new UbicacionModel()
                     {
                         Id = Convert.ToInt32(dr[0].ToString()),
+                        Piso = Convert.ToInt32(dr[1].ToString()),
+                        Bloque = Convert.ToInt32(dr[2].ToString()),
+                        Estado = (((dr[3] + "") == "1") ? true : false)
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public UbicacionModel obtenerUbicacion(int id)
+        {
+            UbicacionModel a = new UbicacionModel();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerUbicacion", connection);
+                cmd.Parameters.AddWithValue("id", id);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a = (new UbicacionModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Piso = Convert.ToInt32(dr[1].ToString()),
+                        Bloque = Convert.ToInt32(dr[2].ToString()),
+                        Estado = (((dr[3] + "") == "1") ? true : false)
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<EspacioModel> obtenerEspacios()
+        {
+            List<EspacioModel> a = new List<EspacioModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerEspacios", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new EspacioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Nombre = dr[1].ToString(),
+                        Estado = (((dr[2] + "") == "1") ? true : false),
+                        Descripcion = dr[3].ToString(),
+                        Ubicacion = obtenerUbicacion(Convert.ToInt32(dr[4]))
                     });
                 }
 
@@ -490,7 +561,7 @@ namespace Web.Data{
             }
         }
 
-        public void crearUbicacion(int piso, int bloque)
+        public void crearUbicacion(int piso, int bloque, bool estado)
         {
             Conectar();
             try
@@ -498,6 +569,30 @@ namespace Web.Data{
                 cmd = new MySqlCommand("crearUbicacion", connection);
                 cmd.Parameters.AddWithValue("id_piso", piso);
                 cmd.Parameters.AddWithValue("id_bloque", bloque);
+                cmd.Parameters.AddWithValue("estado", estado);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void crearEspacio(String nombre, bool estado, String descripcion, int ubicacion)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearEspacio", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.Parameters.AddWithValue("estado", estado);
+                cmd.Parameters.AddWithValue("descripcion", descripcion);
+                cmd.Parameters.AddWithValue("ubicacion", ubicacion);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -533,14 +628,14 @@ namespace Web.Data{
             }
         }
 
-        public void editarUbicacion(int id_piso, int id_bloque, bool estado)
+        public bool editarUbicacion(int id, bool estado)
         {
             Conectar();
+            bool aux = true;
             try
             {
-                cmd = new MySqlCommand("EditarRol", connection);
-                cmd.Parameters.AddWithValue("id_piso", id_piso);
-                cmd.Parameters.AddWithValue("id_bloque", id_bloque);
+                cmd = new MySqlCommand("editarUbicacion", connection);
+                cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("estado", estado);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
@@ -552,7 +647,9 @@ namespace Web.Data{
             finally
             {
                 Desconectar();
+                aux = false;
             }
+            return aux;
         }
 
         public bool EliminarRol(int id)

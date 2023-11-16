@@ -3,8 +3,8 @@
     public class UbicacionModel
     {
         public int Id { get; set; }
-        public PisoModel? Piso { get; set; }
-        public BloqueModel? Bloque { get; set; }
+        public int Piso { get; set; }
+        public int Bloque { get; set; }
         public bool Estado { get; set; }
     }
 }

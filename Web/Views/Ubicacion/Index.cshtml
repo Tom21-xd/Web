@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var cont = 1;
+    var col = 1;
+    bool bandera = true;
 
 }
 
@@ -69,8 +71,27 @@
                                 @foreach (PisoModel piso in ViewBag.pisos)
                                 {
                                     <td class="text-center">
-                                        <input class="text-center" type="checkbox">
+                                        
+                                        @foreach (UbicacionModel ubi in ViewBag.ubicaciones)
+                                        {
+                                            @if (@ubi.Bloque == @cont && @ubi.Piso == @col && @ubi.Estado)
+                                            {
+                                                <input class="text-center" type="checkbox" checked>
+                                                bandera = false;
+                                                break;
+                                            }
+                                        }
+                                        @if (@bandera){
+                                            <input class="text-center" type="checkbox">
+                                        }
+                                        @{
+                                            bandera = true;
+                                        }
                                     </td>
+                                    col++;
+                                }
+                                @{
+                                    col = 1;
                                 }
                             </tr>
                             cont++;
@@ -81,11 +102,10 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <div class="text-center mt-3">
-                <button id="botonGuardar" class="btn btn-success">Guardar</button>
-            </div>
-
+        <div class="text-center mt-3">
+            <button id="botonGuardar" class="btn btn-success">Guardar</button>
         </div>
     </div>
 
@@ -116,30 +136,40 @@
                 btn.disabled = false;
             }
         }
-        /*
+        
         function guardarCambios() {
             var pisos = [];
             var bloques = [];
+            var estados = [];
+            var ubicaciones = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ubicaciones));
+            var id = [];
+            var est = [];
+
             for (var i = 1; i <= opf; i++) {
                 for (var j = 1; j <= opc; j++) {
                     var checkbox = tabla.rows[i].cells[j].querySelector('input[type="checkbox"]');
                     var b = true;
-                    console.log(i + " " + j);
-                    for (var ubicacion in @ViewBag.ubicaciones) {
-                        if (ubicacion.Piso.Id == j && ubicacion.Bloque.Id == i) {
+                    for (var k = 0; k < ubicaciones.length; k++) {
+                        var ubi = ubicaciones[k];
+                        if (ubi.Piso == j && ubi.Bloque == i) {
                             b = false;
-                            ubicacion.Estado = checkbox.checked;
+                            id.push(parseInt(ubi.Id));
+                            est.push(checkbox.checked);
+                            
                             break;
                         }
                     }
                     if (b) {
                         bloques.push(parseInt(i));
                         pisos.push(parseInt(j));
+                        estados.push(checkbox.checked);
                     }
                 }
             }
-            crearUbicacionesAjax(pisos, bloques);
-        }*/
+            console.log(id);
+            crearUbicacionesAjax(pisos, bloques, estados);
+            editarUbicacionesAjax(id, est);
+        }
 
         function actualizarTabla(){
             btn.disable = true;
@@ -305,12 +335,12 @@
             });
         }
 
-        function crearUbicacionesAjax(pisos, bloques) {
+        function crearUbicacionesAjax(pisos, bloques, estados) {
             $.ajax({
                 url: "@Url.Action("CrearUbicaciones", "Ubicacion")",
                 type: "POST",
                 traditional: true,
-                data: { pisos: pisos, bloques: bloques },
+                data: { pisos: pisos, bloques: bloques , estados: estados},
                 success: function (result) {
 
                 },
@@ -320,7 +350,22 @@
             });
         }
 
-        //btn2.addEventListener('click', guardarCambios);
+        function editarUbicacionesAjax(id, estados) {
+            $.ajax({
+                url: "@Url.Action("editarUbicaciones", "Ubicacion")",
+                type: "POST",
+                traditional: true,
+                data: { id: id, estados: estados },
+                success: function (result) {
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        btn2.addEventListener('click', guardarCambios);
         btn.addEventListener('click', actualizarTabla);
         nump.addEventListener('input', habilitarBoton);
         numb.addEventListener('input', habilitarBoton);
