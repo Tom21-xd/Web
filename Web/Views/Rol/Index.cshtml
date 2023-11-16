@@ -62,16 +62,16 @@
                         </td>
                         <td class="text-center" style="border-color:black;">
                             <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#agpermisos">
-                                Añadir Permiso
+                                +
                             </button>
                             <p></p>
                             <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#elimpermisos">
-                                Eliminar permiso
+                                -
                             </button>
                         </td>
                         <td class="text-center" style="border-color:black;">
                             <button type="button" id="@rol.Id" class="btn btn-primary mt-3 mb-3" id="edit" data-bs-toggle="modal" data-bs-target="#EditarRol" value="@rol.Id">
-                                Editar Rol
+                                edit
                             </button>
                         </td>
                     </tr>
@@ -268,7 +268,7 @@
 
         window.addEventListener("click", (e) => {
             let data = e.target.parentElement.parentElement.children;
-
+            console.log(data);
             if (e.target.matches(".btn-primary")) {
                 fillData(sele, data);
                 modal.classList.toggle("translate");
