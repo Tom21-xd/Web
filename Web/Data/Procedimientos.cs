@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Transactions;
 using Web.Models;
 
 namespace Web.Data{
@@ -881,7 +882,7 @@ namespace Web.Data{
 
         }
 
-        public bool agregarparametros(ProgramacionAgendaModel pagenda,int cedula)
+        public bool agregarParametros(ProgramacionAgendaModel pagenda,int cedula)
         {
             Conectar();
             bool aux = true;
@@ -891,13 +892,20 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("intervalo", pagenda.Duracion);
                 cmd.Parameters.AddWithValue("fechainicio", pagenda.FechaInicio);
                 cmd.Parameters.AddWithValue("fechafin", pagenda.FechaFin);
-                cmd.Parameters.AddWithValue("dias", pagenda.Dias);
                 cmd.Parameters.AddWithValue("horainicio", pagenda.HoraInicio);
                 cmd.Parameters.AddWithValue("horafin", pagenda.HoraFin);
                 cmd.Parameters.AddWithValue("horario", "AM");
+                cmd.Parameters.AddWithValue("lunes", ((pagenda.lunes)?1:0));
+                cmd.Parameters.AddWithValue("martes", ((pagenda.martes) ? 1 : 0));
+                cmd.Parameters.AddWithValue("miercoles", ((pagenda.miercoles) ? 1 : 0));
+                cmd.Parameters.AddWithValue("jueves", ((pagenda.jueves) ? 1 : 0));
+                cmd.Parameters.AddWithValue("viernes", ((pagenda.viernes) ? 1 : 0));
+                cmd.Parameters.AddWithValue("sabado", ((pagenda.sabado) ? 1 : 0));
+                cmd.Parameters.AddWithValue("domingo", ((pagenda.domingo) ? 1 : 0));
                 cmd.Parameters.AddWithValue("cedula", cedula);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
+
             }
             catch (Exception e)
             {

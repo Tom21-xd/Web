@@ -24,11 +24,17 @@ namespace Web.Controllers
                 HoraInicio = Request.Form["horaInicio"],
                 HoraFin = Request.Form["horaFin"],
                 Duracion =Convert.ToInt32( Request.Form["duracion"]),
-                Dias = Request.Form["L"] + Request.Form["M"] + Request.Form["X"]+ Request.Form["J"]+ Request.Form["V"]+ Request.Form["S"]+ Request.Form["D"]
+                lunes = ((Request.Form["L"]=="L")?true:false),
+                martes = ((Request.Form["M"] == "M") ? true : false),
+                miercoles = ((Request.Form["X"] == "X") ? true : false),
+                jueves = ((Request.Form["J"] == "J") ? true : false),
+                viernes = ((Request.Form["V"] == "V") ? true : false),
+                sabado = ((Request.Form["S"] == "S") ? true : false),
+                domingo = ((Request.Form["D"] == "D") ? true : false)
 
             };
             Console.WriteLine(pagenda);
-            cn.agregarparametros(pagenda, cedula);
+            cn.agregarParametros(pagenda, cedula);
             return RedirectToAction("Index","Agenda");
         }
     }
