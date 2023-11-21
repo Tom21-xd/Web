@@ -5,7 +5,6 @@
 
     // Accede al correo electrónico del usuario
     //var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
-    var vista = ViewContext.RouteData.Values["action"].ToString();
     var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
     List<String> aux = new List<string>();
 }
@@ -25,67 +24,7 @@
     <header class="perfil">
         <nav class="perfil-nav">
             <ul class="gestion">
-                @if (vista == "Index")
-                {
-                    if (User.IsInRole("gestionar roles"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Rol")">Roles</a>
-                        </li>
-                        //aux.Add("Rol");
-                    }
-                    if (User.IsInRole("gestionar servicios"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Servicios")">Servicios</a>
-                        </li>
-                        //aux.Add("Servicios");
-
-                    }
-                    if (User.IsInRole("gestionar reservas"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Reservas")">Reservas</a>
-                        </li>
-                        //aux.Add("Reservas");
-                    }
-                    if (User.IsInRole("gestionar espacios"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Espacio")">Espacio</a>
-                        </li>
-                        //aux.Add("Espacio");
-                    }
-                    if (User.IsInRole("gestionar ubicacion"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
-                        </li>
-                        //aux.Add("Ubicacion");
-                    }
-                    if (User.IsInRole("gestionar negocio"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Negocio")">Negocio</a>
-                        </li>
-                       // aux.Add("Negocio");
-                    }
-                    if (User.IsInRole("gestionar agenda"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Agenda")">Agenda</a>
-                        </li>
-                       // aux.Add("Agenda");
-                    }
-                    if (User.IsInRole("gestionar usuarios"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index","Usuario")">Usuarios</a>
-                        </li>
-                       // aux.Add("Usuario");
-                    }
-                   
-                }
+                @RenderSection("AdditionalMenu", required: false)
             </ul>
             <ul class="perfil-ul">
                 <li class="perfil-li">
@@ -143,15 +82,53 @@
                         <span>Centro de ayuda</span>
                     </a>
                 </li>
-                @if (rol == "Admin" || rol == "Empleado")
-                {
-                    <li>
-                        <a href="@Url.Action("Index","Rol")">
-                            <i class='bx bx-book'></i>
-                            <span>Gestionar</span>
-                        </a>
-                    </li>
+                @{
+                    string primeraVista = "";
+
+                    if (User.IsInRole("gestionar roles"))
+                    {
+                        primeraVista = "Rol";
+                    }
+                    else if (User.IsInRole("gestionar servicios"))
+                    {
+                        primeraVista = "Servicios";
+                    }
+                    else if (User.IsInRole("gestionar reservas"))
+                    {
+                        primeraVista = "Reservas";
+                    }
+                    else if (User.IsInRole("gestionar espacios"))
+                    {
+                        primeraVista = "Espacio";
+                    }
+                    else if (User.IsInRole("gestionar ubicacion"))
+                    {
+                        primeraVista = "Ubicacion";
+                    }
+                    else if (User.IsInRole("gestionar negocio"))
+                    {
+                        primeraVista = "Negocio";
+                    }
+                    else if (User.IsInRole("gestionar agenda"))
+                    {
+                        primeraVista = "Agenda";
+                    }
+                    else if (User.IsInRole("gestionar usuarios"))
+                    {
+                        primeraVista = "Usuario";
+                    }
+
+                    if (!string.IsNullOrEmpty(primeraVista))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", primeraVista)">
+                                <i class='bx bx-book'></i>
+                                <span>Gestionar</span>
+                            </a>
+                        </li>
+                    }
                 }
+
             </ul>
         </nav>
     </div>

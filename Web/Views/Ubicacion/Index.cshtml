@@ -9,6 +9,58 @@
 
 }
 
+@section AdditionalMenu {
+    @{
+        if (User.IsInRole("gestionar roles"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Rol")">Roles</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar servicios"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Servicios")">Servicios</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar reservas"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Reservas")">Reservas</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar espacios"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Espacio")">Espacio</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar ubicacion"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar negocio"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Negocio")">Negocio</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar agenda"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Agenda")">Agenda</a>
+            </li>
+        }
+        if (User.IsInRole("gestionar usuarios"))
+        {
+            <li>
+                <a href="@Url.Action("Index","Usuario")">Usuarios</a>
+            </li>
+        }
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
