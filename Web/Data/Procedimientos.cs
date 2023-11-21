@@ -458,10 +458,10 @@ namespace Web.Data{
                     a += dr[0].ToString();
                     if (dr[1] != null)
                     {
-                        a += dr[1].ToString();
+                        a += " " + dr[1].ToString();
                     }
-                    a += dr[2].ToString();
-                    a += dr[3].ToString();
+                    a += " " + dr[2].ToString();
+                    a += " " + dr[3].ToString();
                 }
             }
             catch (Exception e)
@@ -581,8 +581,39 @@ namespace Web.Data{
                         FechaReserva = (DateTime)dr[1],
                         FechaCreacion = (DateTime)dr[2],
                         Usuario = obtenerNombrePersona(Convert.ToInt32(dr[3].ToString())),
-                        Servicio = obtenerNombreServicio(Convert.ToInt32(dr[4].ToString())),
-                        Estado = obtenerNombreEstadoReserva(Convert.ToInt32(dr[5].ToString()))
+                        Servicio = obtenerNombreServicio(Convert.ToInt32(dr[5].ToString())),
+                        Estado = obtenerNombreEstadoReserva(Convert.ToInt32(dr[4].ToString()))
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<EstadoReservaModel> obtenerEstadosReservas()
+        {
+            List<EstadoReservaModel> a = new List<EstadoReservaModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerEstadosReservas", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new EstadoReservaModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Nombre = dr[1].ToString()
                     });
                 }
 

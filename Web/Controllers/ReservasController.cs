@@ -14,6 +14,7 @@ namespace Web.Controllers
             ViewBag.reservas = cn.obtenerReservas();
             ViewBag.servicios = cn.obtenerservicios();
             ViewBag.usuarios = cn.obtenerUsuarios();
+            ViewBag.estados = cn.obtenerEstadosReservas();
             return View();
         }
 
