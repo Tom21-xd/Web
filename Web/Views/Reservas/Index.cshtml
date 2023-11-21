@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity;
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -56,3 +57,158 @@
         }
     }
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Reservas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+</head>
+
+<body style="background-color: rgb(207, 207, 207); ">
+    <div class="container" style="margin-top: 25px;padding: 5px; margin-left: 300px; width: 80%">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Reservas</h1>
+            </div>
+        </div>
+
+
+        <div class="table-responsive mt-5">
+            <div style="width:100%;">
+                <table id="tabla" class="table-bordered align-middle border-success mt-3">
+                    <thead>
+                    <th class="text-center">Fecha Reserva</th>
+                    <th class="text-center">Fecha Creacion Reserva</th>
+                    <th class="text-center">Usuario</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Servicio</th>
+                    <th class="text-center">Editar</th>
+                    </thead>
+                    <tbody id="bodyt" class="text-center">
+                        @foreach (ReservaModel reserva in ViewBag.reservas)
+                        {
+                            <tr>
+                                <td class="text-center">@reserva.FechaReserva</td>
+                                <td class="text-center">@reserva.FechaCreacion</td>
+                                <td class="text-center">@reserva.Usuario</td>
+                                <td class="text-center">@reserva.Estado</td>
+                                <td class="text-center">@reserva.Servicio</td>
+                                <td class="text-center">
+                                    <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editarReserva" value="">
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center  mt-3">
+            @if (User.IsInRole("generar reportes"))
+            {
+                <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
+            }
+            <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearReserva" value="">
+                Crear Reserva
+            </button>
+
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="editarReserva" aria-labelledby="editarReservaModal">
+        <div class="modal-dialog modal-dialog-centered  ">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title" id="labelEditarReserva">Editar Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="@Url.Action("editarReserva","Reservas")" method="post">
+                        <div class="mb-4">
+                            <label class="mb-4" for="inputEditarIdEspacio">Id de la Reserva :</label>
+                            <input type="text" class="form-control" name="inputEditarIdReserva" id="inputEditarIdReserva" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="inputEditarFechaReserva">Nombre del Espacio:</label>
+                            <input type="date" id="inputEditarFechaReserva" name="inputEditarFechaReserva" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="inputEditarHoraReserva">Hora Reserva</label>
+                            <input class="form-control" id="inputEditarHoraReserva" name="inputEditarHoraReserva" type="time" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="selectEditarEstadoEspacio">Estado del Espacio :</label>
+                            <select class="form-select" id="selectEditarEstadoEspacio" name="selectEditarEstadoEspacio">
+                                @foreach (EstadoReservaModel estado in ViewBag.estados)
+                                {
+                                    <option>@estado.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="mb-4" for="selectEditarServicioReserva">Ubicacion del Espacio :</label>
+                            <select class="form-select" id="selectEditarServicioReserva" name="selectEditarServicioReserva">
+                                @foreach (ServicioModel servicio in ViewBag.servicios)
+                                {
+                                    <option>@servicio.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Editar Espacio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabla').DataTable({
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de MENU",
+                    info: "TOTAL Reservas",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de MAX elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 300,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+            });
+        });
+    </script>
+
+</body>
+</html>
