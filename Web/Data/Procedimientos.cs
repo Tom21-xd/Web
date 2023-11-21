@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Runtime.Intrinsics.X86;
 using System.Transactions;
 using Web.Models;
 
@@ -1035,6 +1036,38 @@ namespace Web.Data{
                 aux = false;
             }
             finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
+        public List<AgendaModel> agenda(int cedula)
+        {
+            List < AgendaModel > aux= new List<AgendaModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerAgenda", connection);
+                cmd.Parameters.AddWithValue("cedula", cedula);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    aux.Add(new AgendaModel()
+                    {
+                        Fecha = dr[0]+"",
+                        Hora = dr[1]+"",
+                        Estado = ((dr[2]+""=="1")?true:false),
+                        NombreUsua = dr[3]+""
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }finally
             {
                 Desconectar();
             }

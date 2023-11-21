@@ -37,5 +37,13 @@ namespace Web.Controllers
             cn.agregarParametros(pagenda, cedula);
             return RedirectToAction("Index","Agenda");
         }
+
+        [HttpPost]
+        public ActionResult agendaEmple(int cedula)
+        {
+            return Json(cn.agenda(cedula));
+        }
     }
+
+    
 }

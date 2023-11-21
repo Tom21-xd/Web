@@ -61,18 +61,11 @@
                     <thead>
                         <th class="text-center">Fecha</th>
                         <th class="text-center">Hora</th>
-                        <th class="text-center">Estado</th>
                         <th class="text-center">Reserva</th>
-                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Editar</th>
                     </thead>
-                    <tbody>
-                            <tr>
-                                <td class="text-center">AAAAAAAA</td>
-                                <td class="text-center">AAAAAAAA</td>
-                                <td class="text-center">AAAAAAAA</td>
-                                <td class="text-center">AAAAAAAA</td>
-                                <td class="text-center">AAAAAAAA</td>
-                            </tr>
+                    <tbody id="bodyt" class="text-center">
+
                     </tbody>
                 </table>
             </div>
@@ -184,29 +177,7 @@
         </div>
     </div>
 
-    <script>
-        const se = document.getElementById("persona");
-        const bo = document.getElementById("programar");
 
-        const cd = document.getElementById("cedula");
-
-        function mostrarNombre() {
-            var id = document.getElementById("persona").value;
-            var nombre = document.getElementById("nombre").textContent = id;
-            if (se.value != "Seleccione") {
-                bo.disabled = false;
-
-            } else {
-                bo.disabled = true;
-            }
-        }
-
-        function agregar(){
-            var selectedValue = se.options[se.selectedIndex].text;
-            cd.value = selectedValue;
-        }
-
-    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous">
     </script>
@@ -215,6 +186,7 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+   
     <script>
         $(document).ready(function () {
             $('#tablax').DataTable({
@@ -222,7 +194,7 @@
                     processing: "Tratamiento en curso...",
                     search: "Buscar&nbsp;:",
                     lengthMenu: "Agrupar de _MENU_",
-                    info: "total de usuarios: _TOTAL_",
+                    info: "_TOTAL_ Turnos en la agenda",
                     infoEmpty: "No existen datos.",
                     infoFiltered: "(filtrado de _MAX_ elementos en total)",
                     infoPostFix: "",
@@ -246,6 +218,78 @@
         });
 
     </script>
+
+    <script>
+        const se = document.getElementById("persona");
+        const bo = document.getElementById("programar");
+
+        const cd = document.getElementById("cedula");
+
+        function mostrarNombre() {
+            var id = document.getElementById("persona").value;
+            var nombre = document.getElementById("nombre").textContent = id;
+            if (se.value != "Seleccione") {
+                bo.disabled = false;
+
+            } else {
+                bo.disabled = true;
+            }
+
+            var selectedValue = se.options[se.selectedIndex].text;
+
+            obtenerAgenda(selectedValue);
+
+        }
+
+        function agregar() {
+            var selectedValue = se.options[se.selectedIndex].text;
+            cd.value = selectedValue;
+        }
+
+
+
+        function obtenerAgenda(cedula) {
+            $.ajax({
+                url: "@Url.Action("agendaEmple", "Agenda")",
+                type: "POST",
+                traditional: true,
+                data: { cedula: cedula },
+                dataType: "json",
+                success: function (result) {
+                    var tblBody = $("#tablax").DataTable();
+                    tblBody.clear();
+
+                    var boton = document.createElement("button");
+
+                    boton.id = "btn"; 
+                    boton.innerHTML = "edit";
+                    boton.type = "button";
+                    boton.classList.add("btn", "btn-primary","mt-3","mb-3");
+                    boton.setAttribute("data-bs-toggle", "modal");
+                    boton.setAttribute("data-bs-target", "#EditarRol");
+
+                    $.each(result, function (index, item) {
+                        var fila = [
+                            (item.fecha).substring(0, 10),
+                            item.hora,
+                            item.nombreUsua
+                            //boton.outerHTML
+                        ];
+                        tblBody.row.add(fila); 
+                        
+                    });
+
+                    tblBody.draw(); 
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
+    </script>
+
 
 </body>
 
