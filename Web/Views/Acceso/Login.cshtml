@@ -1,5 +1,7 @@
 ﻿@ViewBag.con
+@{
 
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,8 +45,8 @@
         </script>
     }
     <script>
-        document.getElementById("boton").addEventListener("click", function () {
-            window.location.href = "@Url.Action("Registro","Acceso")";
+        document.getElementById("pdf").addEventListener("click", function () {
+            window.location.href = "@Url.Action("Registro", "Acceso")";
         });
     </script>
 

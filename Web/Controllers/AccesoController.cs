@@ -61,18 +61,16 @@ namespace Web.Controllers{
             UsuarioModel ousuario=cn.validar(usuario_correo,Contrasenia);
             if (ousuario.Nombre != null){
                  
-                 var claims = new List<Claim>
-                 {
+                var claims = new List<Claim>
+                {
                     new Claim(ClaimTypes.Name, ousuario.Nombre),
-                    new Claim("Correo", ousuario.Correo),
-                    
-                 };
+                    new Claim("Correo", ousuario.Correo),                   
+                };
                 
-                 foreach (PermisoModel rol in ousuario.rol.permisos)
-                 {
+                foreach (PermisoModel rol in ousuario.rol.permisos)
+                {
                     claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
-                 }
-                
+                }                
 
                 claims.Add(new Claim("Rol", ousuario.rol.Nombre));
                 

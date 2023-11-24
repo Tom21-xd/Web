@@ -251,6 +251,30 @@ namespace Web.Data{
             return usuarios;
         }
 
+        public DataTable obtenerUsua()
+        {
+            List<UsuarioModel> usuarios = new List<UsuarioModel>();
+            Conectar();
+            DataTable a = new DataTable();
+            try
+            {
+                cmd = new MySqlCommand("obtenerUsuarios", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                a.Load(dr);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return a;
+        }
+
+
         public List<RolModel> obtenerRoles()
         {
             List<RolModel> roles = new List<RolModel>();

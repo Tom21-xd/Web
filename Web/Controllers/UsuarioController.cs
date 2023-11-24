@@ -1,9 +1,12 @@
-﻿using DinkToPdf;
+﻿using ClosedXML.Excel;
+using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MySql.Data.MySqlClient;
+using System.Data;
 using System.Security.Policy;
 using Web.Data;
 using Web.Models;
@@ -70,7 +73,6 @@ namespace Web.Controllers
             }
             return RedirectToAction("Index","Usuario");
         }
-
         [HttpPost]
         public ActionResult crear_usuario()
         {
@@ -93,39 +95,12 @@ namespace Web.Controllers
             cn.Registrar(usuario);
             return RedirectToAction("Index", "Usuario");
         }
-
         public IActionResult VistaParaPDF()
         {
             ViewBag.usuarios = cn.obtenerUsuarios();
             return View();
         }
-        public IActionResult MostrarPDFenPagina()
-        {
-            string pagina_actual = HttpContext.Request.Path;
-            string url_pagina = HttpContext.Request.GetEncodedUrl();
-            url_pagina = url_pagina.Replace(pagina_actual, "");
-            url_pagina = $"{url_pagina}/Usuario/VistaParaPDF";
-
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings= new GlobalSettings()
-                {
-                    PaperSize=PaperKind.A4,
-                    Orientation=Orientation.Portrait
-                },
-                Objects =
-                {
-                    new ObjectSettings()
-                    {
-                        Page=url_pagina
-                    }
-                }
-            };
-            var archivoPDF = _converter.Convert(pdf);
-   
-            return File(archivoPDF,"application/pdf" );
-        }
-
+        
         public IActionResult DescargarPDF()
         {
             string pagina_actual = HttpContext.Request.Path;
@@ -153,6 +128,23 @@ namespace Web.Controllers
 
 
             return File(archivoPDF, "application/pdf", nombrePDF);
+        }
+        public IActionResult DescargarEXCEL(string fechaInicio, string fechaFin)
+        {
+            DataTable tabla_cliente = cn.obtenerUsua();
+
+            using (var libro = new XLWorkbook())
+            {
+                tabla_cliente.TableName = "Clientes";
+                var hoja = libro.Worksheets.Add(tabla_cliente);
+                hoja.ColumnsUsed().AdjustToContents();
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+                    var nombreExcel = string.Concat("Reporte ", DateTime.Now.ToString(), ".xlsx");
+                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+                }
+            }
         }
 
     }
