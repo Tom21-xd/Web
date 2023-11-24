@@ -1059,7 +1059,6 @@ namespace Web.Data{
             return aux;
 
         }
-
         public bool agregarParametros(ProgramacionAgendaModel pagenda,int cedula)
         {
             Conectar();
