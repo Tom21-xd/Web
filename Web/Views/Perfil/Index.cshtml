@@ -122,7 +122,17 @@
 
                     <div class="row mt-3">
                         @{
-                            string[] telefonos = ViewBag.usuario.persona.Telefono.Split('-');
+                            string a = ViewBag.usuario.persona.Telefono;
+                            string[] telefonos = { a, "" };
+                            for (int i = 0; i < a.Length; i++)
+                            {
+                                if (a[i] == '-')
+                                {
+                                    telefonos = a.Split('-');
+                                    break;
+                                }
+                            }
+
                         }
                         <div class="col">
                             <label class="" for="inputCelular1">Número de celular*</label>
