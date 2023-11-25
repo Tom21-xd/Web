@@ -42,7 +42,7 @@
                 <a href="@Url.Action("Index","Negocio")">Negocio</a>
             </li>
         }
-        if (User.IsInRole("gestionar agenda"))
+        if (User.IsInRole("gestionar agendas"))
         {
             <li>
                 <a href="@Url.Action("Index","Agenda")">Agenda</a>

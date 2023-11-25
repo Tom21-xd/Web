@@ -5,15 +5,24 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize (Roles = "gestionar agenda")]
     public class AgendaController : Controller
     {
         Procedimientos cn= new Procedimientos();
+
+        [Authorize(Roles = "gestionar agenda")]
         public IActionResult Index()
         {
             ViewBag.usua=cn.obtenerUsuarios();
             return View();
         }
+        [Authorize(Roles = "gestionar mi agenda")]
+        public IActionResult MiAgenda()
+        {
+            UsuarioModel a = cn.obtenerUsua(User.Identity.Name);
+            ViewBag.usua = a;
+            return View();
+        }
+
         [HttpPost]
         public ActionResult agregarParametros(int cedula)
         {

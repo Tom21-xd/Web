@@ -1,64 +1,10 @@
-﻿ @using Microsoft.AspNetCore.Identity;
-
-
+﻿@model UsuarioModel;
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";    
+    ViewData["Title"] = "MiAgenda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-
-@section AdditionalMenu {
-    @{
-        if (User.IsInRole("gestionar roles"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Rol")">Roles</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar servicios"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Servicios")">Servicios</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar reservas"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Reservas")">Reservas</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar espacios"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Espacio")">Espacio</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar ubicacion"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Ubicacion")">Ubicacion</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar negocio"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Negocio")">Negocio</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar agendas"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Agenda")">Agenda</a>
-            </li>
-        }
-        if (User.IsInRole("gestionar usuarios"))
-        {
-            <li>
-                <a href="@Url.Action("Index","Usuario")">Usuarios</a>
-            </li>
-        }
-    }
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +13,7 @@
     <title>Agenda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  
+
     <style>
         .lista {
             padding: 0;
@@ -84,43 +30,20 @@
     <div class="container" style="margin-top: 25px;padding: 5px; margin-left: 300px; width: 80%">
         <div class="row align-items-center">
             <div class="col">
-                <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Agendas</h1>
+                <h1 class="ml-3 mb-5" style="color:#255000;">Gestionar Mi Agenda</h1>
             </div>
         </div>
-        
-        <div class="row align-items-center">
-            <div class="col ">
-                <h3 for="Empleado" class="form-label">Empleado</h3>
-                <div class="input-group mt-5">
-                    <select id="persona" class="form-select" data-show-subtext="true" data-live-search="true" onchange="mostrarNombre()" name="cedula" >
-                        <option>Seleccione</option>
-                        @foreach (UsuarioModel usua in ViewBag.usua)
-                        {
-                            if (usua.rol.Nombre == "Empleado")
-                            {
-                                <option value="@usua.persona.Nombre1 @usua.persona.Nombre2 @usua.persona.Apellido1 @usua.persona.Apellido2">@usua.persona.Id</option>
-                            }
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="col align-self-end text-center">
-                <label id="nombre"></label>
-            </div>
-        </div>
-
 
         <div class="table-responsive mt-5">
             <div style="width:100%;">
                 <table id="tablax" class="table-bordered align-middle border-success mt-3">
                     <thead>
-                        <th class="text-center">Fecha</th>
-                        <th class="text-center">Hora</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Reserva</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Hora</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Reserva</th>
                     </thead>
                     <tbody id="bodyt" class="text-center">
-
                     </tbody>
                 </table>
             </div>
@@ -130,11 +53,11 @@
 
         <div class="row mt-5">
             <div class="col">
-                <button class="btn btn-primary " id="programar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda" disabled onclick="agregar()">
+                <button class="btn btn-primary " id="programar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#programarAgenda">
                     Programar Agenda
                 </button>
             </div>
-            
+
         </div>
     </div>
 
@@ -148,7 +71,7 @@
 
                 <div class="modal-body">
                     <form action="@Url.Action("agregarParametros","Agenda")" method="post">
-                        <input class="form-control" type="text" name="cedula"  id="cedula" hidden>
+                        <input class="form-control" type="text" name="cedula" id="cedula" hidden value="@ViewBag.usua.persona.Id">
                         <div>
                             <div class="row mt-3">
                                 <div class="col">
@@ -225,7 +148,7 @@
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </div>
                     </form>
-                    
+
 
                 </div>
             </div>
@@ -241,7 +164,7 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-   
+
     <script>
         $(document).ready(function () {
             $('#tablax').DataTable({
@@ -275,35 +198,9 @@
     </script>
 
     <script>
-        const se = document.getElementById("persona");
-        const bo = document.getElementById("programar");
+        
 
-        const cd = document.getElementById("cedula");
-
-        function mostrarNombre() {
-            var id = document.getElementById("persona").value;
-            var nombre = document.getElementById("nombre").textContent = id;
-            if (se.value != "Seleccione") {
-                bo.disabled = false;
-
-            } else {
-                bo.disabled = true;
-            }
-
-            var selectedValue = se.options[se.selectedIndex].text;
-
-            obtenerAgenda(selectedValue);
-
-        }
-
-        function agregar() {
-            var selectedValue = se.options[se.selectedIndex].text;
-            cd.value = selectedValue;
-        }
-
-
-
-        function obtenerAgenda(cedula) {
+        
             $.ajax({
                 url: "@Url.Action("agendaEmple", "Agenda")",
                 type: "POST",
@@ -314,34 +211,25 @@
                     var tblBody = $("#tablax").DataTable();
                     tblBody.clear();
 
-                    var boton = document.createElement("button");
-
-                    boton.id = "btn"; 
-                    boton.innerHTML = "edit";
-                    boton.type = "button";
-                    boton.classList.add("btn", "btn-primary","mt-3","mb-3");
-                    boton.setAttribute("data-bs-toggle", "modal");
-                    boton.setAttribute("data-bs-target", "#EditarRol");
-
                     $.each(result, function (index, item) {
                         var fila = [
                             (item.fecha).substring(0, 10),
                             item.hora,
                             item.estado,
-                            item.nombreUsua    
+                            item.nombreUsua
                             //boton.outerHTML
                         ];
-                        tblBody.row.add(fila); 
-                        
+                        tblBody.row.add(fila);
+
                     });
 
-                    tblBody.draw(); 
+                    tblBody.draw();
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
-        }
+        
 
 
     </script>
@@ -351,3 +239,4 @@
 
 
 </html>
+

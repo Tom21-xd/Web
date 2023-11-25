@@ -101,7 +101,7 @@
                     {
                         primeraVista = "Negocio";
                     }
-                    else if (User.IsInRole("gestionar agenda"))
+                    else if (User.IsInRole("gestionar agendas"))
                     {
                         primeraVista = "Agenda";
                     }
@@ -119,8 +119,17 @@
                             </a>
                         </li>
                     }
+                    if(User.IsInRole("gestionar mi agenda"))
+                    {
+                        <li>
+                            <a href="@Url.Action("MiAgenda","Agenda")">
+                                <i class='bx bx-book'></i>
+                                <span>Mi Agenda</span>
+                            </a>
+                        </li>
+                    }
                 }
-
+                
             </ul>
         </nav>
     </div>
