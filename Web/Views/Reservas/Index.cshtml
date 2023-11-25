@@ -83,12 +83,14 @@
             <div style="width:100%;">
                 <table id="tabla" class="table-bordered align-middle border-success mt-3">
                     <thead>
-                    <th class="text-center">Fecha Reserva</th>
-                    <th class="text-center">Fecha Creacion Reserva</th>
-                    <th class="text-center">Usuario</th>
-                    <th class="text-center">Estado</th>
-                    <th class="text-center">Servicio</th>
-                    <th class="text-center">Editar</th>
+                        <th class="text-center">Fecha Reserva</th>
+                        <th class="text-center">Fecha Creacion Reserva</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Servicio</th>
+                        <th class="text-center">Empleado</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Espacio Físico</th>
+                        <th class="text-center">Editar</th>
                     </thead>
                     <tbody id="bodyt" class="text-center">
                         @foreach (ReservaModel reserva in ViewBag.reservas)
@@ -97,8 +99,10 @@
                                 <td class="text-center">@reserva.FechaReserva</td>
                                 <td class="text-center">@reserva.FechaCreacion</td>
                                 <td class="text-center">@reserva.Usuario</td>
-                                <td class="text-center">@reserva.Estado</td>
                                 <td class="text-center">@reserva.Servicio</td>
+                                <td class="text-center">@reserva.Empleado</td>
+                                <td class="text-center">@reserva.Estado</td>
+                                <td class="text-center">@reserva.Espacio</td>
                                 <td class="text-center">
                                     <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editarReserva" value="">
                                         Editar
