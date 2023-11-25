@@ -5,5 +5,214 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Ubicaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+
+<body style="background-color: rgb(207, 207, 207);">
+    <div class="container" style="margin-top: 25px;padding: 5px ;margin-left:300px; width:80%;">
+        <div class="border border-black">
+            <div class="text-center">
+                <h1 class="text-center">
+                    @ViewBag.usuario.persona.Nombre1 
+                    @(ViewBag.usuario.persona.Nombre2 ?? "")
+                    @ViewBag.usuario.persona.Apellido1
+                    @(ViewBag.usuario.persona.Apellido2 ?? "")
+                </h1>
+                <p class="text-muted text-center" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path d="M7.115.65a1.752 1.752 0 0 1 1.77 0l6.25 3.663c.536.314.865.889.865 1.51v6.427A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25V5.823c0-.621.33-1.196.865-1.51Zm1.011 1.293a.252.252 0 0 0-.252 0l-5.72 3.353L6.468 7.76a2.748 2.748 0 0 1 3.066 0l4.312-2.464-5.719-3.353ZM13.15 12.5 8.772 9.06a1.25 1.25 0 0 0-1.544 0L2.85 12.5Zm1.35-5.85-3.687 2.106 3.687 2.897ZM5.187 8.756 1.5 6.65v5.003Z"></path>
+                    </svg>
+                    @ViewBag.usuario.Correo
+                </p>
+                
+                <p class="text-muted text-center" style="display: inline-block; margin-rigth: 10px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path d="M3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25V1.75C2 .784 2.784 0 3.75 0ZM3.5 1.75v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25ZM8 13a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+                    </svg>
+                    @ViewBag.usuario.persona.Telefono
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-5" style="border: 1px solid #000; padding: 10px;">
+            <form class="needs-validation" novalidate action="@Url.Action("editarPerfil","Perfil")" method="post">
+                <div style="margin-left: 10px; padding: 10px;">
+                    <div class="row">
+                        <div class="col">
+                            <label class="" for="inputCorreo">Correo electrónico</label>
+                            <input type="text" id="inputCorreo" name="inputCorreo" class="form-control" value="@ViewBag.usuario.Correo" readonly>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputName">Nombre de usuario</label>
+                            <input type="text" id="inputName" name="inputName" class="form-control" value="@ViewBag.usuario.Nombre" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-left: 10px; padding: 10px;">
+                    <div class="row">
+                        <div class="col">
+                            <label class="" for="selectTipoDocumento">Tipo de documento</label>
+                            <select class="form-select" id="selectTipoDocumento" name="selectTipoDocumento" disabled>
+                                <option>@ViewBag.usuario.persona.tipodoc</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputNumeroDocumento">Número de documento</label>
+                            <input type="text" id="inputNumeroDocumento" name="inputNumeroDocumento" class="form-control" value="@ViewBag.usuario.persona.Id" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label class="" for="inputNombre1">Primer nombre*</label>
+                            <input type="text" id="inputNombre1" name="inputNombre1" class="form-control" value="@ViewBag.usuario.persona.Nombre1" required>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputNombre2">Segundo nombre</label>
+                            <input type="text" id="inputNombre2" name="inputNombre2" class="form-control" value="@(ViewBag.usuario.persona.Nombre2 ?? "")">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label class="" for="inputApellido1">Primer apellido*</label>
+                            <input type="text" id="inputApellido1" name="inputApellido1" class="form-control" value="@ViewBag.usuario.persona.Apellido1" required>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputApellido2">Segundo apellido*</label>
+                            <input type="text" id="inputApellido2" name="inputApellido2" class="form-control" value="@(ViewBag.usuario.persona.Apellido2 ?? "")" required>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label class="" for="selectGenero">Genero</label>
+                            <select class="form-select" id="selectGenero" name="selectGenero" disabled>
+                                <option>@ViewBag.usuario.persona.genero</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputFechaNacimiento">Fecha de nacimiento*</label>
+                            @{
+                                string aux = ViewBag.usuario.persona.FechaNacimiento;
+                                string fecha = aux.Substring(6, 4) + "-";
+                                fecha += aux.Substring(3, 2) + "-";
+                                fecha += aux.Substring(0, 2);
+                            }
+                            <input type="date" id="inputFechaNacimiento" name="inputFechaNacimiento" class="form-control" value="@fecha" required>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        @{
+                            string[] telefonos = ViewBag.usuario.persona.Telefono.Split('-');
+                        }
+                        <div class="col">
+                            <label class="" for="inputCelular1">Número de celular*</label>
+                            <input type="text" id="inputCelular1" name="inputCelular1" class="form-control" value="@telefonos[0]" required>
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputCelular2">Número de celular de respaldo</label>
+                            <input type="text" id="inputCelular2" name="inputCelular2" class="form-control" value="@telefonos[1]">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label class="" for="inputContrasenia">Contraseña*</label>
+                            <input type="password" id="inputContrasenia" name="inputContrasenia" class="form-control" placeholder="******" aria-describedby="passwordHelpInline">
+                        </div>
+
+                        <div class="col">
+                            <label class="" for="inputConfirmarContrasenia">Confirmar contraseña</label>
+                            <input type="password" id="inputConfirmarContrasenia" name="inputConfirmarContrasenia" class="form-control" placeholder="******" aria-describedby="passwordHelpInline" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#inputContrasenia').on('input', function () {
+                
+                if ($(this).val().trim() !== '') {
+                    $('#inputConfirmarContrasenia').prop('required', true);
+                    $('#inputConfirmarContrasenia').prop('disabled', false);
+                } else {
+                    $('#inputConfirmarContrasenia').prop('required', false);
+                    $('#inputConfirmarContrasenia').prop('disabled', true);
+                }
+            });
+
+            $('form.needs-validation').on('submit', function (event) {
+                var contrasenia = $('#inputContrasenia').val();
+                var confirmarContrasenia = $('#inputConfirmarContrasenia').val();
+
+                // Verificar si las contraseñas coinciden
+                if (contrasenia !== confirmarContrasenia) {
+                    alert('Las contraseñas no coinciden.');
+                    event.preventDefault(); // Detener el envío del formulario
+                }
+            });
+        });
+    </script>
+
+    <script>
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+</body>
+</html>
 

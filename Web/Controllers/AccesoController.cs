@@ -64,7 +64,7 @@ namespace Web.Controllers{
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, ousuario.Nombre),
-                    new Claim("Correo", ousuario.Correo),                   
+                    new Claim("Correo", ousuario.Correo),
                 };
                 
                 foreach (PermisoModel rol in ousuario.rol.permisos)

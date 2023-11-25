@@ -7,9 +7,9 @@
         public string? Correo { get; set; }
         public string? Contrasenia { get; set;}
         public bool Estado { get; set;}
-        public PersonaModel?persona { get; set; }
+        public PersonaModel persona { get; set; }
         public RolModel rol { get; set; }
-        public ServicioModel servicio { get; set; }
+        public ServicioModel? servicio { get; set; }
         
     }
 }
