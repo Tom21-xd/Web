@@ -1,9 +1,18 @@
 ﻿ @using Microsoft.AspNetCore.Identity;
 
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string actor="";
+    var actorClaim = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Actor);
+    if (actorClaim != null)
+    {
+        actor = actorClaim.Value;
+    }
+    
 }
+
 
 @section AdditionalMenu {
     @{
@@ -92,7 +101,8 @@
                 <div class="input-group mt-5">
                     <select id="persona" class="form-select" data-show-subtext="true" data-live-search="true" onchange="mostrarNombre()" name="cedula" >
                         <option>Seleccione</option>
-                        @foreach(UsuarioModel usua in ViewBag.usua){
+                        @foreach (UsuarioModel usua in ViewBag.usua)
+                        {
                             if (usua.rol.Nombre == "Empleado")
                             {
                                 <option value="@usua.persona.Nombre1 @usua.persona.Nombre2 @usua.persona.Apellido1 @usua.persona.Apellido2">@usua.persona.Id</option>

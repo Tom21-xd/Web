@@ -1,13 +1,5 @@
-﻿    @using Microsoft.AspNetCore.Identity;
-@{
-    // Accede a la identidad del usuario
-    var claimsPrincipal =User;
+﻿@using Microsoft.AspNetCore.Identity;
 
-    // Accede al correo electrónico del usuario
-    //var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
-    var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
-    List<String> aux = new List<string>();
-}
 <!DOCTYPE html>
 <html lang="en">
 
