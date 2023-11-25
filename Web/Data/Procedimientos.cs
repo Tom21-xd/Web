@@ -521,93 +521,6 @@ namespace Web.Data{
             return a;
         }
 
-        public String obtenerNombrePersona(int id)
-        {
-            String a = "";
-            Conectar();
-            try
-            {
-                cmd = new MySqlCommand("obtenerNombrePersona", connection);
-                cmd.Parameters.AddWithValue("id", id);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                MySqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    a += dr[0].ToString();
-                    if (dr[1] != null)
-                    {
-                        a += " " + dr[1].ToString();
-                    }
-                    a += " " + dr[2].ToString();
-                    a += " " + dr[3].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            finally
-            {
-                Desconectar();
-            }
-
-            return a;
-        }
-
-        public String obtenerNombreServicio(int id)
-        {
-            String a = "";
-            Conectar();
-            try
-            {
-                cmd = new MySqlCommand("obtenerNombreServicio", connection);
-                cmd.Parameters.AddWithValue("id", id);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                MySqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    a += dr[0].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            finally
-            {
-                Desconectar();
-            }
-
-            return a;
-        }
-
-        public String obtenerNombreEstadoReserva(int id)
-        {
-            String a = "";
-            Conectar();
-            try
-            {
-                cmd = new MySqlCommand("obtenerNombreEstadoReserva", connection);
-                cmd.Parameters.AddWithValue("id", id);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                MySqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    a += dr[0].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            finally
-            {
-                Desconectar();
-            }
-
-            return a;
-        }
-
         public List<EspacioModel> obtenerEspacios()
         {
             List<EspacioModel> a = new List<EspacioModel>();
@@ -656,11 +569,13 @@ namespace Web.Data{
                     a.Add(new ReservaModel()
                     {
                         Id = Convert.ToInt32(dr[0].ToString()),
-                        FechaReserva = (DateTime)dr[1],
-                        FechaCreacion = (DateTime)dr[2],
-                        Usuario = obtenerNombrePersona(Convert.ToInt32(dr[3].ToString())),
-                        Servicio = obtenerNombreServicio(Convert.ToInt32(dr[5].ToString())),
-                        Estado = obtenerNombreEstadoReserva(Convert.ToInt32(dr[4].ToString()))
+                        FechaReserva = ((dr[1].ToString().Substring(0, 10)) + " " + dr[2].ToString()),
+                        FechaCreacion = dr[3].ToString(),
+                        Usuario = dr[4].ToString(),
+                        Servicio = dr[5].ToString(),
+                        Empleado = dr[6].ToString(),
+                        Estado = dr[7].ToString(),
+                        Espacio = dr[8].ToString()
                     });
                 }
 
