@@ -251,6 +251,60 @@ namespace Web.Data{
             return usuarios;
         }
 
+        public UsuarioModel obtenerUsua(string nombre)
+        {
+            UsuarioModel usuario = new UsuarioModel();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerUsua", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    usuario = (new UsuarioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0] + ""),
+                        Nombre = dr[1] + "",
+                        Correo = dr[2] + "",
+                        Contrasenia = dr[3] + "",
+                        Estado = ((dr[4] + "" == "1") ? true : false),
+                        rol = new RolModel()
+                        {
+                            Id = Convert.ToInt32(dr[5]),
+                            Nombre = dr[6] + "",
+                            estado = ((dr[7] + "" == "1") ? true : false)
+                        },
+                        persona = (new PersonaModel()
+                        {
+                            Id = Convert.ToInt32(dr[8]),
+                            Nombre1 = dr[9] + "",
+                            Nombre2 = dr[10] + "",
+                            Apellido1 = dr[11] + "",
+                            Apellido2 = dr[12] + "",
+                            FechaNacimiento = dr[13] + "",
+                            Telefono = dr[14] + "",
+                            Direccion = dr[15] + "",
+                            tipodoc = dr[16] + "",
+                            genero = dr[17] + ""
+
+                        })
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return usuario;
+        }
+
         public DataTable obtenerUsua()
         {
             List<UsuarioModel> usuarios = new List<UsuarioModel>();
@@ -842,6 +896,34 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("estado", estado);
                 cmd.Parameters.AddWithValue("descripcion", descripcion);
                 cmd.Parameters.AddWithValue("id_ubicacion", id_ubicacion);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void editarPerfil(UsuarioModel usuario)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("editarPerfil", connection);
+                cmd.Parameters.AddWithValue("cedula", usuario.persona.Id);
+                cmd.Parameters.AddWithValue("nombre1", usuario.persona.Nombre1);
+                cmd.Parameters.AddWithValue("nombre2", usuario.persona.Nombre2);
+                cmd.Parameters.AddWithValue("apellido1", usuario.persona.Apellido1);
+                cmd.Parameters.AddWithValue("apellido2", usuario.persona.Apellido2);
+                cmd.Parameters.AddWithValue("fecha", usuario.persona.FechaNacimiento);
+                cmd.Parameters.AddWithValue("telefono", usuario.persona.Telefono);
+
+                cmd.Parameters.AddWithValue("contrasenia", usuario.Contrasenia);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
