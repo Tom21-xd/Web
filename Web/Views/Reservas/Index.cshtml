@@ -92,19 +92,19 @@
             <div style="width:100%;">
                 <table id="tabla" class="table-bordered align-middle border-success mt-3">
                     <thead>
-                        <th class="text-center">Fecha Reserva</th>
-                        <th class="text-center">Fecha Creacion Reserva</th>
-                        <th class="text-center">Usuario</th>
-                        <th class="text-center">Servicio</th>
-                        <th class="text-center">Empleado</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Espacio Físico</th>
-                        <th class="text-center">Editar</th>
+                    <th class="text-center">Fecha de Reserva</th>
+                    <th class="text-center">Fecha Creacion Reserva</th>
+                    <th class="text-center">Usuario</th>
+                    <th class="text-center">Servicio</th>
+                    <th class="text-center">Empleado</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Espacio Físico</th>
+                    <th class="text-center">Editar</th>
                     </thead>
                     <tbody id="bodyt" class="text-center">
                         @foreach (ReservaModel reserva in ViewBag.reservas)
                         {
-                            <tr>
+                            <tr data-reserva-id="@reserva.Id">
                                 <td class="text-center">@reserva.FechaReserva</td>
                                 <td class="text-center">@reserva.FechaCreacion</td>
                                 <td class="text-center">@reserva.Usuario</td>
@@ -113,7 +113,7 @@
                                 <td class="text-center">@reserva.Estado</td>
                                 <td class="text-center">@reserva.Espacio</td>
                                 <td class="text-center">
-                                    <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editarReserva" value="">
+                                    <button type="button" id="" class="btn btn-primary mt-3 mb-3 btn-editar" data-bs-toggle="modal" data-bs-target="#editarReserva" value="">
                                         Editar
                                     </button>
                                 </td>
@@ -130,7 +130,7 @@
             {
                 <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
             }
-            <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearReserva" value="">
+            <button type="button" id="" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearReserva" value="">
                 Crear Reserva
             </button>
 
@@ -147,43 +147,32 @@
                 <div class="modal-body">
                     <form action="@Url.Action("editarReserva","Reservas")" method="post">
                         <div class="mb-4">
-                            <label class="mb-4" for="inputEditarIdEspacio">Id de la Reserva :</label>
-                            <input type="text" class="form-control" name="inputEditarIdReserva" id="inputEditarIdReserva" readonly>
-                        </div>
-                        <div class="mb-4">
-                            <label class="mb-4" for="inputEditarFechaReserva">Nombre del Espacio:</label>
+                            <label class="mb-4" for="inputEditarFechaReserva">Fecha de reserva:</label>
                             <input type="date" id="inputEditarFechaReserva" name="inputEditarFechaReserva" class="form-control" required>
                         </div>
                         <div class="col">
-                            <label class="form-label" for="inputEditarHoraReserva">Hora Reserva</label>
-                            <input class="form-control" id="inputEditarHoraReserva" name="inputEditarHoraReserva" type="time" required>
+                            <label class="mb-4" for="selectEditarHoraReserva">Hora de reserva:</label>
+                            <select class="form-select" id="selectEditarHoraReserva" name="selectEditarHoraReserva">
+                                
+                            </select>
                         </div>
                         <div class="mb-4">
-                            <label class="mb-4" for="selectEditarEstadoEspacio">Estado del Espacio :</label>
-                            <select class="form-select" id="selectEditarEstadoEspacio" name="selectEditarEstadoEspacio">
+                            <label class="mb-4" for="selectEditarEstadoReserva">Estado de la reserva:</label>
+                            <select class="form-select" id="selectEditarEstadoReserva" name="selectEditarEstadoReserva">
                                 @foreach (EstadoReservaModel estado in ViewBag.estados)
                                 {
                                     <option>@estado.Nombre</option>
                                 }
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="mb-4" for="selectEditarServicioReserva">Ubicacion del Espacio :</label>
-                            <select class="form-select" id="selectEditarServicioReserva" name="selectEditarServicioReserva">
-                                @foreach (ServicioModel servicio in ViewBag.servicios)
-                                {
-                                    <option>@servicio.Nombre</option>
-                                }
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-success">Editar Espacio</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous">
     </script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
@@ -193,6 +182,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
     <script>
+        var modal = document.getElementById("editarReserva");
+        var inputEditarFechaReserva = document.getElementById("inputEditarFechaReserva");
+        var selectEditarHoraReserva = document.getElementById("selectEditarHoraReserva");
+        var selectEditarEstadoReserva = document.getElementById("selectEditarEstadoReserva");
+        var tabla = document.getElementById("tabla");
+
         $(document).ready(function () {
             $('#tabla').DataTable({
                 language: {
@@ -220,7 +215,60 @@
                 scrollY: 300,
                 lengthMenu: [[5, 10, -1], [5, 10, "All"]],
             });
+
+            $('.btn-editar').on('click', function () {
+                var fila = $(this).closest('tr');
+                var reservaId = fila.data('reserva-id');
+                var fecha = fila.find('td:eq(0)').text();
+                var hora = fecha.substring(11,19);
+                fecha = fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2);
+                var newOption = document.createElement("option");
+                newOption.text = hora;
+                var estado = fila.find('td:eq(5)').text();
+                var nombreCompleto = fila.find('td:eq(4)').text();
+                var nombre = "";
+                var apellido = "";
+                for (let i = 0; i < nombreCompleto.length; i++) {
+                    if (nombre[i] == ' '){
+                        nombre = nombreCompleto.substring(0, i);
+                        apellido = nombreCompleto.substring(i + 1, nombreCompleto.length);
+                        break;
+                    }
+                }
+
+                inputEditarFechaReserva.value = fecha;
+                
+                if (estado == "Realizada"){
+                    selectEditarEstadoReserva.options[0].selected = true
+                } else if (estado == "Pendiente"){
+                    selectEditarEstadoReserva.options[1].selected = true
+                } else {
+                    selectEditarEstadoReserva.options[2].selected = true
+                }
+
+                obtenerAgendaFecha(nombre1, apellido1, fecha);
+            });
+
+            function obtenerAgendaFecha(nombre1, apellido1, fecha) {
+                $.ajax({
+                    url: "@Url.Action("obtenerAgendaFecha", "Reserva")",
+                    type: "POST",
+                    traditional: true,
+                    data: { nombre1: nombre1, apellido1: apellido1, fecha: fecha },
+                    dataType: "json",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            var hora = data[i].Hora;
+                            $('#selectEditarHoraReserva').append('<option value="' + hora + '">' + hora + '</option>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
         });
+
     </script>
 
 </body>
