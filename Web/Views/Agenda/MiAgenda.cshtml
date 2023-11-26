@@ -42,6 +42,7 @@
                     <th class="text-center">Hora</th>
                     <th class="text-center">Estado</th>
                     <th class="text-center">Reserva</th>
+                    <th class="text-center">Espacio</th>
                     </thead>
                     <tbody id="bodyt" class="text-center">
                         @foreach(AgendaModel us in ViewBag.agenda)
@@ -51,6 +52,7 @@
                                 <td>@us.Hora</td>
                                 <td>@us.Estado</td>
                                 <td>@us.NombreUsua</td>
+                                <td>@us.NombreEspa</td>
                             </tr>
                         }
                     </tbody>

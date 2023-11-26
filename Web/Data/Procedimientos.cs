@@ -1110,7 +1110,8 @@ namespace Web.Data{
                         Fecha = dr[0]+"",
                         Hora = dr[1]+"",
                         Estado = ((dr[2]+""=="1")?true:false),
-                        NombreUsua = dr[3]+""
+                        NombreUsua = dr[3]+"",
+                        NombreEspa = dr[4]+""
                     });
                 }
 

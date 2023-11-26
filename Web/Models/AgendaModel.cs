@@ -7,5 +7,6 @@
         public string? Hora { get; set; }
         public bool Estado { get; set; }
         public string? NombreUsua { get; set; }
+        public string? NombreEspa { get; set; }
     }
 }
