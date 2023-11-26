@@ -21,7 +21,6 @@ namespace Web.Controllers
             UsuarioModel a = cn.obtenerUsua(User.Identity.Name);
             ViewBag.usua1 = a;
             ViewBag.agenda = cn.agenda(a.persona.Id);
-
             return View();
         }
 
