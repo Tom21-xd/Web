@@ -100,7 +100,6 @@ namespace Web.Controllers
             ViewBag.usuarios = cn.obtenerUsuarios();
             return View();
         }
-        
         public IActionResult DescargarPDF()
         {
             string pagina_actual = HttpContext.Request.Path;
@@ -129,7 +128,7 @@ namespace Web.Controllers
 
             return File(archivoPDF, "application/pdf", nombrePDF);
         }
-        public IActionResult DescargarEXCEL(string fechaInicio, string fechaFin)
+        public IActionResult DescargarEXCEL()
         {
             DataTable tabla_cliente = cn.obtenerUsua();
 

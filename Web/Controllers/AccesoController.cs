@@ -64,15 +64,14 @@ namespace Web.Controllers{
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, ousuario.Nombre),
-                    new Claim("Correo", ousuario.Correo),
+                    new Claim(ClaimTypes.Actor, ousuario.rol.Nombre),
+                    new Claim(ClaimTypes.UserData,ousuario.persona.Id+"")
                 };
                 
                 foreach (PermisoModel rol in ousuario.rol.permisos)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
                 }                
-
-                claims.Add(new Claim("Rol", ousuario.rol.Nombre));
                 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

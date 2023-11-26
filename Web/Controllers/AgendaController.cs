@@ -5,15 +5,26 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize (Roles = "gestionar agenda")]
     public class AgendaController : Controller
     {
         Procedimientos cn= new Procedimientos();
+
+        [Authorize(Roles = "gestionar agenda")]
         public IActionResult Index()
         {
             ViewBag.usua=cn.obtenerUsuarios();
             return View();
         }
+        [Authorize(Roles = "gestionar mi agenda")]
+        public IActionResult MiAgenda()
+        {
+            UsuarioModel a = cn.obtenerUsua(User.Identity.Name);
+            ViewBag.usua = a;
+            ViewBag.agenda = cn.agenda(a.persona.Id);
+
+            return View();
+        }
+
         [HttpPost]
         public ActionResult agregarParametros(int cedula)
         {
@@ -35,7 +46,11 @@ namespace Web.Controllers
             };
             Console.WriteLine(pagenda);
             cn.agregarParametros(pagenda, cedula);
-            return RedirectToAction("Index","Agenda");
+            if(User.IsInRole("gestionar mi agenda"))
+            {
+                return RedirectToAction("MiAgenda", "Agenda");
+            }
+            return RedirectToAction("Index", "Agenda");
         }
 
         [HttpPost]

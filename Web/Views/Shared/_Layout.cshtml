@@ -1,13 +1,5 @@
-﻿    @using Microsoft.AspNetCore.Identity;
-@{
-    // Accede a la identidad del usuario
-    var claimsPrincipal =User;
+﻿@using Microsoft.AspNetCore.Identity;
 
-    // Accede al correo electrónico del usuario
-    //var correo = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Correo").Value;
-    var rol = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
-    List<String> aux = new List<string>();
-}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,7 +101,7 @@
                     {
                         primeraVista = "Negocio";
                     }
-                    else if (User.IsInRole("gestionar agenda"))
+                    else if (User.IsInRole("gestionar agendas"))
                     {
                         primeraVista = "Agenda";
                     }
@@ -127,8 +119,17 @@
                             </a>
                         </li>
                     }
+                    if(User.IsInRole("gestionar mi agenda"))
+                    {
+                        <li>
+                            <a href="@Url.Action("MiAgenda","Agenda")">
+                                <i class='bx bx-book'></i>
+                                <span>Mi Agenda</span>
+                            </a>
+                        </li>
+                    }
                 }
-
+                
             </ul>
         </nav>
     </div>
