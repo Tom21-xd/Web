@@ -9,7 +9,7 @@ namespace Web.Controllers
     {
         Procedimientos cn= new Procedimientos();
 
-        [Authorize(Roles = "gestionar agenda")]
+        [Authorize(Roles = "gestionar agendas")]
         public IActionResult Index()
         {
             ViewBag.usua=cn.obtenerUsuarios();
@@ -19,7 +19,7 @@ namespace Web.Controllers
         public IActionResult MiAgenda()
         {
             UsuarioModel a = cn.obtenerUsua(User.Identity.Name);
-            ViewBag.usua = a;
+            ViewBag.usua1 = a;
             ViewBag.agenda = cn.agenda(a.persona.Id);
 
             return View();
