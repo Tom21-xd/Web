@@ -18,5 +18,10 @@ namespace Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult obtenerAgendaFecha(string nombre1, string apellido1, string fecha)
+        {
+            return Json(cn.obtenerAgendaFecha(nombre1, apellido1, fecha));
+        }
     }
 }

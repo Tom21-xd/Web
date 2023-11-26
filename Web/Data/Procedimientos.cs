@@ -592,6 +592,42 @@ namespace Web.Data{
             return a;
         }
 
+        public List<AgendaModel> obtenerAgendaFecha(string nombre1, string apellido1, string fecha)
+        {
+            List<AgendaModel> aux = new List<AgendaModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerAgendaFecha", connection);
+                cmd.Parameters.AddWithValue("nombre1", nombre1);
+                cmd.Parameters.AddWithValue("apellido1", apellido1);
+                cmd.Parameters.AddWithValue("fecha", fecha);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    aux.Add(new AgendaModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        Fecha = dr[1].ToString(),
+                        Hora = dr[1].ToString(),
+                        Estado = ((dr[2].ToString() == "1") ? true : false),
+                        NombreUsua = dr[3].ToString()
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
         public List<EstadoReservaModel> obtenerEstadosReservas()
         {
             List<EstadoReservaModel> a = new List<EstadoReservaModel>();
