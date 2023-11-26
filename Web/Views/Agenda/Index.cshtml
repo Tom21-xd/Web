@@ -325,7 +325,7 @@
 
                     $.each(result, function (index, item) {
                         var fila = [
-                            (item.fecha).substring(0, 10),
+                            (item.fecha).substring(6, 4) - (item.fecha).substring(3, 2) - (item.fecha).substring(0, 2),
                             item.hora,
                             item.estado,
                             item.nombreUsua    

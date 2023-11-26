@@ -44,6 +44,15 @@
                     <th class="text-center">Reserva</th>
                     </thead>
                     <tbody id="bodyt" class="text-center">
+                        @foreach(AgendaModel us in ViewBag.agenda)
+                        {
+                            <tr>
+                                <td>@us.Fecha.Substring(6, 4)-@us.Fecha.Substring(3, 2)-@us.Fecha.Substring(0,2)</td>
+                                <td>@us.Hora</td>
+                                <td>@us.Estado</td>
+                                <td>@us.NombreUsua</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -196,44 +205,6 @@
         });
 
     </script>
-
-    <script>
-        
-
-        
-            $.ajax({
-                url: "@Url.Action("agendaEmple", "Agenda")",
-                type: "POST",
-                traditional: true,
-                data: { cedula: cedula },
-                dataType: "json",
-                success: function (result) {
-                    var tblBody = $("#tablax").DataTable();
-                    tblBody.clear();
-
-                    $.each(result, function (index, item) {
-                        var fila = [
-                            (item.fecha).substring(0, 10),
-                            item.hora,
-                            item.estado,
-                            item.nombreUsua
-                            //boton.outerHTML
-                        ];
-                        tblBody.row.add(fila);
-
-                    });
-
-                    tblBody.draw();
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        
-
-
-    </script>
-
 
 </body>
 

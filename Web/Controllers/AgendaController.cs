@@ -20,6 +20,8 @@ namespace Web.Controllers
         {
             UsuarioModel a = cn.obtenerUsua(User.Identity.Name);
             ViewBag.usua = a;
+            ViewBag.agenda = cn.agenda(a.persona.Id);
+
             return View();
         }
 
@@ -44,7 +46,11 @@ namespace Web.Controllers
             };
             Console.WriteLine(pagenda);
             cn.agregarParametros(pagenda, cedula);
-            return RedirectToAction("Index","Agenda");
+            if(User.IsInRole("gestionar mi agenda"))
+            {
+                return RedirectToAction("MiAgenda", "Agenda");
+            }
+            return RedirectToAction("Index", "Agenda");
         }
 
         [HttpPost]
