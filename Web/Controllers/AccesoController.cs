@@ -1,8 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using MySqlX.XDevAPI;
-using NuGet.Protocol.Plugins;
-using System.Configuration;
 using Web.Data;
 using Web.Helpers;
 using Web.Models;

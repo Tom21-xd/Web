@@ -146,13 +146,15 @@
                 </div>
                 <div class="modal-body">
                     <form action="@Url.Action("editarReserva","Reservas")" method="post">
+                        <input id="reservaid" name="reservaid" hidden></input>
                         <div class="mb-4">
                             <label class="mb-4" for="inputEditarFechaReserva">Fecha de reserva:</label>
-                            <input type="date" id="inputEditarFechaReserva" name="inputEditarFechaReserva" class="form-control" required>
+                            <select class="form-select" id="selectEditarFechaReserva" name="selectEditarFechaReserva" onchange="">
+                            </select>
                         </div>
                         <div class="col">
                             <label class="mb-4" for="selectEditarHoraReserva">Hora de reserva:</label>
-                            <select class="form-select" id="selectEditarHoraReserva" name="selectEditarHoraReserva">
+                            <select class="form-select" id="selectEditarHoraReserva" name="selectEditarHoraReserva" disabled>
                                 
                             </select>
                         </div>
@@ -182,11 +184,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
     <script>
-        var modal = document.getElementById("editarReserva");
-        var inputEditarFechaReserva = document.getElementById("inputEditarFechaReserva");
-        var selectEditarHoraReserva = document.getElementById("selectEditarHoraReserva");
-        var selectEditarEstadoReserva = document.getElementById("selectEditarEstadoReserva");
-        var tabla = document.getElementById("tabla");
+        
 
         $(document).ready(function () {
             $('#tabla').DataTable({
@@ -216,59 +214,101 @@
                 lengthMenu: [[5, 10, -1], [5, 10, "All"]],
             });
 
-            $('.btn-editar').on('click', function () {
-                var fila = $(this).closest('tr');
-                var reservaId = fila.data('reserva-id');
-                var fecha = fila.find('td:eq(0)').text();
-                var hora = fecha.substring(11,19);
-                fecha = fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2);
-                var newOption = document.createElement("option");
-                newOption.text = hora;
-                var estado = fila.find('td:eq(5)').text();
-                var nombreCompleto = fila.find('td:eq(4)').text();
-                var nombre = "";
-                var apellido = "";
-                for (let i = 0; i < nombreCompleto.length; i++) {
-                    if (nombre[i] == ' '){
-                        nombre = nombreCompleto.substring(0, i);
-                        apellido = nombreCompleto.substring(i + 1, nombreCompleto.length);
-                        break;
-                    }
-                }
-
-                inputEditarFechaReserva.value = fecha;
-                
-                if (estado == "Realizada"){
-                    selectEditarEstadoReserva.options[0].selected = true
-                } else if (estado == "Pendiente"){
-                    selectEditarEstadoReserva.options[1].selected = true
-                } else {
-                    selectEditarEstadoReserva.options[2].selected = true
-                }
-
-                obtenerAgendaFecha(nombre1, apellido1, fecha);
-            });
-
-            function obtenerAgendaFecha(nombre1, apellido1, fecha) {
-                $.ajax({
-                    url: "@Url.Action("obtenerAgendaFecha", "Reserva")",
-                    type: "POST",
-                    traditional: true,
-                    data: { nombre1: nombre1, apellido1: apellido1, fecha: fecha },
-                    dataType: "json",
-                    success: function (data) {
-                        for (var i = 0; i < data.length; i++) {
-                            var hora = data[i].Hora;
-                            $('#selectEditarHoraReserva').append('<option value="' + hora + '">' + hora + '</option>');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
         });
 
+    </script>
+
+    <script>
+        var modal = document.getElementById("editarReserva");
+        var selectEditarHoraReserva = document.getElementById("selectEditarHoraReserva");
+        var selectEditarEstadoReserva = document.getElementById("selectEditarEstadoReserva");
+        var selectEditarFechaReserva = document.getElementById("selectEditarFechaReserva");
+        var cedula = document.getElementById("cedula");
+        var reservaid = document.getElementById("reservaid");
+        var map = [];
+
+        var tabla = document.getElementById("tabla");
+
+        $('.btn-editar').on('click', function () {
+            var fila = $(this).closest('tr');
+            var reservaId = fila.data('reserva-id');
+            var fecha = fila.find('td:eq(0)').text();
+            var hora = fecha.substring(11, 19);
+            fecha = fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2);
+            var estado = fila.find('td:eq(5)').text();
+            var id = fila.find('td:eq(4)').text();
+            selectEditarHoraReserva.options.length = 0;
+            selectEditarFechaReserva.options.length = 0;
+
+            reservaid.value = reservaId;
+
+            if (estado == "Realizada") {
+                selectEditarEstadoReserva.options[0].selected = true;
+            } else if (estado == "Pendiente") {
+                selectEditarEstadoReserva.options[1].selected = true;
+            } else {
+                selectEditarEstadoReserva.options[2].selected = true;
+            }
+            obtenerAgendaFecha(id,hora,fecha);
+            selectEditarFechaReserva.addEventListener("change", seleccionar(fecha, hora));
+
+        });
+
+        function obtenerAgendaFecha(id,hora,fecha) {
+            $.ajax({
+                url: "@Url.Action("obtenerAgendaFecha", "Reservas")",
+                type: "POST",
+                traditional: true,
+                data: { id: id },
+                dataType: "json",
+                success: function (data) {
+                    var newOption = document.createElement("option");
+                    newOption.text = aux = (data[0].fecha).substring(6, 10) + "-" + (data[0].fecha).substring(3, 5) + "-" + (data[0].fecha).substring(0, 2);
+                    map.push([(data[0].fecha).substring(6, 10) + "-" + (data[0].fecha).substring(3, 5) + "-" + (data[0].fecha).substring(0, 2), [[hora,0]] ]);
+                    selectEditarFechaReserva.appendChild(newOption);
+                    var cont = 0;
+                    $.each(data, function (index, item) {
+                        if (newOption.text != (item.fecha).substring(6, 10) + "-" + (item.fecha).substring(3, 5) + "-" + (item.fecha).substring(0, 2)) {
+                            newOption.text = (item.fecha).substring(6, 10) + "-" + (item.fecha).substring(3, 5) + "-" + (item.fecha).substring(0, 2);
+                            selectEditarFechaReserva.appendChild(newOption);
+                            cont++;
+                            map.push([(item.fecha).substring(6, 10) + "-" + (item.fecha).substring(3, 5) + "-" + (item.fecha).substring(0, 2),[]]);
+                        }else{
+                            map[cont][1].push([item.hora,item.id]);
+                        }   
+                        map[cont][1].sort();
+                    });
+                    console.log(map);
+                    seleccionar(fecha,hora,data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
+        function seleccionar(fecha, hora) {
+            let opc = selectEditarFechaReserva.options;
+            for (let i = 0; i < opc.length; i++) {
+                if (opc[i].textContent == fecha) {
+                    opc[i].selected = true;
+                    selectEditarHoraReserva.disabled = false;
+                    for (let j = 0; j < map[i][1].length; j++) {
+                        var nuevaOpcion = document.createElement("option");
+                        
+                        nuevaOpcion.value = map[i][1][j][1];
+                        nuevaOpcion.text = map[i][1][j][0];
+                        selectEditarHoraReserva.appendChild(nuevaOpcion);
+                        if (map[i][1][j][0] == hora) {
+                            selectEditarHoraReserva.options[j].selected = true;
+                        }
+                    }
+
+                }
+            }
+
+        };
     </script>
 
 </body>

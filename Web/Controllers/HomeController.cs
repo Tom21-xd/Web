@@ -10,5 +10,13 @@ namespace Web.Controllers{
             
             return View();
         }
+
+        public IActionResult CentroDeAyuda()
+        {
+
+            return View();
+        }
     }
+
+
 }

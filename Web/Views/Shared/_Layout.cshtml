@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-
+@using Newtonsoft.Json;
+@{
+    NegocioModel a = JsonConvert.DeserializeObject<NegocioModel>(System.IO.File.ReadAllText("Data/Negocio.json"));
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,9 +38,10 @@
     <div class="contenedor">
         <nav class="menu">
             <header>
-                <i class='bx bxs-chevron-right'></i>
+                <h2>@a.Nombre</h2>
             </header>
             <ul class="lista">
+
                 <li>
                     <a href="@Url.Action("Inicio","Home")">
                         <i class='bx bxs-home'></i>
@@ -69,7 +73,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="@Url.Action("CentroDeAyuda","Home")">
                         <i class='bx bxs-help-circle'></i>
                         <span>Centro de ayuda</span>
                     </a>

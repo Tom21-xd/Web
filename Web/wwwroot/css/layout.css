@@ -135,21 +135,21 @@ body {
 
 .menu header {
     position: fixed;
-    height: 45px;
-    width: 45px;
+    width: 260px;
     top: 0;
-    left: -50px;
+    left: 0px;
     transform: translateY(50%);
     font-size: 25px;
-    border: 2px solid #000;
-    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-content: center;
     align-items: center;
-    background-color: #255000;
     transition: all 0.5s ease-in-out;
 }
+
+    .menu header h2 {
+        color: black;
+    }
 
 .contenedor .menu ul {
     width: 100%;
@@ -198,9 +198,6 @@ body {
         display: none;
     }
 
-    .menu header {
-        left: 75px;
-    }
 
     .center {
         margin-left: 100px;
@@ -213,8 +210,4 @@ body {
         transition: all 0.5s;
     }
 
-    .menu header {
-        left: -50px;
-        transition: all 0.5s ease-in-out;
-    }
 }

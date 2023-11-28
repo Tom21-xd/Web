@@ -592,15 +592,14 @@ namespace Web.Data{
             return a;
         }
 
-        public List<AgendaModel> obtenerAgendaFecha(string nombre1, string apellido1, string fecha)
+        public List<AgendaModel> obtenerAgendaFecha(int id, string fecha)
         {
             List<AgendaModel> aux = new List<AgendaModel>();
             Conectar();
             try
             {
                 cmd = new MySqlCommand("obtenerAgendaFecha", connection);
-                cmd.Parameters.AddWithValue("nombre1", nombre1);
-                cmd.Parameters.AddWithValue("apellido1", apellido1);
+                cmd.Parameters.AddWithValue("cedula", id);
                 cmd.Parameters.AddWithValue("fecha", fecha);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 MySqlDataReader dr = cmd.ExecuteReader();
@@ -610,9 +609,9 @@ namespace Web.Data{
                     {
                         Id = Convert.ToInt32(dr[0].ToString()),
                         Fecha = dr[1].ToString(),
-                        Hora = dr[1].ToString(),
-                        Estado = ((dr[2].ToString() == "1") ? true : false),
-                        NombreUsua = dr[3].ToString()
+                        Hora = dr[2].ToString(),
+                        Estado = ((dr[3].ToString() == "1") ? true : false),
+                        NombreUsua = dr[4].ToString()
                     });
                 }
 
@@ -873,8 +872,8 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("apellido2", usuario.persona.Apellido2);
                 cmd.Parameters.AddWithValue("fecha", usuario.persona.FechaNacimiento);
                 cmd.Parameters.AddWithValue("telefono", usuario.persona.Telefono);
-
                 cmd.Parameters.AddWithValue("contrasenia", usuario.Contrasenia);
+                cmd.Parameters.AddWithValue("nombreusua", usuario.Nombre);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
@@ -1156,6 +1155,30 @@ namespace Web.Data{
             {
                 Console.WriteLine(e.Message);
             }finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+        public bool cambiarReserva(int reservaid,int agendaid,string estado)
+        {
+            Conectar();
+            bool aux = true;
+            try
+            {
+                cmd = new MySqlCommand("cambiarReserva", connection);
+                cmd.Parameters.AddWithValue("reservaid",reservaid);
+                cmd.Parameters.AddWithValue("agendaid", agendaid);
+                cmd.Parameters.AddWithValue("estado", estado);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                aux = false;
+            }
+            finally
             {
                 Desconectar();
             }

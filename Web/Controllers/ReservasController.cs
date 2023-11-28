@@ -19,9 +19,15 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult obtenerAgendaFecha(string nombre1, string apellido1, string fecha)
+        public ActionResult obtenerAgendaFecha(int id, string fecha)
         {
-            return Json(cn.obtenerAgendaFecha(nombre1, apellido1, fecha));
+            return Json(cn.obtenerAgendaFecha(id, fecha));
+        }
+        [HttpPost]
+        public ActionResult editarReserva()
+        {
+            bool a = cn.cambiarReserva(Convert.ToInt32(Request.Form["reservaid"] +"") , Convert.ToInt32(Request.Form["selectEditarHoraReserva"] +"") , Request.Form["selectEditarEstadoReserva"]);
+            return RedirectToAction("Index", "Reservas");
         }
     }
 }
