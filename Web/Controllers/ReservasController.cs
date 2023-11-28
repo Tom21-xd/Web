@@ -5,10 +5,11 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize (Roles = "gestionar reservas")]
     public class ReservasController : Controller
     {
         Procedimientos cn = new Procedimientos();
+
+        [Authorize(Roles = "gestionar reservas")]
         public IActionResult Index()
         {
             ViewBag.reservas = cn.obtenerReservas();
@@ -17,6 +18,7 @@ namespace Web.Controllers
             ViewBag.estados = cn.obtenerEstadosReservas();
             return View();
         }
+
 
         public IActionResult crearReservaServicio()
         {
@@ -34,7 +36,7 @@ namespace Web.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string nombreUsuario = User.Identity.Name;
-                ViewBag.usuario = cn.obtenerUsua(nombreUsuario);
+                ViewBag.reservas = cn.obtenerReservasUsuario(nombreUsuario);
             }
             return View();
         }
@@ -64,7 +66,6 @@ namespace Web.Controllers
         public void crearReserva(int id_usuario, int id_empleado, string fechaReserva, string horaReserva)
         {
             cn.crearReserva(id_usuario, id_empleado, fechaReserva, horaReserva);
-            //return RedirectToAction("MisReservas", "reservas");
         }
     }
 }

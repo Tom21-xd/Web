@@ -17,6 +17,15 @@
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
 
     <style>
+        .lista {
+            padding: 0;
+        }
+
+        .gestion {
+            margin: 0;
+            padding: 0;
+        }
+
         .icons {
             display: flex;
             justify-content: center;
@@ -494,6 +503,7 @@
                     window.location.href = "@Url.Action("Inicio", "Home")";
                 },
                 error: function (xhr, status, error) {
+                    console.log("error");
                     console.error(error);
                 }
             });
@@ -515,6 +525,8 @@
                     horasDisponibles = fechasHorasDisponibles.map(function (fechaHora) {
                         return fechaHora[1];
                     });
+
+                    for (let i = 0; i < fechasDisponibles)
 
                     habilitarCalendario(fechasDisponibles);
                 },

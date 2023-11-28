@@ -230,6 +230,7 @@
         var tabla = document.getElementById("tabla");
 
         $('.btn-editar').on('click', function () {
+            map = [];
             var fila = $(this).closest('tr');
             var reservaId = fila.data('reserva-id');
             var fecha = fila.find('td:eq(0)').text();

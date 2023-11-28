@@ -767,6 +767,45 @@ namespace Web.Data{
             return a;
         }
 
+        public List<ReservaModel> obtenerReservasUsuario(string nombre)
+        {
+            List<ReservaModel> a = new List<ReservaModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerReservasUsuario", connection);
+                cmd.Parameters.AddWithValue("nombre", nombre);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new ReservaModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        FechaReserva = ((dr[1].ToString().Substring(0, 10)) + " " + dr[2].ToString()),
+                        FechaCreacion = dr[3].ToString(),
+                        Usuario = dr[4].ToString(),
+                        Servicio = dr[5].ToString(),
+                        Empleado = dr[6].ToString(),
+                        Estado = dr[7].ToString(),
+                        Espacio = dr[8].ToString(),
+                        NombreEmpleado = dr[9].ToString()
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
         public List<string[]> obtenerFechas(int id_empleado, int id_servicio)
         {
             List<string[]> a = new List<string[]>();

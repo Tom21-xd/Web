@@ -40,12 +40,12 @@ namespace Web.Controllers{
             persona.Apellido1 = Request.Form["apellido1"];
             persona.Apellido2 = Request.Form["apellido2"];
             persona.FechaNacimiento = Request.Form["fechanaci"];
-            persona.Telefono = Request.Form["celular"]+"-"+Request.Form["2docelular"];
+            persona.Telefono = Request.Form["celular"];
             persona.Direccion = "";
             persona.tipodoc = Request.Form["tipodoc"];
             persona.genero = Request.Form["genero"];
             UsuarioModel usuario = new UsuarioModel();
-            usuario.Nombre = "User";
+            usuario.Nombre = Request.Form["nombreUsuario"];
             usuario.Correo = Request.Form["correo"];
             usuario.Contrasenia = Request.Form["contra"];
             usuario.persona= persona;

@@ -10,6 +10,7 @@ namespace Web.Models
         public string Usuario { get; set; }
         public String Servicio { get; set; }
         public string Empleado { get; set; }
+        public string? NombreEmpleado { get; set; }
         public String Estado { get; set; }
         public string Espacio { get; set; }
     }
