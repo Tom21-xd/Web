@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+    UsuarioModel aux = ViewBag.usua2;
+}
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reporte Agenda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+<body class="text-center">
+    <h1 class="mt-5">Agenda empleado</h1>
+    <div class="m-5">
+        <table class="table table-dark table-striped border-success text-center align-middle">
+            <caption>Lista de Turnos</caption>
+            <thead>
+                <tr>
+                    <th >Fecha</th>
+                    <th >Hora</th>
+                    <th >Estado</th>
+                    <th >Reserva</th>
+                    <th >Espacio</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AgendaModel us in ViewBag.agenda1)
+                {
+                    <tr>
+                        <td>@us.Fecha.Substring(6, 4)-@us.Fecha.Substring(3, 2)-@us.Fecha.Substring(0, 2)</td>
+                        <td>@us.Hora</td>
+                        <td>@us.Estado</td>
+                        <td>@us.NombreUsua</td>
+                        <td>@us.NombreEspa</td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

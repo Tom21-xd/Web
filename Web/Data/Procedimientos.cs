@@ -593,6 +593,31 @@ namespace Web.Data{
             return a;
         }
 
+        public DataTable obtenerReservas1()
+        {
+            DataTable a = new DataTable();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerReservas", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                a.Load(dr);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+
         public List<AgendaModel> obtenerAgendaFecha(int id, string fecha)
         {
             List<AgendaModel> aux = new List<AgendaModel>();
@@ -1241,6 +1266,29 @@ namespace Web.Data{
             return aux;
         }
 
+        public DataTable obtenerservicios1()
+        {
+            DataTable a= new DataTable();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerServicios", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                a.Load(dr);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return a;
+        }
+
+
         public bool editarservicio(ServicioModel servicio)
         {
             Conectar();
@@ -1363,6 +1411,31 @@ namespace Web.Data{
             }
             return aux;
         }
+
+        public DataTable agenda1(int cedula)
+        {
+            DataTable aux =new DataTable();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerAgenda", connection);
+                cmd.Parameters.AddWithValue("cedula", cedula);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                aux.Load(dr);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            return aux;
+        }
+
         public bool cambiarReserva(int reservaid,int agendaid,string estado)
         {
             Conectar();

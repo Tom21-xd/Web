@@ -121,12 +121,31 @@
         <div class="d-flex justify-content-between align-items-center  mt-3">
             @if (User.IsInRole("generar reportes"))
             {
-                <button class="btn btn-primary btn-generar-pdf " id="boton">Generar Reporte</button>
+                <button class="btn btn-primary btn-generar-pdf " id="boton" data-bs-toggle="modal" data-bs-target="#tiporeporte">Generar Reporte</button>
             }
             <button type="button" id="" class="btn btn-success mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#crearservicio" value="">
                 Agregar Servicio
             </button>
 
+        </div>
+
+        <div class="modal fade" id="tiporeporte" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tiporeportelabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-content bg">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5 text-center" id="staticBackdropLabel">
+                            Tipo Reporte
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="pdf" onclick="descpdf()">PDF</button>
+                        <button type="button" class="btn btn-success" id="excel" onclick="descexcel()">EXCEL</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="modal fade" id="editarservicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
@@ -234,6 +253,15 @@
 
 
     <script>
+
+        function descpdf() {
+            window.location.href = "@Url.Action("DescargarPDF", "Servicios")";
+        }
+
+        function descexcel() {
+            window.location.href = "@Url.Action("DescargarEXCEL", "Servicios")";
+        }
+
         const input = document.getElementById("ids");
         const input1 = document.getElementById("nombreser");
         const input2 = document.getElementById("valor");

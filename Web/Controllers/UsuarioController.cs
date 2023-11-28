@@ -23,7 +23,7 @@ namespace Web.Controllers
         {
             _converter = converter;
         }
-
+        [Authorize (Roles ="gestionar usuarios")]
         public IActionResult Index()
         {
             ViewBag.ser = cn.obtenerservicios();

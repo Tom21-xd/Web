@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using Web.Data;
 using Web.Models;
 
@@ -9,7 +14,13 @@ namespace Web.Controllers
     public class ReservasController : Controller
     {
         Procedimientos cn = new Procedimientos();
+        private readonly IConverter _converter;
 
+
+        public ReservasController(IConverter converter)
+        {
+            _converter = converter;
+        }
 
         [Authorize(Roles = "gestionar reservas")]
         public IActionResult Index()
@@ -68,6 +79,57 @@ namespace Web.Controllers
         public void crearReserva(int id_usuario, int id_empleado, string fechaReserva, string horaReserva)
         {
             cn.crearReserva(id_usuario, id_empleado, fechaReserva, horaReserva);
+        }
+
+        public IActionResult VistaParaPDF()
+        {
+            ViewBag.reserva1 = cn.obtenerReservas();
+            return View();
+        }
+        public IActionResult DescargarPDF()
+        {
+            string pagina_actual = HttpContext.Request.Path;
+            string url_pagina = HttpContext.Request.GetEncodedUrl();
+            url_pagina = url_pagina.Replace(pagina_actual, "");
+            url_pagina = $"{url_pagina}/Reservas/VistaParaPDF";
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = new GlobalSettings()
+                {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects =
+                {
+                    new ObjectSettings()
+                    {
+                        Page=url_pagina
+                    }
+                }
+            };
+            var archivoPDF = _converter.Convert(pdf);
+            string nombrePDF = "reporte_" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+
+
+            return File(archivoPDF, "application/pdf", nombrePDF);
+        }
+        public IActionResult DescargarEXCEL()
+        {
+            DataTable tablareservas = cn.obtenerReservas1();
+
+            using (var libro = new XLWorkbook())
+            {
+                tablareservas.TableName = "Reservas";
+                var hoja = libro.Worksheets.Add(tablareservas);
+                hoja.ColumnsUsed().AdjustToContents();
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+                    var nombreExcel = string.Concat("Reporte ", DateTime.Now.ToString(), ".xlsx");
+                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+                }
+            }
         }
     }
 }

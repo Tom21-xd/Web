@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using Web.Data;
 using Web.Models;
 
@@ -7,7 +12,14 @@ namespace Web.Controllers
 {
     public class AgendaController : Controller
     {
-        Procedimientos cn= new Procedimientos();
+        Procedimientos cn = new Procedimientos();
+        private readonly IConverter _converter;
+
+        public AgendaController(IConverter converter)
+        {
+            _converter = converter;
+
+        }
 
         [Authorize(Roles = "gestionar agendas")]
         public IActionResult Index()
@@ -56,6 +68,57 @@ namespace Web.Controllers
         public ActionResult agendaEmple(int cedula)
         {
             return Json(cn.agenda(cedula));
+        }
+
+        public IActionResult VistaParaPDF()
+        {
+            
+            return View();
+        }
+        public IActionResult DescargarPDF()
+        {
+            string pagina_actual = HttpContext.Request.Path;
+            string url_pagina = HttpContext.Request.GetEncodedUrl();
+            url_pagina = url_pagina.Replace(pagina_actual, "");
+            url_pagina = $"{url_pagina}/Agenda/VistaParaPDF";
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = new GlobalSettings()
+                {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects =
+                {
+                    new ObjectSettings()
+                    {
+                        Page=url_pagina
+                    }
+                }
+            };
+            var archivoPDF = _converter.Convert(pdf);
+            string nombrePDF = "reporte_" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+
+
+            return File(archivoPDF, "application/pdf", nombrePDF);
+        }
+        public IActionResult DescargarEXCEL()
+        {
+            DataTable tablaAgenda = cn.agenda1(cn.obtenerUsua(User.Identity.Name).persona.Id);
+
+            using (var libro = new XLWorkbook())
+            {
+                tablaAgenda.TableName = "Agenda";
+                var hoja = libro.Worksheets.Add(tablaAgenda);
+                hoja.ColumnsUsed().AdjustToContents();
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+                    var nombreExcel = string.Concat("Reporte ", DateTime.Now.ToString(), ".xlsx");
+                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+                }
+            }
         }
     }
 
