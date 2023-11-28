@@ -6,6 +6,7 @@ using System.Data;
 using System.Runtime.Intrinsics.X86;
 using System.Transactions;
 using Web.Models;
+using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace Web.Data{
     public class Procedimientos:Conexion{
@@ -658,6 +659,146 @@ namespace Web.Data{
             return a;
         }
 
+        public List<UsuarioModel> obtenerEmpleados()
+        {
+            List<UsuarioModel> a = new List<UsuarioModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerEmpleados", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new UsuarioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0] + ""),
+                        Nombre = dr[1] + "",
+                        Correo = dr[2] + "",
+                        Contrasenia = dr[3] + "",
+                        Estado = ((dr[4] + "" == "1") ? true : false),
+                        rol = new RolModel()
+                        {
+                            Id = Convert.ToInt32(dr[5]),
+                            Nombre = dr[6] + "",
+                            estado = ((dr[7] + "" == "1") ? true : false)
+                        },
+                        persona = new PersonaModel()
+                        {
+                            Id = Convert.ToInt32(dr[8]),
+                            Nombre1 = dr[9] + "",
+                            Nombre2 = dr[10] + "",
+                            Apellido1 = dr[11] + "",
+                            Apellido2 = dr[12] + "",
+                            FechaNacimiento = dr[13] + "",
+                            Telefono = dr[14] + "",
+                            Direccion = dr[15] + "",
+                            tipodoc = dr[16] + "",
+                            genero = dr[17] + ""
+
+                        }
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<UsuarioModel> obtenerEmpleadosServicio(int id_servicio)
+        {
+            List<UsuarioModel> a = new List<UsuarioModel>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerEmpleadosServicio", connection);
+                cmd.Parameters.AddWithValue("id_servicio", id_servicio);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new UsuarioModel()
+                    {
+                        Id = Convert.ToInt32(dr[0] + ""),
+                        Nombre = dr[1] + "",
+                        Correo = dr[2] + "",
+                        Contrasenia = dr[3] + "",
+                        Estado = ((dr[4] + "" == "1") ? true : false),
+                        rol = new RolModel()
+                        {
+                            Id = Convert.ToInt32(dr[5]),
+                            Nombre = dr[6] + "",
+                            estado = ((dr[7] + "" == "1") ? true : false)
+                        },
+                        persona = new PersonaModel()
+                        {
+                            Id = Convert.ToInt32(dr[8]),
+                            Nombre1 = dr[9] + "",
+                            Nombre2 = dr[10] + "",
+                            Apellido1 = dr[11] + "",
+                            Apellido2 = dr[12] + "",
+                            FechaNacimiento = dr[13] + "",
+                            Telefono = dr[14] + "",
+                            Direccion = dr[15] + "",
+                            tipodoc = dr[16] + "",
+                            genero = dr[17] + ""
+                        }
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
+        public List<string[]> obtenerFechas(int id_empleado, int id_servicio)
+        {
+            List<string[]> a = new List<string[]>();
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("obtenerFechas", connection);
+                cmd.Parameters.AddWithValue("id_empleado", id_empleado);
+                cmd.Parameters.AddWithValue("id_servicio", id_servicio);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    a.Add(new string[]{
+                        (dr[0].ToString().Substring(0, 10)),
+                        dr[1].ToString().Substring(0, 5)
+                    }) ;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Desconectar();
+            }
+
+            return a;
+        }
+
         public bool agregarPermiso(int idRol, String nombrePermiso)
         {
             bool a = true;
@@ -776,6 +917,29 @@ namespace Web.Data{
                 cmd.Parameters.AddWithValue("nombre", nombre);
                 cmd.Parameters.AddWithValue("descripcion", descripcion);
                 cmd.Parameters.AddWithValue("id_ubicacion", ubicacion);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        public void crearReserva(int id_usuario, int id_empleado, string fechaReserva, string horaReserva)
+        {
+            Conectar();
+            try
+            {
+                cmd = new MySqlCommand("crearReserva", connection);
+                cmd.Parameters.AddWithValue("id_usuario", id_usuario);
+                cmd.Parameters.AddWithValue("id_empleado", id_empleado);
+                cmd.Parameters.AddWithValue("fechaReserva", fechaReserva);
+                cmd.Parameters.AddWithValue("horaReserva", horaReserva);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
