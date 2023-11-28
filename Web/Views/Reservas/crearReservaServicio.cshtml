@@ -423,7 +423,7 @@
 
                     const divRow = document.createElement('div');
                     divRow.classList.add('row');
-                    for (let j = 0; j < 3 && i < fechasDisponibles.length; j++, i++) {
+                    for (let j = 0; j < 3 && i < fechasDisponibles.length && fechasDisponibles[i] == fecha; j++, i++) {
                         const divCol = document.createElement('div');
                         divCol.classList.add('col');
                         const nuevoBoton = document.createElement('button');
