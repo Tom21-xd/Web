@@ -5,9 +5,11 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+
     public class ReservasController : Controller
     {
         Procedimientos cn = new Procedimientos();
+
 
         [Authorize(Roles = "gestionar reservas")]
         public IActionResult Index()

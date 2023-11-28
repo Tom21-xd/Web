@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Reserva</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
 
@@ -64,7 +64,8 @@
         .btn-light {
             border: 1px solid black;
             font-size: 20px;
-            width: 
+            width: 180px;
+            height: 70px;
         }
 
         .container {
@@ -74,22 +75,6 @@
             height: 100vh;
         }
 
-        .btn-light {
-            width: 180px;
-            height: 70px;
-        }
-
-    </style>
-
-    <style>
-        .lista {
-            padding: 0;
-        }
-
-        .gestion {
-            margin: 0;
-            padding: 0;
-        }
     </style>
 
 </head>
@@ -139,31 +124,32 @@
 
             <div id="divServicios" class="text-center mt-5">
                 <h2 class="mb-5" style="margin-left:10px; color:#255000;">Servicios</h2>
-                
+
                 @for (int i = 0; i < ViewBag.servicios.Count; i++)
                 {
                     <div class="row">
-                        @for (int j = 0; j < 3 && i < ViewBag.servicios.Count; j++, i++){
+                        @for (int j = 0; j < 3 && i < ViewBag.servicios.Count; j++, i++)
+                        {
                             <div class="col">
                                 <button class="btn btn-light" onclick="mostrarEmpleados('@ViewBag.servicios[i].Id', '@ViewBag.servicios[i].Nombre')">@ViewBag.servicios[i].Nombre</button>
                             </div>
                         }
                     </div>
                 }
-                
+
             </div>
 
             <div id="divEmpleados" class="text-center mt-5" style="display: none;">
                 <h2 class="mb-5" style="margin-left:10px; color:#255000;">Empleados que brindan el Servicio</h2>
                 <div id="divEmpl"></div>
-                
+
             </div>
 
             <div id="divFecha" class="text-center calendario-container mt-5" style="display: none;">
                 <h2 class="mb-5" style="margin-left:10px; color:#255000;">Día</h2>
                 <div id="calendario" class="calendario"></div>
             </div>
-            
+
             <div id="divHora" class="text-center mt-5" style="display: none;">
                 <h2 class="mb-5" style="margin-left:10px; color:#255000;">Hora</h2>
                 <div id="divH"></div>
@@ -215,14 +201,14 @@
                         </div>
                     </div>
 
-                    <h3 class="mt-3 mb-3" style="margin-left:10px; color:#255000;"">DATOS DE LA RESERVA</h3>
+                    <h3 class="mt-3 mb-3" style="margin-left:10px; color:#255000;">DATOS DE LA RESERVA</h3>
                     <div class="row" style="margin-left:10px;">
                         <div class="col">
                             <label style="color:#255000;">Servicio: </label>
                             <label id="labelServicio"></label>
                         </div>
                     </div>
-                    
+
                     <div class="row" style="margin-left:10px;">
                         <div class="col">
                             <label style="color:#255000;">Encargado: </label>
@@ -303,7 +289,7 @@
             paso3.style.display = 'none';
             paso4.style.display = 'none';
             paso5.style.display = 'none';
-            
+
             icon1.style.background = 'rgb(23, 162, 184)';
             icon2.style.background = 'rgb(207, 207, 207)';
             icon3.style.background = 'rgb(207, 207, 207)';
@@ -333,7 +319,7 @@
             icon5.style.background = 'rgb(207, 207, 207)';
         }
 
-        function mostrarFechas(id, nombreEmpleado){
+        function mostrarFechas(id, nombreEmpleado) {
             paso = 3;
             if (nombreEmpleado != "") {
                 empleado = nombreEmpleado;
@@ -341,7 +327,7 @@
                 obtenerFechas(idEmpleado, idServicio);
             } else idEmpleado = 0;
             divH.innerHTML = '';
-            
+
             paso1.style.display = 'none';
             paso2.style.display = 'none';
             paso3.style.display = 'block';
@@ -355,7 +341,7 @@
             icon5.style.background = 'rgb(207, 207, 207)';
         }
 
-        function mostrarHoras(selectedDates, fechaReserva, instance){
+        function mostrarHoras(selectedDates, fechaReserva, instance) {
             paso = 4;
             if (fechaReserva != "") {
                 fecha = fechaReserva;
@@ -377,7 +363,7 @@
 
         }
 
-        function mostrarDatos(horaReserva){
+        function mostrarDatos(horaReserva) {
             paso = 5;
             btnConfirmar.disabled = false;
             hora = horaReserva;
@@ -400,8 +386,8 @@
             icon5.style.background = 'rgb(23, 162, 184)';
         }
 
-        function volver(){
-            if (paso == 2){
+        function volver() {
+            if (paso == 2) {
                 mostrarServicios();
             } else if (paso == 3) {
                 mostrarEmpleados(0, "");
@@ -412,7 +398,7 @@
             }
         }
 
-        function habilitarCalendario(fechasDisponibles){
+        function habilitarCalendario(fechasDisponibles) {
             flatpickr("#calendario", {
                 inline: true,
                 dateFormat: "d/m/Y",
@@ -430,10 +416,10 @@
         }
 
         function crearHoras() {
-            
+
             for (let i = 0; i < fechasDisponibles.length; i++) {
                 while (i < fechasDisponibles.length && fechasDisponibles[i] == fecha) {
-                    
+
                     const divRow = document.createElement('div');
                     divRow.classList.add('row');
                     for (let j = 0; j < 3 && i < fechasDisponibles.length; j++, i++) {
@@ -462,10 +448,10 @@
 
                 for (let j = 0; j < 3 && i < empleadosServicio.length; j++, i++) {
                     var s = (empleadosServicio[i].persona.nombre1 + " " +
-                    empleadosServicio[i].persona.apellido1 + " " +
-                    empleadosServicio[i].persona.apellido2 + " ");
+                        empleadosServicio[i].persona.apellido1 + " " +
+                        empleadosServicio[i].persona.apellido2 + " ");
                     var pos = empleadosServicio[i].id;
-                    
+
                     const divCol = document.createElement('div');
                     divCol.classList.add('col');
                     const nuevoBoton = document.createElement('button');
@@ -483,10 +469,10 @@
             }
         }
 
-        function reservar(){
+        function reservar() {
             var idUsua = parseInt(idUsuario);
             var f = fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2);
-            
+
             crearReserva(idUsua, idEmpleado, f, hora);
         }
 
@@ -525,8 +511,6 @@
                     horasDisponibles = fechasHorasDisponibles.map(function (fechaHora) {
                         return fechaHora[1];
                     });
-
-                    for (let i = 0; i < fechasDisponibles)
 
                     habilitarCalendario(fechasDisponibles);
                 },
